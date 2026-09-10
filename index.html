@@ -72,40 +72,55 @@
 
         .categoria-section {
             max-width: 900px;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 10px auto;
             background-color: #1e1e24;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px 15px;
         }
+
+        /* 📁 CABECERA DE CARPETA INTERACTIVA */
         .categoria-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             color: #e91e63;
             font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 12px;
+            font-size: 17px;
             padding-left: 8px;
             border-left: 4px solid #e91e63;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s ease;
         }
+        .categoria-header:active {
+            opacity: 0.6;
+        }
+
+        /* 📱 CUADRÍCULA COMPACTA (OCULTA POR DEFECTO) */
         .grid-productos {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
         }
+        .grid-productos.colapsado {
+            display: none !important;
+        }
+
         .card-producto {
             background-color: #26262e;
             border-radius: 8px;
-            padding: 12px;
+            padding: 8px 10px;
             border: 1px solid #333;
         }
-        .prod-nombre { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
-        .precio-bs { color: #fbc02d; font-size: 18px; font-weight: bold; }
-        .precio-ref { color: #aaa; font-size: 12px; margin-bottom: 8px; }
+        .prod-nombre { font-size: 13px; font-weight: bold; margin-bottom: 4px; line-height: 1.2; }
+        .precio-bs { color: #fbc02d; font-size: 15px; font-weight: bold; }
+        .precio-ref { color: #aaa; font-size: 11px; margin-bottom: 4px; }
         .badge-stock {
             background-color: #1b5e20;
             color: #4caf50;
-            font-size: 11px;
-            padding: 4px 8px;
+            font-size: 10px;
+            padding: 2px 6px;
             border-radius: 4px;
             display: inline-block;
             font-weight: bold;
@@ -279,6 +294,9 @@
                 }
             });
 
+            // Si hay un texto en el buscador, las carpetas se abren automáticas; si no, quedan cerradas por defecto
+            const estadoColapsado = filtro.trim() === '' ? 'colapsado' : '';
+
             for (const cat in categorias) {
                 let html = `
                     <div class="categoria-section">
@@ -286,7 +304,7 @@
                             <span>${cat}</span>
                             <span>📁</span>
                         </div>
-                        <div class="grid-productos">
+                        <div class="grid-productos ${estadoColapsado}">
                 `;
 
                 categorias[cat].forEach(p => {
@@ -422,7 +440,18 @@
         document.getElementById('input-search').addEventListener('input', (e) => {
             cargarCatalogo(e.target.value);
         });
+
+        // 📁 ACCIÓN PARA ABRIR Y CERRAR CARPETAS AL TOCAR
+        document.addEventListener('click', function (e) {
+            const header = e.target.closest('.categoria-header');
+            if (header) {
+                const grid = header.nextElementSibling;
+                if (grid) {
+                    grid.classList.toggle('colapsado');
+                }
+            }
+        });
     </script>
 </body>
-  </html>
-                                                           
+    </html>
+                
