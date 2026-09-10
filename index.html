@@ -78,7 +78,7 @@
             padding: 12px 15px;
         }
 
-        /* 📁 CABECERA DE CARPETA INTERACTIVA */
+        /* 📁 CABECERA DE CARPETA INTERACTIVA (CATÁLOGO) */
         .categoria-header {
             display: flex;
             justify-content: space-between;
@@ -92,39 +92,66 @@
             user-select: none;
             transition: opacity 0.2s ease;
         }
-        .categoria-header:active {
-            opacity: 0.6;
+        .categoria-header:active { opacity: 0.6; }
+
+        /* ✨ ANIMACIÓN FLUIDA DE DESPLIEGUE (ACORDEÓN) */
+        .cat-content-wrapper {
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+            opacity: 1;
+        }
+        .cat-content-wrapper.colapsado {
+            grid-template-rows: 0fr;
+            opacity: 0;
+        }
+        .cat-content-inner {
+            overflow: hidden;
         }
 
-        /* 📱 CUADRÍCULA COMPACTA (OCULTA POR DEFECTO) */
+        /* 🔄 FLECHA ANIMADA */
+        .flecha-icon {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 11px;
+            margin-right: 6px;
+            color: #fbc02d;
+        }
+        .flecha-icon.rotado {
+            transform: rotate(-90deg);
+        }
+
+        /* 📱 LISTA DE PRODUCTOS */
         .grid-productos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 8px;
             margin-top: 10px;
         }
-        .grid-productos.colapsado {
-            display: none !important;
-        }
 
+        /* TARJETA MINIMALISTA */
         .card-producto {
             background-color: #26262e;
             border-radius: 8px;
-            padding: 8px 10px;
+            padding: 10px 14px;
             border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
         }
-        .prod-nombre { font-size: 13px; font-weight: bold; margin-bottom: 4px; line-height: 1.2; }
+
+        .prod-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .prod-nombre { font-size: 14px; font-weight: bold; color: #ffffff; line-height: 1.2; }
+        .prod-stock { color: #4caf50; font-size: 11px; background-color: #1b5e20; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
         .precio-bs { color: #fbc02d; font-size: 15px; font-weight: bold; }
-        .precio-ref { color: #aaa; font-size: 11px; margin-bottom: 4px; }
-        .badge-stock {
-            background-color: #1b5e20;
-            color: #4caf50;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            display: inline-block;
-            font-weight: bold;
-        }
+        .precio-ref { color: #aaa; font-size: 12px; }
 
         .titulo-admin { text-align: center; font-size: 20px; color: #e91e63; margin-bottom: 15px; }
         .row-paneles { display: flex; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px auto; }
@@ -137,7 +164,42 @@
         .btn-orange { background-color: #ff9800; color: #000; font-weight: bold; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; }
 
         .seccion-inventario { max-width: 900px; margin: 0 auto; overflow-x: auto; }
-        .cat-banner { background-color: #1e1e24; padding: 10px; border-radius: 6px; color: #fbc02d; font-weight: bold; margin-top: 15px; font-size: 15px; }
+        
+        /* BANNER DE SECCIÓN / CATEGORÍA CON ACCIONES EN ADMIN */
+        .cat-banner { 
+            background-color: #1e1e24; 
+            padding: 10px 12px; 
+            border-radius: 6px; 
+            color: #fbc02d; 
+            font-weight: bold; 
+            margin-top: 15px; 
+            font-size: 15px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cat-title-click {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            flex: 1;
+        }
+        .cat-title-click:active { opacity: 0.7; }
+
+        .btn-cat-action {
+            background-color: #2a2a32;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+        .btn-cat-action:active { opacity: 0.7; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 8px; background-color: #1e1e24; font-size: 13px; min-width: 500px; }
         th { text-align: left; padding: 10px; color: #aaa; border-bottom: 1px solid #333; }
@@ -215,13 +277,18 @@
         </div>
 
         <div class="seccion-inventario">
-            <h2 style="text-align: center; font-size: 16px; margin-bottom: 10px;">Inventario Registrado</h2>
+            <h2 style="text-align: center; font-size: 16px; margin-bottom: 12px;">Inventario Registrado</h2>
+            
+            <!-- 🔍 BUSCADOR LUPA EN EL PANEL DE ADMINISTRACIÓN -->
+            <div class="search-container" style="margin-bottom: 15px;">
+                <input type="text" class="search-box" id="input-search-admin" placeholder="🔍 Buscar producto o carpeta en inventario...">
+            </div>
+
             <div id="tabla-categorias"></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN DE TU BASE DE DATOS EN FIREBASE (TUS DATOS REALES)
         const firebaseConfig = {
             apiKey: "AIzaSyCM11K2lCpJgbvCo3KcK6Hw1vzPk7NPpp0",
             authDomain: "abastopasoapaso-fdb2a.firebaseapp.com",
@@ -233,15 +300,13 @@
             measurementId: "G-407VF4LPBP"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let config = { nombreBodega: "Abasto Paso a Paso", tasaDolar: 675.89, ultimaModificacion: "-" };
         let productos = [];
 
-        // SINCRONIZACIÓN EN TIEMPO REAL DESDE LA NUBE
-        db.ref('abasto/config').on('value', (snapshot) => {
+        db.ref('abasto/config').on('value', function(snapshot) {
             const data = snapshot.val();
             if (data) {
                 config = data;
@@ -254,7 +319,7 @@
             }
         });
 
-        db.ref('abasto/productos').on('value', (snapshot) => {
+        db.ref('abasto/productos').on('value', function(snapshot) {
             const data = snapshot.val();
             productos = data ? Object.values(data) : [];
             cargarCatalogo();
@@ -279,57 +344,64 @@
             window.scrollTo(0,0);
         }
 
-        function cargarCatalogo(filtro = '') {
-            document.getElementById('bodega-nombre').textContent = config.nombreBodega;
-            document.getElementById('bodega-tasa').textContent = parseFloat(config.tasaDolar).toFixed(2);
+        function cargarCatalogo(filtro) {
+            if (!filtro) filtro = '';
+            document.getElementById('bodega-nombre').textContent = config.nombreBodega || "Abasto Paso a Paso";
+            const tasaNum = parseFloat(config.tasaDolar) || 1;
+            document.getElementById('bodega-tasa').textContent = tasaNum.toFixed(2);
 
             const contenedor = document.getElementById('contenedor-categorias');
             contenedor.innerHTML = '';
 
             const categorias = {};
-            productos.forEach(p => {
-                if (p && p.nombre && p.nombre.toLowerCase().includes(filtro.toLowerCase())) {
-                    if (!categorias[p.categoria]) categorias[p.categoria] = [];
-                    categorias[p.categoria].push(p);
+            productos.forEach(function(p) {
+                if (p && p.nombre) {
+                    const nombreTexto = String(p.nombre);
+                    if (nombreTexto.toLowerCase().includes(filtro.toLowerCase())) {
+                        const catNombre = p.categoria ? String(p.categoria).trim() : "Viveres";
+                        if (!categorias[catNombre]) categorias[catNombre] = [];
+                        categorias[catNombre].push(p);
+                    }
                 }
             });
 
-            // Si hay un texto en el buscador, las carpetas se abren automáticas; si no, quedan cerradas por defecto
             const estadoColapsado = filtro.trim() === '' ? 'colapsado' : '';
+            const estadoRotado = estadoColapsado ? 'rotado' : '';
 
-            for (const cat in categorias) {
-                let html = `
-                    <div class="categoria-section">
-                        <div class="categoria-header">
-                            <span>${cat}</span>
-                            <span>📁</span>
-                        </div>
-                        <div class="grid-productos ${estadoColapsado}">
-                `;
+            const categoriasOrdenadas = Object.keys(categorias).sort(function(a, b) { 
+                return a.localeCompare(b, 'es', { sensitivity: 'base' });
+            });
 
-                categorias[cat].forEach(p => {
-                    const precioFinalBs = p.costoBs * (1 + p.ganancia / 100);
-                    const precioUSD = precioFinalBs / config.tasaDolar;
+            categoriasOrdenadas.forEach(function(cat) {
+                let html = '<div class="categoria-section"><div class="categoria-header"><span>' + cat + '</span><span><span class="flecha-icon ' + estadoRotado + '">▼</span> 📁</span></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><div class="grid-productos">';
 
-                    html += `
-                        <div class="card-producto">
-                            <div class="prod-nombre">${p.nombre}</div>
-                            <div class="precio-bs">${precioFinalBs.toFixed(2)} Bs.</div>
-                            <div class="precio-ref">Ref: $ ${precioUSD.toFixed(2)}</div>
-                            <div class="badge-stock">Stock: ${p.stock} und</div>
-                        </div>
-                    `;
+                categorias[cat].sort(function(a, b) {
+                    const nomA = String(a.nombre || '');
+                    const nomB = String(b.nombre || '');
+                    return nomA.localeCompare(nomB, 'es', { sensitivity: 'base' });
                 });
 
-                html += `</div></div>`;
+                categorias[cat].forEach(function(p) {
+                    const costo = parseFloat(p.costoBs) || 0;
+                    const ganancia = parseFloat(p.ganancia) || 0;
+                    const precioFinalBs = costo * (1 + ganancia / 100);
+                    const precioUSD = tasaNum > 0 ? (precioFinalBs / tasaNum) : 0;
+                    const stockNum = p.stock !== undefined ? p.stock : 0;
+
+                    html += '<div class="card-producto"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock">' + stockNum + ' und</span></div><div class="prod-row"><span class="precio-bs">' + precioFinalBs.toFixed(2) + ' Bs.</span><span class="precio-ref">Ref: $' + precioUSD.toFixed(2) + '</span></div></div>';
+                });
+
+                html += '</div></div></div></div>';
                 contenedor.innerHTML += html;
-            }
+            });
         }
 
         function cargarAdmin() {
-            document.getElementById('tasa-actual').textContent = `${parseFloat(config.tasaDolar).toFixed(2)} Bs.`;
-            document.getElementById('tasa-fecha').textContent = `Modificado: ${config.ultimaModificacion}`;
-            renderTablasAdmin();
+            const tasaNum = parseFloat(config.tasaDolar) || 0;
+            document.getElementById('tasa-actual').textContent = tasaNum.toFixed(2) + " Bs.";
+            document.getElementById('tasa-fecha').textContent = "Modificado: " + (config.ultimaModificacion || '-');
+            const filtroAdmin = document.getElementById('input-search-admin') ? document.getElementById('input-search-admin').value : '';
+            renderTablasAdmin(filtroAdmin);
         }
 
         function actualizarTasa() {
@@ -358,7 +430,7 @@
             }
 
             const id = Date.now();
-            const nuevoProd = { id, nombre, categoria, costoBs: costo, ganancia, stock };
+            const nuevoProd = { id: id, nombre: nombre, categoria: categoria, costoBs: costo, ganancia: ganancia, stock: stock };
 
             db.ref('abasto/productos/' + id).set(nuevoProd);
 
@@ -369,62 +441,116 @@
             alert('Producto guardado en la nube.');
         }
 
-        function renderTablasAdmin() {
+        function renderTablasAdmin(filtro) {
+            if (!filtro) filtro = '';
             const contenedor = document.getElementById('tabla-categorias');
             contenedor.innerHTML = '';
 
             const categorias = {};
-            productos.forEach((p) => {
-                if (p) {
-                    if (!categorias[p.categoria]) categorias[p.categoria] = [];
-                    categorias[p.categoria].push(p);
+            productos.forEach(function(p) {
+                if (p && p.nombre) {
+                    const nombreTexto = String(p.nombre);
+                    const catTexto = p.categoria ? String(p.categoria) : 'Viveres';
+                    
+                    if (nombreTexto.toLowerCase().includes(filtro.toLowerCase()) || catTexto.toLowerCase().includes(filtro.toLowerCase())) {
+                        const catNombre = catTexto.trim();
+                        if (!categorias[catNombre]) categorias[catNombre] = [];
+                        categorias[catNombre].push(p);
+                    }
                 }
             });
 
-            for (const cat in categorias) {
-                let html = `
-                    <div class="cat-banner">📁 ${cat} (${categorias[cat].length})</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Costo</th>
-                                <th>% Gan</th>
-                                <th>Stock</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+            const estadoColapsado = filtro.trim() === '' ? 'colapsado' : '';
+            const estadoRotado = estadoColapsado ? 'rotado' : '';
 
-                categorias[cat].forEach(p => {
-                    html += `
-                        <tr>
-                            <td><input type="text" style="width: 100px;" id="nom-${p.id}" value="${p.nombre}"></td>
-                            <td><input type="number" class="input-inline" id="cost-${p.id}" value="${p.costoBs}"></td>
-                            <td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia}"></td>
-                            <td><input type="number" class="input-inline" id="stk-${p.id}" value="${p.stock}"></td>
-                            <td>
-                                <button class="btn-guardar" onclick="guardarFila(${p.id})">✓</button>
-                                <button class="btn-eliminar" onclick="eliminarFila(${p.id})">✕</button>
-                            </td>
-                        </tr>
-                    `;
+            const categoriasOrdenadas = Object.keys(categorias).sort(function(a, b) { 
+                return a.localeCompare(b, 'es', { sensitivity: 'base' });
+            });
+
+            categoriasOrdenadas.forEach(function(cat) {
+                const catEscapada = cat.replace(/'/g, "\\'");
+                let html = '<div class="cat-banner"><div class="cat-title-click" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: #ff5252;" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><table><thead><tr><th>Nombre</th><th>Costo</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
+
+                categorias[cat].sort(function(a, b) {
+                    const nomA = String(a.nombre || '');
+                    const nomB = String(b.nombre || '');
+                    return nomA.localeCompare(nomB, 'es', { sensitivity: 'base' });
                 });
 
-                html += `</tbody></table>`;
+                categorias[cat].forEach(function(p) {
+                    const costoBs = p.costoBs !== undefined ? p.costoBs : 0;
+                    const ganancia = p.ganancia !== undefined ? p.ganancia : 0;
+                    const stock = p.stock !== undefined ? p.stock : 0;
+
+                    html += '<tr><td><input type="text" style="width: 100px;" id="nom-' + p.id + '" value="' + (p.nombre || '') + '"></td><td><input type="number" class="input-inline" id="cost-' + p.id + '" value="' + costoBs + '"></td><td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td><td><input type="number" class="input-inline" id="stk-' + p.id + '" value="' + stock + '"></td><td><button class="btn-guardar" onclick="guardarFila(' + p.id + ')">✓</button><button class="btn-eliminar" onclick="eliminarFila(' + p.id + ')">✕</button></td></tr>';
+                });
+
+                html += '</tbody></table></div></div>';
                 contenedor.innerHTML += html;
+            });
+        }
+
+        function toggleAdminCat(el) {
+            const banner = el.closest('.cat-banner');
+            const wrapper = banner.nextElementSibling;
+            const icon = el.querySelector('.flecha-icon');
+            if (wrapper) {
+                wrapper.classList.toggle('colapsado');
+            }
+            if (icon) {
+                icon.classList.toggle('rotado');
+            }
+        }
+
+        function renombrarCategoria(nombreViejo) {
+            const nuevoNombre = prompt('Ingresa el nuevo nombre para la categoría:', nombreViejo);
+            if (!nuevoNombre || nuevoNombre.trim() === '' || nuevoNombre.trim() === nombreViejo) return;
+
+            const catLimpia = nuevoNombre.trim();
+            let actualizaciones = {};
+
+            productos.forEach(function(p) {
+                const currentCat = p.categoria ? String(p.categoria).trim() : "Viveres";
+                if (currentCat === nombreViejo) {
+                    actualizaciones['abasto/productos/' + p.id + '/categoria'] = catLimpia;
+                }
+            });
+
+            if (Object.keys(actualizaciones).length > 0) {
+                db.ref().update(actualizaciones);
+                alert('Categoría renombrada con éxito.');
+            }
+        }
+
+        function eliminarCategoria(nombreCat) {
+            if (confirm('¿Seguro que deseas eliminar la categoría "' + nombreCat + '" y TODOS los productos que contiene?')) {
+                let actualizaciones = {};
+
+                productos.forEach(function(p) {
+                    const currentCat = p.categoria ? String(p.categoria).trim() : "Viveres";
+                    if (currentCat === nombreCat) {
+                        actualizaciones['abasto/productos/' + p.id] = null;
+                    }
+                });
+
+                if (Object.keys(actualizaciones).length > 0) {
+                    db.ref().update(actualizaciones);
+                    alert('Categoría y productos eliminados.');
+                }
             }
         }
 
         function guardarFila(id) {
+            const prodExistente = productos.find(function(p) { return String(p.id) === String(id); });
+            const cat = prodExistente ? prodExistente.categoria : "Viveres";
+
             const prodActualizado = {
                 id: id,
-                nombre: document.getElementById(`nom-${id}`).value,
-                costoBs: parseFloat(document.getElementById(`cost-${id}`).value),
-                ganancia: parseFloat(document.getElementById(`gan-${id}`).value),
-                stock: parseInt(document.getElementById(`stk-${id}`).value),
-                categoria: productos.find(p => p.id === id).categoria
+                nombre: document.getElementById('nom-' + id).value,
+                costoBs: parseFloat(document.getElementById('cost-' + id).value) || 0,
+                ganancia: parseFloat(document.getElementById('gan-' + id).value) || 0,
+                stock: parseInt(document.getElementById('stk-' + id).value) || 0,
+                categoria: cat
             };
 
             db.ref('abasto/productos/' + id).set(prodActualizado);
@@ -437,21 +563,27 @@
             }
         }
 
-        document.getElementById('input-search').addEventListener('input', (e) => {
+        document.getElementById('input-search').addEventListener('input', function(e) {
             cargarCatalogo(e.target.value);
         });
 
-        // 📁 ACCIÓN PARA ABRIR Y CERRAR CARPETAS AL TOCAR
+        document.getElementById('input-search-admin').addEventListener('input', function(e) {
+            renderTablasAdmin(e.target.value);
+        });
+
         document.addEventListener('click', function (e) {
             const header = e.target.closest('.categoria-header');
             if (header) {
-                const grid = header.nextElementSibling;
-                if (grid) {
-                    grid.classList.toggle('colapsado');
+                const wrapper = header.nextElementSibling;
+                const icon = header.querySelector('.flecha-icon');
+                if (wrapper) {
+                    wrapper.classList.toggle('colapsado');
+                }
+                if (icon) {
+                    icon.classList.toggle('rotado');
                 }
             }
         });
     </script>
 </body>
-    </html>
-                
+</html>
