@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Abasto Paso a Paso - Sincronizado</title>
+    <meta name="theme-color" content="#e91e63">
+
+    <!-- SDKs de Firebase (vía CDN) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #121214; color: #ffffff; padding: 12px; }
+        
+        .estado-conexion {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .header-card {
+            background-color: #1e1e24;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 15px auto;
+            border: 1px solid #2a2a32;
+        }
+        .header-card h1 { font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+        .tasa-badge {
+            background-color: #e91e63;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-toggle-vista {
+            border: 1px solid #e91e63;
+            color: #e91e63;
+            background: rgba(233, 30, 99, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 12px;
+            width: 100%;
+            display: block;
+        }
+
+        .search-container { max-width: 900px; margin: 0 auto 15px auto; }
+        .search-box {
+            width: 100%;
+            background-color: #1e1e24;
+            border: 2px solid #2a2a32;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .categoria-section {
+            max-width: 900px;
+            margin: 0 auto 15px auto;
+            background-color: #1e1e24;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .categoria-header {
+            display: flex;
+            justify-content: space-between;
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 12px;
+            padding-left: 8px;
+            border-left: 4px solid #e91e63;
+        }
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .card-producto {
+            background-color: #26262e;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #333;
+        }
+        .prod-nombre { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+        .precio-bs { color: #fbc02d; font-size: 18px; font-weight: bold; }
+        .precio-ref { color: #aaa; font-size: 12px; margin-bottom: 8px; }
+        .badge-stock {
+            background-color: #1b5e20;
+            color: #4caf50;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .titulo-admin { text-align: center; font-size: 20px; color: #e91e63; margin-bottom: 15px; }
+        .row-paneles { display: flex; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px auto; }
+        .panel { background-color: #1e1e24; border-radius: 10px; padding: 18px; flex: 1; min-width: 280px; border: 1px solid #2a2a32; }
+        .panel-titulo { font-size: 16px; font-weight: bold; color: #e91e63; margin-bottom: 12px; }
+        label { font-size: 13px; color: #ccc; display: block; margin-top: 10px; margin-bottom: 4px; }
+        input { width: 100%; background-color: #26262e; border: 1px solid #444; padding: 10px; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+
+        .btn-cyan { background-color: #00bcd4; color: #000; font-weight: bold; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; }
+        .btn-orange { background-color: #ff9800; color: #000; font-weight: bold; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; }
+
+        .seccion-inventario { max-width: 900px; margin: 0 auto; overflow-x: auto; }
+        .cat-banner { background-color: #1e1e24; padding: 10px; border-radius: 6px; color: #fbc02d; font-weight: bold; margin-top: 15px; font-size: 15px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; background-color: #1e1e24; font-size: 13px; min-width: 500px; }
+        th { text-align: left; padding: 10px; color: #aaa; border-bottom: 1px solid #333; }
+        td { padding: 8px 10px; border-bottom: 1px solid #2a2a32; }
+        
+        .input-inline { width: 70px; padding: 6px; display: inline-block; }
+        .btn-guardar { background-color: #00bcd4; color: black; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-eliminar { background-color: #e91e63; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        
+        .oculto { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="estado-conexion" id="estado-conexion">🌐 Sincronizado en la nube (Tiempo real)</div>
+
+    <!-- CATÁLOGO PÚBLICO -->
+    <div id="vista-catalogo">
+        <div class="header-card">
+            <h1 id="bodega-nombre">Abasto Paso a Paso</h1>
+            <div class="tasa-badge">Dólar: <span id="bodega-tasa">0.00</span> Bs.</div>
+            <button class="btn-toggle-vista" onclick="cambiarVista('admin')">⚙️ Panel de Control</button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="input-search" placeholder="🔍 Buscar producto...">
+        </div>
+
+        <div id="contenedor-categorias">Cargando inventario de la nube...</div>
+    </div>
+
+    <!-- PANEL DE ADMINISTRACIÓN -->
+    <div id="vista-admin" class="oculto">
+        <div style="max-width: 900px; margin: 0 auto 15px auto;">
+            <button class="btn-toggle-vista" style="background-color: #26262e;" onclick="cambiarVista('catalogo')">← Volver al Menú Principal</button>
+        </div>
+
+        <h1 class="titulo-admin">Control de Inventario en la Nube</h1>
+
+        <div class="row-paneles">
+            <div class="panel">
+                <div class="panel-titulo">1. Cambio del Dólar</div>
+                <p style="font-size: 14px;">Tasa actual: <strong style="color: #4caf50;" id="tasa-actual">0.00 Bs.</strong></p>
+                <p style="font-size: 11px; color: #888; margin-top: 4px;" id="tasa-fecha">Modificado: -</p>
+
+                <label>Nueva Tasa del Dólar (Bs):</label>
+                <input type="number" step="0.01" id="input-tasa" placeholder="Ej: 675.89">
+                <button class="btn-cyan" onclick="actualizarTasa()">Actualizar Tasa en Todos los Equipos</button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-titulo">2. Agregar Producto</div>
+                <label>Nombre:</label>
+                <input type="text" id="p-nombre" placeholder="Ej: Harina Pan">
+
+                <label>Categoría:</label>
+                <input type="text" id="p-categoria" placeholder="Ej: Viveres">
+
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex:1;">
+                        <label>Costo (Bs):</label>
+                        <input type="number" step="0.01" id="p-costo" placeholder="620">
+                    </div>
+                    <div style="flex:1;">
+                        <label>Ganancia (%):</label>
+                        <input type="number" step="0.1" id="p-ganancia" placeholder="15">
+                    </div>
+                </div>
+
+                <label>Stock:</label>
+                <input type="number" id="p-stock" placeholder="8">
+
+                <button class="btn-orange" onclick="registrarProducto()">Guardar Producto en la Nube</button>
+            </div>
+        </div>
+
+        <div class="seccion-inventario">
+            <h2 style="text-align: center; font-size: 16px; margin-bottom: 10px;">Inventario Registrado</h2>
+            <div id="tabla-categorias"></div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE TU BASE DE DATOS EN FIREBASE (TUS DATOS REALES)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCM11K2lCpJgbvCo3KcK6Hw1vzPk7NPpp0",
+            authDomain: "abastopasoapaso-fdb2a.firebaseapp.com",
+            databaseURL: "https://abastopasoapaso-fdb2a-default-rtdb.firebaseio.com",
+            projectId: "abastopasoapaso-fdb2a",
+            storageBucket: "abastopasoapaso-fdb2a.firebasestorage.app",
+            messagingSenderId: "968132115887",
+            appId: "1:968132115887:web:d3e55a675d9084c3e1835a",
+            measurementId: "G-407VF4LPBP"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let config = { nombreBodega: "Abasto Paso a Paso", tasaDolar: 675.89, ultimaModificacion: "-" };
+        let productos = [];
+
+        // SINCRONIZACIÓN EN TIEMPO REAL DESDE LA NUBE
+        db.ref('abasto/config').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                config = data;
+                cargarCatalogo();
+                if (!document.getElementById('vista-admin').classList.contains('oculto')) {
+                    cargarAdmin();
+                }
+            } else {
+                db.ref('abasto/config').set(config);
+            }
+        });
+
+        db.ref('abasto/productos').on('value', (snapshot) => {
+            const data = snapshot.val();
+            productos = data ? Object.values(data) : [];
+            cargarCatalogo();
+            if (!document.getElementById('vista-admin').classList.contains('oculto')) {
+                cargarAdmin();
+            }
+        });
+
+        function cambiarVista(vista) {
+            const catalogo = document.getElementById('vista-catalogo');
+            const admin = document.getElementById('vista-admin');
+
+            if (vista === 'admin') {
+                catalogo.classList.add('oculto');
+                admin.classList.remove('oculto');
+                cargarAdmin();
+            } else {
+                admin.classList.add('oculto');
+                catalogo.classList.remove('oculto');
+                cargarCatalogo();
+            }
+            window.scrollTo(0,0);
+        }
+
+        function cargarCatalogo(filtro = '') {
+            document.getElementById('bodega-nombre').textContent = config.nombreBodega;
+            document.getElementById('bodega-tasa').textContent = parseFloat(config.tasaDolar).toFixed(2);
+
+            const contenedor = document.getElementById('contenedor-categorias');
+            contenedor.innerHTML = '';
+
+            const categorias = {};
+            productos.forEach(p => {
+                if (p && p.nombre && p.nombre.toLowerCase().includes(filtro.toLowerCase())) {
+                    if (!categorias[p.categoria]) categorias[p.categoria] = [];
+                    categorias[p.categoria].push(p);
+                }
+            });
+
+            for (const cat in categorias) {
+                let html = `
+                    <div class="categoria-section">
+                        <div class="categoria-header">
+                            <span>${cat}</span>
+                            <span>📁</span>
+                        </div>
+                        <div class="grid-productos">
+                `;
+
+                categorias[cat].forEach(p => {
+                    const precioFinalBs = p.costoBs * (1 + p.ganancia / 100);
+                    const precioUSD = precioFinalBs / config.tasaDolar;
+
+                    html += `
+                        <div class="card-producto">
+                            <div class="prod-nombre">${p.nombre}</div>
+                            <div class="precio-bs">${precioFinalBs.toFixed(2)} Bs.</div>
+                            <div class="precio-ref">Ref: $ ${precioUSD.toFixed(2)}</div>
+                            <div class="badge-stock">Stock: ${p.stock} und</div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+                contenedor.innerHTML += html;
+            }
+        }
+
+        function cargarAdmin() {
+            document.getElementById('tasa-actual').textContent = `${parseFloat(config.tasaDolar).toFixed(2)} Bs.`;
+            document.getElementById('tasa-fecha').textContent = `Modificado: ${config.ultimaModificacion}`;
+            renderTablasAdmin();
+        }
+
+        function actualizarTasa() {
+            const nuevaTasa = parseFloat(document.getElementById('input-tasa').value);
+            if (nuevaTasa) {
+                const ahora = new Date();
+                config.tasaDolar = nuevaTasa;
+                config.ultimaModificacion = ahora.toLocaleDateString() + ' ' + ahora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                db.ref('abasto/config').set(config);
+                document.getElementById('input-tasa').value = '';
+                alert('Tasa actualizada en la nube para todos los dispositivos.');
+            }
+        }
+
+        function registrarProducto() {
+            const nombre = document.getElementById('p-nombre').value;
+            const categoria = document.getElementById('p-categoria').value || "Viveres";
+            const costo = parseFloat(document.getElementById('p-costo').value);
+            const ganancia = parseFloat(document.getElementById('p-ganancia').value) || 0;
+            const stock = parseInt(document.getElementById('p-stock').value) || 0;
+
+            if (!nombre || isNaN(costo)) {
+                alert('Escribe el nombre y el costo.');
+                return;
+            }
+
+            const id = Date.now();
+            const nuevoProd = { id, nombre, categoria, costoBs: costo, ganancia, stock };
+
+            db.ref('abasto/productos/' + id).set(nuevoProd);
+
+            document.getElementById('p-nombre').value = '';
+            document.getElementById('p-costo').value = '';
+            document.getElementById('p-ganancia').value = '';
+            document.getElementById('p-stock').value = '';
+            alert('Producto guardado en la nube.');
+        }
+
+        function renderTablasAdmin() {
+            const contenedor = document.getElementById('tabla-categorias');
+            contenedor.innerHTML = '';
+
+            const categorias = {};
+            productos.forEach((p) => {
+                if (p) {
+                    if (!categorias[p.categoria]) categorias[p.categoria] = [];
+                    categorias[p.categoria].push(p);
+                }
+            });
+
+            for (const cat in categorias) {
+                let html = `
+                    <div class="cat-banner">📁 ${cat} (${categorias[cat].length})</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Costo</th>
+                                <th>% Gan</th>
+                                <th>Stock</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                categorias[cat].forEach(p => {
+                    html += `
+                        <tr>
+                            <td><input type="text" style="width: 100px;" id="nom-${p.id}" value="${p.nombre}"></td>
+                            <td><input type="number" class="input-inline" id="cost-${p.id}" value="${p.costoBs}"></td>
+                            <td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia}"></td>
+                            <td><input type="number" class="input-inline" id="stk-${p.id}" value="${p.stock}"></td>
+                            <td>
+                                <button class="btn-guardar" onclick="guardarFila(${p.id})">✓</button>
+                                <button class="btn-eliminar" onclick="eliminarFila(${p.id})">✕</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                contenedor.innerHTML += html;
+            }
+        }
+
+        function guardarFila(id) {
+            const prodActualizado = {
+                id: id,
+                nombre: document.getElementById(`nom-${id}`).value,
+                costoBs: parseFloat(document.getElementById(`cost-${id}`).value),
+                ganancia: parseFloat(document.getElementById(`gan-${id}`).value),
+                stock: parseInt(document.getElementById(`stk-${id}`).value),
+                categoria: productos.find(p => p.id === id).categoria
+            };
+
+            db.ref('abasto/productos/' + id).set(prodActualizado);
+            alert('Producto actualizado.');
+        }
+
+        function eliminarFila(id) {
+            if (confirm('¿Eliminar producto?')) {
+                db.ref('abasto/productos/' + id).remove();
+            }
+        }
+
+        document.getElementById('input-search').addEventListener('input', (e) => {
+            cargarCatalogo(e.target.value);
+        });
+    </script>
+</body>
+  </html>
+                                                           
