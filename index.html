@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abasto Paso a Paso - Punto de Venta & Inventario</title>
     <meta name="theme-color" content="#e91e63">
 
@@ -53,13 +53,13 @@
         body { 
             background-color: var(--bg-main); 
             color: var(--text-main); 
-            padding: 12px; 
+            padding: 10px; 
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
-        /* BANNER ESTADO CONEXIÓN */
         .estado-conexion {
             background-color: #2e7d32;
             color: white;
@@ -73,11 +73,10 @@
             box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
         }
 
-        /* HEADER CARD */
         .header-card {
             background-color: var(--bg-card);
             border-radius: 16px;
-            padding: 18px 16px;
+            padding: 16px;
             text-align: center;
             max-width: 900px;
             width: 100%;
@@ -88,17 +87,19 @@
         }
 
         .header-card h1 { 
-            font-size: 22px; 
+            font-size: 1.35rem; 
             font-weight: 800; 
             margin-bottom: 10px; 
             letter-spacing: -0.3px;
             color: var(--text-main);
+            padding: 0 35px;
+            word-break: break-word;
         }
         
         .btn-modo-claro {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 12px;
+            right: 12px;
             background: var(--bg-box);
             border: 1px solid var(--border-light);
             color: var(--text-main);
@@ -111,23 +112,22 @@
             align-items: center;
             justify-content: center;
         }
-        .btn-modo-claro:active { transform: scale(0.95); }
 
         .tasa-badge {
             background-color: var(--primary);
             color: white;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 0.85rem;
             font-weight: 700;
             display: inline-block;
             box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
         }
 
-        /* NAVEGACIÓN PRINCIPAL */
         .nav-menu {
             display: flex;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
             max-width: 900px;
             width: 100%;
             margin: 14px auto 0 auto;
@@ -138,16 +138,17 @@
         }
 
         .btn-nav {
-            flex: 1;
+            flex: 1 1 100px;
             border: none;
             color: var(--text-muted);
             background: transparent;
             padding: 10px 8px;
             border-radius: 9px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 0.85rem;
             font-weight: 700;
             text-align: center;
+            min-height: 38px;
         }
         .btn-nav.activo {
             background: var(--primary);
@@ -155,7 +156,6 @@
             box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
         }
 
-        /* BUSCADOR GENERAL */
         .search-container { max-width: 900px; width: 100%; margin: 0 auto 12px auto; }
         .search-box {
             width: 100%;
@@ -164,13 +164,12 @@
             padding: 12px 14px;
             border-radius: 10px;
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 0.95rem;
             outline: none;
             box-shadow: 0 2px 6px var(--shadow-color);
         }
         .search-box:focus { border-color: var(--secondary); }
 
-        /* CATEGORÍAS & ESTRUCTURA DE ACORDEÓN */
         .categoria-section {
             max-width: 900px;
             width: 100%;
@@ -187,11 +186,12 @@
             align-items: center;
             color: var(--primary);
             font-weight: 700;
-            font-size: 15px;
+            font-size: 0.95rem;
             padding-left: 8px;
             border-left: 4px solid var(--primary);
             cursor: pointer;
             user-select: none;
+            gap: 10px;
         }
 
         .cat-content-wrapper {
@@ -201,7 +201,7 @@
             opacity: 1;
         }
         .cat-content-wrapper.colapsado { grid-template-rows: 0fr; opacity: 0; }
-        .cat-content-inner { overflow: hidden; }
+        .cat-content-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
         .flecha-icon {
             display: inline-block;
@@ -212,7 +212,61 @@
         }
         .flecha-icon.rotado { transform: rotate(-90deg); }
 
-        /* CARPETA RAÍZ PRODUCTOS EN CAJA */
+        /* LISTADO COMPACTO HORIZONTAL EN CATÁLOGO / POS */
+        .grid-productos { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+        .fila-producto-compacta {
+            background-color: var(--bg-box);
+            border-radius: 8px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            cursor: pointer;
+            user-select: none;
+        }
+        .fila-producto-compacta:active { background-color: var(--border-light); }
+
+        .prod-info-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+        .prod-nombre-linea { font-size: 0.88rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .prod-info-right { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+
+        .prod-stock { 
+            color: #ffffff; 
+            font-size: 0.72rem; 
+            background-color: #1b5e20; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-weight: 700; 
+        }
+        .prod-stock.stock-bajo { background-color: var(--danger); }
+
+        .precio-bs { color: var(--warning); font-size: 0.92rem; font-weight: 800; }
+        .precio-ref { color: var(--text-muted); font-size: 0.78rem; font-weight: 600; }
+
+        /* PUNTO DE VENTA Y TICKET */
+        .pos-container { max-width: 900px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+        .pos-box { 
+            background-color: var(--bg-card); 
+            border-radius: 16px; 
+            padding: 16px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+        .pos-titulo { 
+            font-size: 1rem; 
+            font-weight: 800; 
+            color: var(--secondary); 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
         .carpeta-raiz-box {
             background-color: var(--bg-box);
             border: 1px solid var(--border-light);
@@ -224,7 +278,7 @@
             background-color: var(--bg-card);
             padding: 12px 15px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 0.9rem;
             color: var(--secondary);
             display: flex;
             justify-content: space-between;
@@ -232,112 +286,58 @@
             cursor: pointer;
             user-select: none;
             border-bottom: 1px solid var(--border-color);
-        }
-
-        /* TARJETAS DE PRODUCTOS */
-        .grid-productos { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .card-producto {
-            background-color: var(--bg-box);
-            border-radius: 10px;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            width: 100%;
-            cursor: pointer;
-            user-select: none;
-        }
-        .card-producto:active { transform: scale(0.99); background-color: var(--border-light); }
-
-        .prod-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .prod-nombre { font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.2; }
-        
-        .prod-stock { 
-            color: #ffffff; 
-            font-size: 11px; 
-            background-color: #1b5e20; 
-            padding: 3px 8px; 
-            border-radius: 6px; 
-            font-weight: 700; 
-        }
-        .prod-stock.stock-bajo { color: #ffffff; background-color: var(--danger); }
-
-        .precio-bs { color: var(--warning); font-size: 15px; font-weight: 800; }
-        .precio-ref { color: var(--text-muted); font-size: 12px; font-weight: 600; }
-
-        /* PUNTO DE VENTA Y TICKET */
-        .pos-container { max-width: 900px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
-        .pos-box { 
-            background-color: var(--bg-card); 
-            border-radius: 16px; 
-            padding: 18px; 
-            border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 16px var(--shadow-color);
-        }
-        .pos-titulo { 
-            font-size: 16px; 
-            font-weight: 800; 
-            color: var(--secondary); 
-            margin-bottom: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            gap: 10px;
         }
 
         .ticket-header-stats {
             background-color: var(--bg-box);
             padding: 10px 14px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 0.8rem;
             color: var(--text-muted);
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             font-weight: 600;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .ticket-item-card {
             background-color: var(--bg-box);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
             display: flex;
-            flex-direction: column;
-            gap: 6px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
         }
-        .ticket-item-top { display: flex; justify-content: space-between; align-items: center; }
-        .ticket-item-title { font-weight: 700; font-size: 14px; color: var(--text-main); }
-        .btn-delete-item { background: transparent; border: none; color: var(--danger); font-size: 16px; cursor: pointer; padding: 2px 6px; }
-        
-        .ticket-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
         .ticket-controls { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 6px; 
             background-color: var(--bg-input); 
-            padding: 4px 8px; 
-            border-radius: 8px; 
+            padding: 3px 6px; 
+            border-radius: 6px; 
             border: 1px solid var(--border-light); 
         }
         .btn-qty { 
             background: var(--bg-card); 
             border: 1px solid var(--border-light); 
             color: var(--text-main); 
-            width: 28px; 
-            height: 28px; 
-            border-radius: 6px; 
+            width: 26px; 
+            height: 26px; 
+            border-radius: 4px; 
             font-weight: 800; 
             cursor: pointer; 
-            font-size: 14px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .btn-qty:active { background: var(--secondary); color: #000; }
         
-        .ticket-subtotal-box { text-align: right; }
-        .ticket-subtotal-bs { font-size: 14px; font-weight: 800; color: var(--warning); }
-        .ticket-subtotal-usd { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-
         .totales-pantalla {
             background-color: var(--bg-main);
             border-radius: 12px;
@@ -346,8 +346,8 @@
             border: 1px solid var(--border-light);
             text-align: right;
         }
-        .monto-gran-total { font-size: 28px; font-weight: 900; color: var(--warning); letter-spacing: -0.5px; }
-        .monto-gran-usd { font-size: 17px; color: var(--text-muted); font-weight: 700; }
+        .monto-gran-total { font-size: 1.8rem; font-weight: 900; color: var(--warning); }
+        .monto-gran-usd { font-size: 1.1rem; color: var(--text-muted); font-weight: 700; }
 
         .calculadora-vuelto {
             background-color: var(--bg-box);
@@ -356,13 +356,13 @@
             margin-top: 14px;
             border: 1px solid var(--border-color);
         }
-        .row-pago { display: flex; gap: 10px; margin-top: 8px; }
-        .row-pago div { flex: 1; }
+        .row-pago { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+        .row-pago div { flex: 1 1 130px; }
 
         .btn-cobrar {
             background-color: var(--success);
             color: white;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 800;
             border: none;
             padding: 14px;
@@ -370,22 +370,25 @@
             border-radius: 10px;
             margin-top: 14px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            min-height: 48px;
         }
-        .btn-cobrar:active { opacity: 0.85; transform: scale(0.99); }
 
-        /* CIERRE DE CAJA & HISTORIAL POR DÍAS */
         .caja-card { 
             background-color: var(--bg-card); 
             border-radius: 16px; 
-            padding: 18px; 
+            padding: 16px; 
             border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 16px var(--shadow-color);
         }
-        .caja-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; text-align: center; }
+        .caja-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); 
+            gap: 8px; 
+            margin-top: 12px; 
+            text-align: center; 
+        }
         .caja-item { 
             background-color: var(--bg-box); 
-            padding: 12px 8px; 
+            padding: 10px 6px; 
             border-radius: 10px; 
             border: 1px solid var(--border-color);
         }
@@ -395,23 +398,22 @@
             justify-content: space-between;
             align-items: center;
             background-color: var(--bg-box);
-            padding: 10px 14px;
+            padding: 10px 12px;
             border-radius: 10px;
             margin-top: 14px;
             border: 1px solid var(--border-light);
+            gap: 8px;
         }
         .btn-dia { 
             background: var(--bg-card); 
             border: 1px solid var(--border-light); 
             color: var(--text-main); 
-            padding: 8px 12px; 
+            padding: 8px 10px; 
             border-radius: 8px; 
             font-weight: 700; 
             cursor: pointer; 
-            font-size: 12px; 
+            font-size: 0.75rem; 
         }
-        .btn-dia:active { background: var(--secondary); color: #000; }
-        .label-dia-actual { font-size: 13px; font-weight: 800; color: var(--secondary); text-align: center; }
 
         .factura-dia-box {
             background-color: var(--bg-main);
@@ -423,20 +425,8 @@
             max-height: 260px;
             overflow-y: auto;
         }
-        .factura-dia-header {
-            text-align: center;
-            border-bottom: 1px dashed var(--border-light);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-        }
-        .factura-item-bloque {
-            border-bottom: 1px dotted var(--border-color);
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-        }
-        .factura-linea { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-main); margin-bottom: 3px; }
 
-        /* MODALES */
+        /* MODALES RESPONSIVOS */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -446,88 +436,88 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            padding: 16px;
+            padding: 12px;
         }
         .modal-recibo-card, .modal-editar-card {
             background-color: var(--bg-card);
             border-radius: 16px;
-            padding: 22px;
+            padding: 18px;
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             border: 1px solid var(--secondary);
-            box-shadow: 0 0 30px rgba(0, 188, 212, 0.25);
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
-        .modal-editar-card { max-width: 520px; max-height: 90vh; overflow-y: auto; }
 
-        .edit-item-row {
-            background-color: var(--bg-box);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .recibo-linea { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); border-bottom: 1px dashed var(--border-color); padding-bottom: 5px; }
-
-        /* ADMIN */
-        .titulo-admin { text-align: center; font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+        /* ADMIN - TABLA HORIZONTAL OPTIMIZADA CON SCROLL */
+        .titulo-admin { text-align: center; font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
         .row-paneles { display: flex; flex-wrap: wrap; gap: 14px; max-width: 900px; width: 100%; margin: 0 auto 20px auto; }
         .panel { 
             background-color: var(--bg-card); 
             border-radius: 14px; 
-            padding: 18px; 
-            flex: 1; 
-            min-width: 280px; 
+            padding: 16px; 
+            flex: 1 1 280px; 
             border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 16px var(--shadow-color);
         }
-        .panel-titulo { font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        .panel-titulo { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
         
-        label { font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; }
         input { 
             width: 100%; 
             background-color: var(--bg-input); 
             border: 1px solid var(--border-light); 
-            padding: 10px 12px; 
+            padding: 8px 10px; 
             border-radius: 8px; 
             color: var(--text-main); 
-            font-size: 14px; 
+            font-size: 0.9rem; 
             outline: none; 
         }
-        input:focus { border-color: var(--secondary); }
 
         .btn-cyan { background-color: var(--secondary); color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 14px; cursor: pointer; }
         .btn-orange { background-color: #ff9800; color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 14px; cursor: pointer; }
 
-        .seccion-inventario { max-width: 900px; width: 100%; margin: 0 auto; overflow-x: auto; }
+        .seccion-inventario { max-width: 900px; width: 100%; margin: 0 auto; }
         .cat-banner { 
             background-color: var(--bg-card); 
-            padding: 12px 14px; 
+            padding: 10px 12px; 
             border-radius: 10px; 
             color: var(--warning); 
             font-weight: 800; 
             margin-top: 12px; 
-            font-size: 15px; 
+            font-size: 0.9rem; 
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid var(--border-color);
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; background-color: var(--bg-card); font-size: 13px; min-width: 500px; border-radius: 10px; overflow: hidden; }
-        th { text-align: left; padding: 12px 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); font-weight: 700; }
-        td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); }
+        /* TABLA HORIZONTAL CON DESPLAZAMIENTO FLUIDO (SIN CARDS VERTICALES EN MÓVIL) */
+        .table-responsive-admin {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 6px; 
+            background-color: var(--bg-card); 
+            font-size: 0.85rem; 
+            border-radius: 10px; 
+            white-space: nowrap;
+        }
+
+        th { text-align: left; padding: 8px 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+        td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         
-        .input-inline { width: 85px; padding: 6px; display: inline-block; }
+        .input-inline { width: 75px; padding: 6px; text-align: right; }
+        .input-admin-nom { min-width: 150px; width: 100%; padding: 6px; }
         .btn-guardar { background-color: var(--secondary); color: black; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 800; }
         .btn-eliminar { background-color: var(--primary); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 800; }
-        .btn-cat-action { background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; margin-left: 4px; }
+        .btn-cat-action { background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 4px; }
+        .acciones-fila { display: flex; gap: 4px; }
 
         .oculto { display: none !important; }
     </style>
@@ -557,7 +547,6 @@
 
     <div id="vista-pos" class="oculto">
         <div class="pos-container">
-
             <div class="pos-box">
                 <div class="pos-titulo">
                     <span>🧾 Ticket de Compra</span>
@@ -605,7 +594,7 @@
                             <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-bs" placeholder="0,00" oninput="calcularVuelto()">
                         </div>
                     </div>
-                    <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
                         <span style="font-size: 13px; font-weight: 700;">Vuelto a entregar:</span>
                         <span style="font-size: 18px; font-weight: 800; color: var(--success);" id="pos-vuelto">0,00 Bs.</span>
                     </div>
@@ -616,7 +605,7 @@
             </div>
 
             <div class="caja-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                     <span style="font-weight: 800; font-size: 15px; color: var(--success);">📊 Cierre de Caja del Día</span>
                     <button style="background: var(--bg-box); color: var(--danger); border: 1px solid var(--border-light); padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 700;" onclick="reiniciarCaja()">Reiniciar Caja</button>
                 </div>
@@ -652,18 +641,15 @@
                         <div style="font-size: 13px; font-weight: 800; color: var(--warning);" id="titulo-facturas-fecha">🧾 FACTURAS DEL DÍA</div>
                         <div style="font-size: 11px; color: var(--text-muted);" id="factura-dia-fecha">--/--/----</div>
                     </div>
-                    
                     <div id="factura-dia-desglose">
                         <div style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 6px;">Sin transacciones en esta fecha.</div>
                     </div>
-
                     <div style="border-top: 1px dashed var(--border-light); margin-top: 8px; padding-top: 8px;">
                         <div class="factura-linea"><span style="font-weight: 700;">TOTAL UNIDADES DÍA:</span><strong style="color: var(--secondary);" id="factura-dia-unds">0 unds</strong></div>
                         <div class="factura-linea"><span style="font-weight: 700;">TOTAL VENDIDO DÍA:</span><strong style="color: var(--warning);" id="factura-dia-total">0,00 Bs.</strong></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -671,14 +657,11 @@
         <div class="modal-recibo-card">
             <h2 style="text-align: center; color: var(--success); font-size: 18px; font-weight: 800;">✅ ¡Venta Registrada!</h2>
             <div style="text-align: center; font-size: 12px; color: var(--text-muted);" id="recibo-fecha-hora">--/--/---- --:--</div>
-            
             <div style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin: 10px 0;" id="recibo-desglose"></div>
-
             <div style="background: var(--bg-main); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
                 <div class="recibo-linea"><span>Total Cobrado:</span><strong style="color: var(--warning);" id="recibo-total">0,00 Bs.</strong></div>
                 <div class="recibo-linea" style="margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: var(--success);" id="recibo-vuelto">0,00 Bs.</strong></div>
             </div>
-
             <button class="btn-cyan" style="margin-top: 5px;" onclick="cerrarModalRecibo()">Nueva Venta</button>
         </div>
     </div>
@@ -687,31 +670,26 @@
         <div class="modal-editar-card">
             <h2 style="text-align: center; color: var(--secondary); font-size: 17px; font-weight: 800;">✏️ Editar Factura Registrada</h2>
             <input type="hidden" id="edit-venta-id">
-
-            <div style="display: flex; gap: 10px;">
-                <div style="flex:1;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div style="flex:1; min-width: 140px;">
                     <label>Fecha (AAAA-MM-DD):</label>
                     <input type="date" id="edit-fecha-iso">
                 </div>
-                <div style="flex:1;">
+                <div style="flex:1; min-width: 120px;">
                     <label>Hora:</label>
                     <input type="text" id="edit-hora" placeholder="10:30:00 AM">
                 </div>
             </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; flex-wrap: wrap; gap: 6px;">
                 <span style="font-weight: 800; font-size: 13px; color: var(--warning);">📦 Productos en Factura:</span>
                 <button type="button" style="background: var(--success); color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="agregarItemAFacturaEditada()">+ Agregar Producto</button>
             </div>
-
             <div id="edit-lista-items" style="max-height: 200px; overflow-y: auto; margin-top: 4px;"></div>
-
             <div>
                 <label>Total de Factura (Bs):</label>
                 <input type="text" inputmode="decimal" class="input-formato-monto" id="edit-total-bs" style="font-size: 16px; font-weight: 800; color: var(--warning);">
             </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
                 <button class="btn-cyan" style="flex: 1; margin-top:0;" onclick="guardarEdicionVenta()">💾 Guardar Cambios</button>
                 <button style="flex: 1; background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); font-weight: 700; padding: 12px; border-radius: 8px; cursor: pointer;" onclick="cerrarModalEditarVenta()">Cancelar</button>
             </div>
@@ -741,12 +719,12 @@
                 <input type="text" id="p-categoria" list="lista-categorias-sugeridas" placeholder="escriba la categoría">
                 <datalist id="lista-categorias-sugeridas"></datalist>
 
-                <div style="display: flex; gap: 10px;">
-                    <div style="flex:1;">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="flex:1; min-width: 120px;">
                         <label>Costo (Bs):</label>
                         <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo" placeholder="0,00">
                     </div>
-                    <div style="flex:1;">
+                    <div style="flex:1; min-width: 100px;">
                         <label>Ganancia (%):</label>
                         <input type="number" step="0.1" id="p-ganancia" placeholder="0">
                     </div>
@@ -789,16 +767,14 @@
         let productos = [];
         let ventas = [];
         let ticketActual = [];
-        let diasOffsetSeleccionado = 0; // 0 = Hoy, -1 = Ayer, etc.
-        let ventaEnEdicion = null; // Para control del modal de edición
+        let diasOffsetSeleccionado = 0;
+        let ventaEnEdicion = null;
 
-        // HELPER PARA ESCAPAR ATRIBUTOS EN HTML Y PREVENIR ERRORES DE SINTAXIS
         function escapeAttr(str) {
             if (str === null || str === undefined) return '';
             return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
-        // HELPER FECHA LOCAL ISO (YYYY-MM-DD) SIN DESFASE UTC
         function getFechaLocalISO(d) {
             const date = d || new Date();
             const year = date.getFullYear();
@@ -807,7 +783,6 @@
             return `${year}-${month}-${day}`;
         }
 
-        // MODO CLARO TOGGLE
         function toggleModoClaro() {
             document.body.classList.toggle('light-mode');
             const esClaro = document.body.classList.contains('light-mode');
@@ -823,7 +798,6 @@
             cargarBorradorTicket();
         });
 
-        // --- SISTEMA DE AUTOGUARDADO DE TICKET (BORRADOR) ---
         function guardarBorradorTicket() {
             localStorage.setItem('abasto_ticket_borrador', JSON.stringify(ticketActual));
         }
@@ -842,7 +816,7 @@
 
         function guardarBorradorManual() {
             guardarBorradorTicket();
-            alert("💾 ¡Factura guardada y actualizada en borrador! Está protegida ante apagones o reinicios.");
+            alert("💾 ¡Factura guardada y actualizada en borrador!");
         }
 
         function formatearNumero(num) {
@@ -1028,9 +1002,8 @@
                     const precioUSD = tasaNum > 0 ? (precioFinalBs / tasaNum) : 0;
                     const stockNum = p.stock !== undefined ? p.stock : 0;
                     const claseStock = stockNum <= 3 ? 'stock-bajo' : '';
-                    const labelStock = stockNum <= 3 ? '⚠️ ' + stockNum + ' und' : stockNum + ' und';
 
-                    html += '<div class="card-producto" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + labelStock + '</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
+                    html += '<div class="fila-producto-compacta" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-info-left"><span class="prod-nombre-linea">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + stockNum + ' und</span></div><div class="prod-info-right"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
                 });
 
                 html += '</div></div></div></div>';
@@ -1083,7 +1056,7 @@
                     const stockNum = p.stock !== undefined ? p.stock : 0;
                     const claseStock = stockNum <= 3 ? 'stock-bajo' : '';
 
-                    html += '<div class="card-producto" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + stockNum + ' und</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
+                    html += '<div class="fila-producto-compacta" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-info-left"><span class="prod-nombre-linea">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + stockNum + ' und</span></div><div class="prod-info-right"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
                 });
 
                 html += '</div></div></div></div>';
@@ -1183,10 +1156,9 @@
 
             ticketActual.forEach(function(item) {
                 const subtotalBs = item.precioBs * item.cantidad;
-                const subtotalUSD = subtotalBs / tasa;
                 totalBs += subtotalBs;
 
-                html += '<div class="ticket-item-card"><div class="ticket-item-top"><span class="ticket-item-title">' + item.nombre + '</span><button class="btn-delete-item" onclick="eliminarItemTicket(\'' + escapeAttr(item.id) + '\')">🗑️</button></div><div class="ticket-item-bottom"><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', -1)">-</button><span style="font-weight: 800; width: 22px; text-align: center; font-size: 13px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', 1)">+</button></div><div class="ticket-subtotal-box"><div class="ticket-subtotal-bs">' + formatearNumero(subtotalBs) + ' Bs.</div><div class="ticket-subtotal-usd">(' + formatearNumero(item.precioBs) + ' c/u | $' + formatearNumero(subtotalUSD) + ')</div></div></div></div>';
+                html += '<div class="ticket-item-card"><div style="flex:1; min-width:0;"><div style="font-weight:700; font-size:0.85rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + item.nombre + '</div><div style="font-size:0.75rem; color:var(--warning); font-weight:700;">' + formatearNumero(subtotalBs) + ' Bs.</div></div><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', -1)">-</button><span style="font-weight: 800; width: 20px; text-align: center; font-size: 12px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', 1)">+</button></div><button style="background:transparent; border:none; color:var(--danger); cursor:pointer; padding:4px;" onclick="eliminarItemTicket(\'' + escapeAttr(item.id) + '\')">🗑️</button></div>';
             });
 
             contenedor.innerHTML = html;
@@ -1305,131 +1277,6 @@
             renderCierreCaja();
         }
 
-        function editarVentaRegistrada(idVenta) {
-            const venta = ventas.find(v => String(v.id) === String(idVenta));
-            if (!venta) return;
-
-            ventaEnEdicion = JSON.parse(JSON.stringify(venta));
-            if (!ventaEnEdicion.items) ventaEnEdicion.items = [];
-
-            document.getElementById('edit-venta-id').value = ventaEnEdicion.id;
-            document.getElementById('edit-fecha-iso').value = ventaEnEdicion.fechaIso || getFechaLocalISO();
-            document.getElementById('edit-hora').value = ventaEnEdicion.hora || '';
-            document.getElementById('edit-total-bs').value = formatearNumero(ventaEnEdicion.totalBs || 0);
-
-            renderItemsEditarVenta();
-            document.getElementById('modal-editar-factura').classList.remove('oculto');
-        }
-
-        function renderItemsEditarVenta() {
-            const contenedor = document.getElementById('edit-lista-items');
-            if (!ventaEnEdicion || !ventaEnEdicion.items || ventaEnEdicion.items.length === 0) {
-                contenedor.innerHTML = '<p style="text-align:center; font-size:11px; color:var(--text-muted); padding:8px;">Sin productos en esta factura.</p>';
-                return;
-            }
-
-            let html = '';
-            ventaEnEdicion.items.forEach((item, index) => {
-                html += `<div class="edit-item-row">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <input type="text" value="${escapeAttr(item.nombre || '')}" placeholder="escriba el nombre del producto" style="font-size: 12px; padding: 6px; flex:1; margin-right: 6px;" oninput="actualizarItemEditado(${index}, 'nombre', this.value)">
-                        <button type="button" style="background:transparent; border:none; color:var(--danger); cursor:pointer;" onclick="eliminarItemDeFacturaEditada(${index})">🗑️</button>
-                    </div>
-                    <div style="display: flex; gap: 6px;">
-                        <div style="flex: 1;">
-                            <label style="font-size:10px; margin:0;">Cant:</label>
-                            <input type="number" value="${item.cantidad || 1}" min="1" style="font-size: 12px; padding: 6px;" oninput="actualizarItemEditado(${index}, 'cantidad', this.value)">
-                        </div>
-                        <div style="flex: 2;">
-                            <label style="font-size:10px; margin:0;">Precio C/U (Bs):</label>
-                            <input type="text" inputmode="decimal" class="input-formato-monto" value="${formatearNumero(item.precioBs || 0)}" style="font-size: 12px; padding: 6px;" oninput="actualizarItemEditado(${index}, 'precioBs', this.value)">
-                        </div>
-                    </div>
-                </div>`;
-            });
-            contenedor.innerHTML = html;
-        }
-
-        function actualizarItemEditado(index, campo, valor) {
-            if (!ventaEnEdicion || !ventaEnEdicion.items[index]) return;
-
-            if (campo === 'nombre') {
-                ventaEnEdicion.items[index].nombre = valor;
-            } else if (campo === 'cantidad') {
-                ventaEnEdicion.items[index].cantidad = parseInt(valor) || 0;
-            } else if (campo === 'precioBs') {
-                ventaEnEdicion.items[index].precioBs = parsearMonto(valor);
-            }
-
-            recalcularTotalFacturaEditada();
-        }
-
-        function agregarItemAFacturaEditada() {
-            if (!ventaEnEdicion) return;
-            ventaEnEdicion.items.push({
-                nombre: '',
-                cantidad: 1,
-                precioBs: 0
-            });
-            renderItemsEditarVenta();
-            recalcularTotalFacturaEditada();
-        }
-
-        function eliminarItemDeFacturaEditada(index) {
-            if (!ventaEnEdicion || !ventaEnEdicion.items) return;
-            ventaEnEdicion.items.splice(index, 1);
-            renderItemsEditarVenta();
-            recalcularTotalFacturaEditada();
-        }
-
-        function recalcularTotalFacturaEditada() {
-            if (!ventaEnEdicion) return;
-            let sumaBs = 0;
-            ventaEnEdicion.items.forEach(item => {
-                sumaBs += (parseFloat(item.precioBs) || 0) * (parseInt(item.cantidad) || 0);
-            });
-            document.getElementById('edit-total-bs').value = formatearNumero(sumaBs);
-        }
-
-        function cerrarModalEditarVenta() {
-            document.getElementById('modal-editar-factura').classList.add('oculto');
-            ventaEnEdicion = null;
-        }
-
-        function guardarEdicionVenta() {
-            if (!ventaEnEdicion) return;
-
-            const nuevaFechaIso = document.getElementById('edit-fecha-iso').value;
-            const nuevaHora = document.getElementById('edit-hora').value;
-            const nuevoTotalBs = parsearMonto(document.getElementById('edit-total-bs').value);
-
-            if (!nuevaFechaIso) {
-                alert("Selecciona una fecha válida.");
-                return;
-            }
-
-            const partesFecha = nuevaFechaIso.split('-');
-            const fechaFormatoStr = partesFecha.length === 3 ? `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}` : nuevaFechaIso;
-
-            const diferenciaTotal = nuevoTotalBs - (ventaEnEdicion.totalBs || 0);
-
-            ventaEnEdicion.fechaIso = nuevaFechaIso;
-            ventaEnEdicion.fechaFormato = fechaFormatoStr;
-            ventaEnEdicion.hora = nuevaHora;
-            ventaEnEdicion.totalBs = nuevoTotalBs;
-            ventaEnEdicion.gananciaBs = Math.max(0, (ventaEnEdicion.gananciaBs || 0) + diferenciaTotal);
-
-            db.ref('abasto/ventas/' + ventaEnEdicion.id).set(ventaEnEdicion, function(error) {
-                if (!error) {
-                    alert("¡Factura actualizada con éxito!");
-                    cerrarModalEditarVenta();
-                    renderCierreCaja();
-                } else {
-                    alert("Error al guardar cambios: " + error.message);
-                }
-            });
-        }
-
         function renderCierreCaja() {
             const tasa = parsearMonto(config.tasaDolar) || 1;
 
@@ -1484,9 +1331,8 @@
                 ventasFiltradas.forEach((v, index) => {
                     const horaFactura = v.hora || 'Sin hora';
                     htmlFactura += `<div class="factura-item-bloque">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; flex-wrap: wrap; gap: 6px;">
                             <span style="font-size: 11px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1} — Hora: ${horaFactura}</span>
-                            <button style="background: transparent; border: none; color: var(--secondary); font-size: 11px; cursor: pointer; font-weight: 800;" onclick="editarVentaRegistrada('${escapeAttr(v.id)}')">✏️ Editar</button>
                         </div>`;
                     
                     if (v.items && Array.isArray(v.items)) {
@@ -1548,7 +1394,6 @@
 
             db.ref('abasto/productos/' + id).set(nuevoProd);
 
-            // Limpieza completa de campos
             document.getElementById('p-nombre').value = '';
             document.getElementById('p-categoria').value = '';
             document.getElementById('p-costo').value = '';
@@ -1582,7 +1427,7 @@
 
             Object.keys(categorias).sort().forEach(function(cat) {
                 const catEscapada = escapeAttr(cat);
-                let html = '<div class="cat-banner"><div class="cat-title-click" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><table><thead><tr><th>Nombre</th><th>Costo</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
+                let html = '<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs)</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
 
                 categorias[cat].sort(function(a, b) { return String(a.nombre).localeCompare(String(b.nombre)); });
 
@@ -1592,7 +1437,13 @@
                     const stock = p.stock !== undefined ? p.stock : 0;
                     const alertaStockStyle = stock <= 3 ? 'color: var(--danger); font-weight: 800;' : '';
 
-                    html += '<tr><td><input type="text" style="width: 100px;" id="nom-' + p.id + '" value="' + escapeAttr(p.nombre || '') + '"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-' + p.id + '" value="' + formatearNumero(costoBs) + '"></td><td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td><td><input type="number" class="input-inline" style="' + alertaStockStyle + '" id="stk-' + p.id + '" value="' + stock + '"></td><td><button class="btn-guardar" onclick="guardarFila(\'' + escapeAttr(p.id) + '\')">✓</button><button class="btn-eliminar" onclick="eliminarFila(\'' + escapeAttr(p.id) + '\')">✕</button></td></tr>';
+                    html += '<tr>' +
+                        '<td><input type="text" class="input-admin-nom" id="nom-' + p.id + '" value="' + escapeAttr(p.nombre || '') + '"></td>' +
+                        '<td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-' + p.id + '" value="' + formatearNumero(costoBs) + '"></td>' +
+                        '<td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td>' +
+                        '<td><input type="number" class="input-inline" style="' + alertaStockStyle + '" id="stk-' + p.id + '" value="' + stock + '"></td>' +
+                        '<td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila(\'' + escapeAttr(p.id) + '\')">✓</button><button class="btn-eliminar" onclick="eliminarFila(\'' + escapeAttr(p.id) + '\')">✕</button></div></td>' +
+                        '</tr>';
                 });
 
                 html += '</tbody></table></div></div>';
