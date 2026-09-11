@@ -6,7 +6,6 @@
     <title>Abasto Paso a Paso - Punto de Venta & Inventario</title>
     <meta name="theme-color" content="#e91e63">
 
-    <!-- SDKs de Firebase (vía CDN) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -23,7 +22,8 @@
         body.light-mode .caja-card,
         body.light-mode .panel,
         body.light-mode table,
-        body.light-mode .modal-recibo-card { background-color: #ffffff; color: #121214; border-color: #e0e0e0; }
+        body.light-mode .modal-recibo-card,
+        body.light-mode .modal-editar-card { background-color: #ffffff; color: #121214; border-color: #e0e0e0; }
         body.light-mode .search-box,
         body.light-mode input,
         body.light-mode .ticket-item-card,
@@ -335,7 +335,7 @@
         .factura-linea { display: flex; justify-content: space-between; font-size: 12px; color: #ddd; margin-bottom: 2px; }
         body.light-mode .factura-linea { color: #333; }
 
-        /* MODAL RECIBO */
+        /* MODALES */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -358,6 +358,33 @@
             flex-direction: column;
             gap: 12px;
         }
+
+        .modal-editar-card {
+            background-color: #1e1e24;
+            border-radius: 12px;
+            padding: 18px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #00bcd4;
+            box-shadow: 0 0 25px rgba(0,188,212,0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .edit-item-row {
+            background-color: #26262e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
         .recibo-linea { display: flex; justify-content: space-between; font-size: 13px; color: #ccc; border-bottom: 1px dashed #333; padding-bottom: 4px; }
 
         /* ADMIN */
@@ -401,7 +428,6 @@
 
     <div class="estado-conexion" id="estado-conexion">🌐 Sincronizado en la nube (Tiempo real)</div>
 
-    <!-- ENCABEZADO -->
     <div class="header-card">
         <button class="btn-modo-claro" id="btn-modo-toggle" onclick="toggleModoClaro()">☀️</button>
         <h1 id="bodega-nombre">Abasto Paso a Paso</h1>
@@ -414,7 +440,6 @@
         </div>
     </div>
 
-    <!-- 1. VISTA CATÁLOGO -->
     <div id="vista-catalogo">
         <div class="search-container">
             <input type="text" class="search-box" id="input-search" placeholder="🔍 Buscar producto...">
@@ -422,11 +447,9 @@
         <div id="contenedor-categorias">Cargando inventario...</div>
     </div>
 
-    <!-- 2. VISTA PUNTO DE VENTA (POS) - TICKET ARRIBA, CIERRE ABAJO -->
     <div id="vista-pos" class="oculto">
         <div class="pos-container">
 
-            <!-- Ticket de Compra (ARRIBA) -->
             <div class="pos-box">
                 <div class="pos-titulo">
                     <span>🧾 Ticket de Compra</span>
@@ -438,12 +461,10 @@
                     <span id="ticket-cant-unidades">0 unidades</span>
                 </div>
 
-                <!-- Buscador de Producto -->
                 <div class="search-container">
                     <input type="text" class="search-box" id="input-search-pos" placeholder="🔍 Buscar producto para sumar al ticket...">
                 </div>
 
-                <!-- CARPETA PADRE -->
                 <div class="carpeta-raiz-box">
                     <div class="carpeta-raiz-header" onclick="toggleRaizPos()">
                         <span>📂 PRODUCTOS (Seleccionar para agregar)</span>
@@ -454,7 +475,6 @@
                     </div>
                 </div>
 
-                <!-- Lista de items -->
                 <div id="pos-lista-items">
                     <p style="text-align: center; color: #777; font-size: 13px; padding: 10px;">Selecciona productos de la carpeta de arriba para armar la venta.</p>
                 </div>
@@ -487,7 +507,6 @@
                 <button class="btn" style="background-color: #ff9800; color: #000; margin-top: 8px; width: 100%; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px;" onclick="guardarBorradorManual()">💾 Guardar / Actualizar Borrador de Factura</button>
             </div>
 
-            <!-- Cierre de Caja & Facturas por Hora y Día (ABAJO) -->
             <div class="caja-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-weight: bold; font-size: 15px; color: #4caf50;">📊 Cierre de Caja del Día</span>
@@ -511,7 +530,6 @@
                     </div>
                 </div>
 
-                <!-- Navegador de Días para Historial de Facturas -->
                 <div class="navegador-dias">
                     <button class="btn-dia" onclick="cambiarDiaOffset(-1)">◀ Día Ant.</button>
                     <div style="text-align: center;">
@@ -521,7 +539,6 @@
                     <button class="btn-dia" onclick="cambiarDiaOffset(1)">Día Sig. ▶</button>
                 </div>
 
-                <!-- Listado de Facturas por Hora, Día y Fecha -->
                 <div class="factura-dia-box">
                     <div class="factura-dia-header">
                         <div style="font-size: 13px; font-weight: bold; color: #fbc02d;" id="titulo-facturas-fecha">🧾 FACTURAS DEL DÍA</div>
@@ -542,7 +559,6 @@
         </div>
     </div>
 
-    <!-- MODAL RECIBO -->
     <div id="modal-recibo" class="modal-overlay oculto">
         <div class="modal-recibo-card">
             <h2 style="text-align: center; color: #4caf50; font-size: 18px;">✅ ¡Venta Registrada!</h2>
@@ -559,7 +575,41 @@
         </div>
     </div>
 
-    <!-- 3. VISTA ADMINISTRACIÓN -->
+    <div id="modal-editar-factura" class="modal-overlay oculto">
+        <div class="modal-editar-card">
+            <h2 style="text-align: center; color: #00bcd4; font-size: 17px;">✏️ Editar Factura Registrada</h2>
+            <input type="hidden" id="edit-venta-id">
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label>Fecha (AAAA-MM-DD):</label>
+                    <input type="date" id="edit-fecha-iso">
+                </div>
+                <div style="flex:1;">
+                    <label>Hora:</label>
+                    <input type="text" id="edit-hora" placeholder="10:30:00 AM">
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                <span style="font-weight: bold; font-size: 13px; color: #fbc02d;">📦 Productos en Factura:</span>
+                <button type="button" style="background: #2e7d32; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="agregarItemAFacturaEditada()">+ Agregar Producto</button>
+            </div>
+
+            <div id="edit-lista-items" style="max-height: 200px; overflow-y: auto; margin-top: 4px;"></div>
+
+            <div>
+                <label>Total de Factura (Bs):</label>
+                <input type="text" inputmode="decimal" class="input-formato-monto" id="edit-total-bs" style="font-size: 16px; font-weight: bold; color: #fbc02d;">
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button class="btn-cyan" style="flex: 1; margin-top:0;" onclick="guardarEdicionVenta()">💾 Guardar Cambios</button>
+                <button style="flex: 1; background-color: #555; color: #fff; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer;" onclick="cerrarModalEditarVenta()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="vista-admin" class="oculto">
         <h1 class="titulo-admin">Control de Inventario en la Nube</h1>
 
@@ -631,6 +681,22 @@
         let ventas = [];
         let ticketActual = [];
         let diasOffsetSeleccionado = 0; // 0 = Hoy, -1 = Ayer, etc.
+        let ventaEnEdicion = null; // Para control del modal de edición
+
+        // HELPER PARA ESCAPAR ATRIBUTOS EN HTML Y PREVENIR ERRORES DE SINTAXIS
+        function escapeAttr(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        // HELPER FECHA LOCAL ISO (YYYY-MM-DD) SIN DESFASE UTC
+        function getFechaLocalISO(d) {
+            const date = d || new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
         // MODO CLARO TOGGLE
         function toggleModoClaro() {
@@ -766,6 +832,8 @@
                 document.getElementById('vista-pos').classList.remove('oculto');
                 document.getElementById('nav-pos').classList.add('activo');
                 cargarPosCatalogo();
+                renderTicket();
+                renderCierreCaja();
             } else if (vista === 'admin') {
                 document.getElementById('vista-admin').classList.remove('oculto');
                 document.getElementById('nav-admin').classList.add('activo');
@@ -788,6 +856,7 @@
             } else if (!document.getElementById('vista-pos').classList.contains('oculto')) {
                 cargarPosCatalogo();
                 renderTicket();
+                renderCierreCaja();
             } else if (!document.getElementById('vista-admin').classList.contains('oculto')) {
                 cargarAdmin();
             }
@@ -834,7 +903,7 @@
                     const claseStock = stockNum <= 3 ? 'stock-bajo' : '';
                     const labelStock = stockNum <= 3 ? '⚠️ ' + stockNum + ' und' : stockNum + ' und';
 
-                    html += '<div class="card-producto" onclick="agregarAlTicket(' + p.id + ')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + labelStock + '</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
+                    html += '<div class="card-producto" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + labelStock + '</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
                 });
 
                 html += '</div></div></div></div>';
@@ -887,7 +956,7 @@
                     const stockNum = p.stock !== undefined ? p.stock : 0;
                     const claseStock = stockNum <= 3 ? 'stock-bajo' : '';
 
-                    html += '<div class="card-producto" onclick="agregarAlTicket(' + p.id + ')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + stockNum + ' und</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
+                    html += '<div class="card-producto" onclick="agregarAlTicket(\'' + escapeAttr(p.id) + '\')"><div class="prod-row"><span class="prod-nombre">' + p.nombre + '</span><span class="prod-stock ' + claseStock + '">' + stockNum + ' und</span></div><div class="prod-row"><span class="precio-bs">' + formatearNumero(precioFinalBs) + ' Bs.</span><span class="precio-ref">$' + formatearNumero(precioUSD) + '</span></div></div>';
                 });
 
                 html += '</div></div></div></div>';
@@ -991,7 +1060,7 @@
                 const subtotalUSD = subtotalBs / tasa;
                 totalBs += subtotalBs;
 
-                html += '<div class="ticket-item-card"><div class="ticket-item-top"><span class="ticket-item-title">' + item.nombre + '</span><button class="btn-delete-item" onclick="eliminarItemTicket(' + item.id + ')">🗑️</button></div><div class="ticket-item-bottom"><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(' + item.id + ', -1)">-</button><span style="font-weight: bold; width: 22px; text-align: center; font-size: 13px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(' + item.id + ', 1)">+</button></div><div class="ticket-subtotal-box"><div class="ticket-subtotal-bs">' + formatearNumero(subtotalBs) + ' Bs.</div><div class="ticket-subtotal-usd">(' + formatearNumero(item.precioBs) + ' c/u | $' + formatearNumero(subtotalUSD) + ')</div></div></div></div>';
+                html += '<div class="ticket-item-card"><div class="ticket-item-top"><span class="ticket-item-title">' + item.nombre + '</span><button class="btn-delete-item" onclick="eliminarItemTicket(\'' + escapeAttr(item.id) + '\')">🗑️</button></div><div class="ticket-item-bottom"><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', -1)">-</button><span style="font-weight: bold; width: 22px; text-align: center; font-size: 13px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', 1)">+</button></div><div class="ticket-subtotal-box"><div class="ticket-subtotal-bs">' + formatearNumero(subtotalBs) + ' Bs.</div><div class="ticket-subtotal-usd">(' + formatearNumero(item.precioBs) + ' c/u | $' + formatearNumero(subtotalUSD) + ')</div></div></div></div>';
             });
 
             contenedor.innerHTML = html;
@@ -1041,7 +1110,7 @@
             const idVenta = Date.now();
             const fechaObj = new Date();
             
-            const fechaIsoStr = fechaObj.toISOString().split('T')[0]; // YYYY-MM-DD
+            const fechaIsoStr = getFechaLocalISO(fechaObj); // YYYY-MM-DD Local
             const fechaLocalStr = fechaObj.toLocaleDateString();
             const horaStr = fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
@@ -1111,29 +1180,130 @@
             renderCierreCaja();
         }
 
+        // MODAL Y LÓGICA DE EDICIÓN COMPLETA DE FACTURA
         function editarVentaRegistrada(idVenta) {
             const venta = ventas.find(v => String(v.id) === String(idVenta));
             if (!venta) return;
 
-            let nuevoTotalStr = prompt("Editar Total en Bs de esta factura (Hora: " + (venta.hora || '') + "):", venta.totalBs);
-            if (nuevoTotalStr === null) return;
+            // Clonamos los datos para no afectar directamente antes de guardar
+            ventaEnEdicion = JSON.parse(JSON.stringify(venta));
+            if (!ventaEnEdicion.items) ventaEnEdicion.items = [];
 
-            let nuevoTotalBs = parsearMonto(nuevoTotalStr);
-            if (isNaN(nuevoTotalBs) || nuevoTotalBs < 0) {
-                alert("Monto inválido.");
+            document.getElementById('edit-venta-id').value = ventaEnEdicion.id;
+            document.getElementById('edit-fecha-iso').value = ventaEnEdicion.fechaIso || getFechaLocalISO();
+            document.getElementById('edit-hora').value = ventaEnEdicion.hora || '';
+            document.getElementById('edit-total-bs').value = formatearNumero(ventaEnEdicion.totalBs || 0);
+
+            renderItemsEditarVenta();
+            document.getElementById('modal-editar-factura').classList.remove('oculto');
+        }
+
+        function renderItemsEditarVenta() {
+            const contenedor = document.getElementById('edit-lista-items');
+            if (!ventaEnEdicion || !ventaEnEdicion.items || ventaEnEdicion.items.length === 0) {
+                contenedor.innerHTML = '<p style="text-align:center; font-size:11px; color:#aaa; padding:8px;">Sin productos en esta factura.</p>';
                 return;
             }
 
-            let diferencia = nuevoTotalBs - venta.totalBs;
-            venta.totalBs = nuevoTotalBs;
-            venta.gananciaBs = (venta.gananciaBs || 0) + diferencia;
+            let html = '';
+            ventaEnEdicion.items.forEach((item, index) => {
+                html += `<div class="edit-item-row">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <input type="text" value="${escapeAttr(item.nombre || '')}" placeholder="Nombre del producto" style="font-size: 12px; padding: 4px; flex:1; margin-right: 6px;" oninput="actualizarItemEditado(${index}, 'nombre', this.value)">
+                        <button type="button" style="background:transparent; border:none; color:#ff5252; cursor:pointer;" onclick="eliminarItemDeFacturaEditada(${index})">🗑️</button>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <div style="flex: 1;">
+                            <label style="font-size:10px; margin:0;">Cant:</label>
+                            <input type="number" value="${item.cantidad || 1}" min="1" style="font-size: 12px; padding: 4px;" oninput="actualizarItemEditado(${index}, 'cantidad', this.value)">
+                        </div>
+                        <div style="flex: 2;">
+                            <label style="font-size:10px; margin:0;">Precio C/U (Bs):</label>
+                            <input type="text" inputmode="decimal" class="input-formato-monto" value="${formatearNumero(item.precioBs || 0)}" style="font-size: 12px; padding: 4px;" oninput="actualizarItemEditado(${index}, 'precioBs', this.value)">
+                        </div>
+                    </div>
+                </div>`;
+            });
+            contenedor.innerHTML = html;
+        }
 
-            db.ref('abasto/ventas/' + venta.id).set(venta, function(error) {
+        function actualizarItemEditado(index, campo, valor) {
+            if (!ventaEnEdicion || !ventaEnEdicion.items[index]) return;
+
+            if (campo === 'nombre') {
+                ventaEnEdicion.items[index].nombre = valor;
+            } else if (campo === 'cantidad') {
+                ventaEnEdicion.items[index].cantidad = parseInt(valor) || 0;
+            } else if (campo === 'precioBs') {
+                ventaEnEdicion.items[index].precioBs = parsearMonto(valor);
+            }
+
+            recalcularTotalFacturaEditada();
+        }
+
+        function agregarItemAFacturaEditada() {
+            if (!ventaEnEdicion) return;
+            ventaEnEdicion.items.push({
+                nombre: 'Nuevo Producto',
+                cantidad: 1,
+                precioBs: 0
+            });
+            renderItemsEditarVenta();
+            recalcularTotalFacturaEditada();
+        }
+
+        function eliminarItemDeFacturaEditada(index) {
+            if (!ventaEnEdicion || !ventaEnEdicion.items) return;
+            ventaEnEdicion.items.splice(index, 1);
+            renderItemsEditarVenta();
+            recalcularTotalFacturaEditada();
+        }
+
+        function recalcularTotalFacturaEditada() {
+            if (!ventaEnEdicion) return;
+            let sumaBs = 0;
+            ventaEnEdicion.items.forEach(item => {
+                sumaBs += (parseFloat(item.precioBs) || 0) * (parseInt(item.cantidad) || 0);
+            });
+            document.getElementById('edit-total-bs').value = formatearNumero(sumaBs);
+        }
+
+        function cerrarModalEditarVenta() {
+            document.getElementById('modal-editar-factura').classList.add('oculto');
+            ventaEnEdicion = null;
+        }
+
+        function guardarEdicionVenta() {
+            if (!ventaEnEdicion) return;
+
+            const nuevaFechaIso = document.getElementById('edit-fecha-iso').value;
+            const nuevaHora = document.getElementById('edit-hora').value;
+            const nuevoTotalBs = parsearMonto(document.getElementById('edit-total-bs').value);
+
+            if (!nuevaFechaIso) {
+                alert("Selecciona una fecha válida.");
+                return;
+            }
+
+            // Formatear fecha local DD/MM/AAAA
+            const partesFecha = nuevaFechaIso.split('-');
+            const fechaFormatoStr = partesFecha.length === 3 ? `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}` : nuevaFechaIso;
+
+            const diferenciaTotal = nuevoTotalBs - (ventaEnEdicion.totalBs || 0);
+
+            ventaEnEdicion.fechaIso = nuevaFechaIso;
+            ventaEnEdicion.fechaFormato = fechaFormatoStr;
+            ventaEnEdicion.hora = nuevaHora;
+            ventaEnEdicion.totalBs = nuevoTotalBs;
+            ventaEnEdicion.gananciaBs = Math.max(0, (ventaEnEdicion.gananciaBs || 0) + diferenciaTotal);
+
+            db.ref('abasto/ventas/' + ventaEnEdicion.id).set(ventaEnEdicion, function(error) {
                 if (!error) {
-                    alert("¡Factura actualizada con éxito para este día!");
+                    alert("¡Factura actualizada con éxito!");
+                    cerrarModalEditarVenta();
                     renderCierreCaja();
                 } else {
-                    alert("Error al actualizar: " + error.message);
+                    alert("Error al guardar cambios: " + error.message);
                 }
             });
         }
@@ -1143,7 +1313,7 @@
 
             const dObj = new Date();
             dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
-            const fechaObjetivoIso = dObj.toISOString().split('T')[0];
+            const fechaObjetivoIso = getFechaLocalISO(dObj);
             const fechaObjetivoLocal = dObj.toLocaleDateString();
 
             let labelDiaTexto = "Hoy (" + fechaObjetivoLocal + ")";
@@ -1194,7 +1364,7 @@
                     htmlFactura += `<div class="factura-item-bloque">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                             <span style="font-size: 11px; font-weight: bold; color: #00bcd4;">🧾 Factura #${index + 1} — Hora: ${horaFactura}</span>
-                            <button style="background: transparent; border: none; color: #00bcd4; font-size: 11px; cursor: pointer; font-weight: bold;" onclick="editarVentaRegistrada(${v.id})">✏️ Editar</button>
+                            <button style="background: transparent; border: none; color: #00bcd4; font-size: 11px; cursor: pointer; font-weight: bold;" onclick="editarVentaRegistrada('${escapeAttr(v.id)}')">✏️ Editar</button>
                         </div>`;
                     
                     if (v.items && Array.isArray(v.items)) {
@@ -1285,7 +1455,7 @@
             const estadoRotado = estadoColapsado ? 'rotado' : '';
 
             Object.keys(categorias).sort().forEach(function(cat) {
-                const catEscapada = cat.replace(/'/g, "\\'");
+                const catEscapada = escapeAttr(cat);
                 let html = '<div class="cat-banner"><div class="cat-title-click" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: #ff5252;" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><table><thead><tr><th>Nombre</th><th>Costo</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
 
                 categorias[cat].sort(function(a, b) { return String(a.nombre).localeCompare(String(b.nombre)); });
@@ -1296,7 +1466,7 @@
                     const stock = p.stock !== undefined ? p.stock : 0;
                     const alertaStockStyle = stock <= 3 ? 'color: #ff5252; font-weight: bold;' : '';
 
-                    html += '<tr><td><input type="text" style="width: 100px;" id="nom-' + p.id + '" value="' + (p.nombre || '') + '"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-' + p.id + '" value="' + formatearNumero(costoBs) + '"></td><td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td><td><input type="number" class="input-inline" style="' + alertaStockStyle + '" id="stk-' + p.id + '" value="' + stock + '"></td><td><button class="btn-guardar" onclick="guardarFila(' + p.id + ')">✓</button><button class="btn-eliminar" onclick="eliminarFila(' + p.id + ')">✕</button></td></tr>';
+                    html += '<tr><td><input type="text" style="width: 100px;" id="nom-' + p.id + '" value="' + escapeAttr(p.nombre || '') + '"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-' + p.id + '" value="' + formatearNumero(costoBs) + '"></td><td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td><td><input type="number" class="input-inline" style="' + alertaStockStyle + '" id="stk-' + p.id + '" value="' + stock + '"></td><td><button class="btn-guardar" onclick="guardarFila(\'' + escapeAttr(p.id) + '\')">✓</button><button class="btn-eliminar" onclick="eliminarFila(\'' + escapeAttr(p.id) + '\')">✕</button></td></tr>';
                 });
 
                 html += '</tbody></table></div></div>';
