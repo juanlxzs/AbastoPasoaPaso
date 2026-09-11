@@ -10,142 +10,186 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; transition: background-color 0.2s, color 0.2s; }
-        body { background-color: #121214; color: #ffffff; padding: 12px; }
-        
-        /* MODO CLARO */
-        body.light-mode { background-color: #f4f4f6; color: #121214; }
-        body.light-mode .header-card,
-        body.light-mode .categoria-section,
-        body.light-mode .carpeta-raiz-box,
-        body.light-mode .pos-box,
-        body.light-mode .caja-card,
-        body.light-mode .panel,
-        body.light-mode table,
-        body.light-mode .modal-recibo-card,
-        body.light-mode .modal-editar-card { background-color: #ffffff; color: #121214; border-color: #e0e0e0; }
-        body.light-mode .search-box,
-        body.light-mode input,
-        body.light-mode .ticket-item-card,
-        body.light-mode .caja-item,
-        body.light-mode .calculadora-vuelto,
-        body.light-mode .totales-pantalla,
-        body.light-mode .ticket-header-stats,
-        body.light-mode .cat-banner,
-        body.light-mode .btn-cat-action { background-color: #f0f0f3; color: #121214; border-color: #d0d0d0; }
-        body.light-mode .prod-nombre,
-        body.light-mode .ticket-item-title,
-        body.light-mode label,
-        body.light-mode th { color: #222; }
-        body.light-mode .factura-dia-box { background-color: #fafafa; border-color: #ccc; }
-        body.light-mode .card-producto { background-color: #f0f0f3; border-color: #d0d0d0; }
-        body.light-mode .card-producto:active { background-color: #e2e2e6; }
-        body.light-mode .ticket-controls { background-color: #e8e8ec; border-color: #ccc; }
-        body.light-mode .btn-qty { background: #ddd; color: #111; }
+        :root {
+            --bg-main: #121214;
+            --bg-card: #1e1e24;
+            --bg-box: #26262e;
+            --bg-input: #1a1a20;
+            --text-main: #ffffff;
+            --text-muted: #a0a0ab;
+            --border-color: #2a2a32;
+            --border-light: #3a3a45;
+            
+            --primary: #e91e63;
+            --primary-hover: #d81b60;
+            --secondary: #00bcd4;
+            --secondary-hover: #00acc1;
+            --warning: #fbc02d;
+            --success: #4caf50;
+            --danger: #ff5252;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
 
+        body.light-mode {
+            --bg-main: #f4f4f6;
+            --bg-card: #ffffff;
+            --bg-box: #f0f0f3;
+            --bg-input: #ffffff;
+            --text-main: #121214;
+            --text-muted: #666670;
+            --border-color: #e0e0e8;
+            --border-light: #d0d0d8;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
+        }
+
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            padding: 12px; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BANNER ESTADO CONEXIÓN */
         .estado-conexion {
             background-color: #2e7d32;
             color: white;
             text-align: center;
-            padding: 5px;
+            padding: 6px 12px;
             font-size: 11px;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-bottom: 10px;
+            font-weight: 700;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
         }
 
+        /* HEADER CARD */
         .header-card {
-            background-color: #1e1e24;
-            border-radius: 12px;
-            padding: 15px;
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 18px 16px;
             text-align: center;
             max-width: 900px;
+            width: 100%;
             margin: 0 auto 15px auto;
-            border: 1px solid #2a2a32;
+            border: 1px solid var(--border-color);
             position: relative;
+            box-shadow: 0 4px 16px var(--shadow-color);
         }
-        .header-card h1 { font-size: 22px; font-weight: bold; margin-bottom: 8px; }
+
+        .header-card h1 { 
+            font-size: 22px; 
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+        }
         
         .btn-modo-claro {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #26262e;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 6px 10px;
-            border-radius: 8px;
+            background: var(--bg-box);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        body.light-mode .btn-modo-claro { background: #e0e0e0; color: #111; border-color: #ccc; }
+        .btn-modo-claro:active { transform: scale(0.95); }
 
         .tasa-badge {
-            background-color: #e91e63;
+            background-color: var(--primary);
             color: white;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 700;
             display: inline-block;
+            box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
         }
 
+        /* NAVEGACIÓN PRINCIPAL */
         .nav-menu {
             display: flex;
             gap: 8px;
             max-width: 900px;
-            margin: 12px auto 0 auto;
+            width: 100%;
+            margin: 14px auto 0 auto;
+            background: var(--bg-box);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
+
         .btn-nav {
             flex: 1;
-            border: 1px solid #333;
-            color: #ccc;
-            background: #26262e;
-            padding: 10px;
-            border-radius: 8px;
+            border: none;
+            color: var(--text-muted);
+            background: transparent;
+            padding: 10px 8px;
+            border-radius: 9px;
             cursor: pointer;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 700;
             text-align: center;
         }
-        body.light-mode .btn-nav { background: #e8e8ec; color: #444; border-color: #ccc; }
         .btn-nav.activo {
-            background: #e91e63;
-            color: #fff;
-            border-color: #e91e63;
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
         }
 
-        .search-container { max-width: 900px; margin: 0 auto 10px auto; }
+        /* BUSCADOR GENERAL */
+        .search-container { max-width: 900px; width: 100%; margin: 0 auto 12px auto; }
         .search-box {
             width: 100%;
-            background-color: #26262e;
-            border: 1px solid #3a3a45;
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: #fff;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 12px 14px;
+            border-radius: 10px;
+            color: var(--text-main);
             font-size: 14px;
             outline: none;
+            box-shadow: 0 2px 6px var(--shadow-color);
         }
-        .search-box:focus { border-color: #00bcd4; }
+        .search-box:focus { border-color: var(--secondary); }
 
-        /* CATEGORÍAS & ESTRUCTURA DE CARPETAS NIDO */
+        /* CATEGORÍAS & ESTRUCTURA DE ACORDEÓN */
         .categoria-section {
             max-width: 900px;
-            margin: 0 auto 8px auto;
-            background-color: #1e1e24;
-            border-radius: 10px;
-            padding: 10px 12px;
-            border: 1px solid #2a2a32;
+            width: 100%;
+            margin: 0 auto 10px auto;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
         }
         .categoria-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #e91e63;
-            font-weight: bold;
+            color: var(--primary);
+            font-weight: 700;
             font-size: 15px;
             padding-left: 8px;
-            border-left: 4px solid #e91e63;
+            border-left: 4px solid var(--primary);
             cursor: pointer;
             user-select: none;
         }
@@ -163,80 +207,100 @@
             display: inline-block;
             transition: transform 0.3s ease;
             font-size: 11px;
-            margin-right: 6px;
-            color: #fbc02d;
+            margin-right: 4px;
+            color: var(--warning);
         }
         .flecha-icon.rotado { transform: rotate(-90deg); }
 
-        /* CONTENEDOR RAÍZ "PRODUCTOS" EN CAJA */
+        /* CARPETA RAÍZ PRODUCTOS EN CAJA */
         .carpeta-raiz-box {
-            background-color: #18181c;
-            border: 1px solid #3a3a45;
-            border-radius: 10px;
+            background-color: var(--bg-box);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
             margin-bottom: 12px;
             overflow: hidden;
         }
-        body.light-mode .carpeta-raiz-box { background-color: #eaeaee; }
         .carpeta-raiz-header {
-            background-color: #26262e;
+            background-color: var(--bg-card);
             padding: 12px 15px;
-            font-weight: bold;
-            font-size: 16px;
-            color: #00bcd4;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             user-select: none;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--border-color);
         }
-        body.light-mode .carpeta-raiz-header { background-color: #dedee2; }
 
         /* TARJETAS DE PRODUCTOS */
-        .grid-productos { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+        .grid-productos { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .card-producto {
-            background-color: #26262e;
-            border-radius: 8px;
-            padding: 8px 12px;
-            border: 1px solid #333;
+            background-color: var(--bg-box);
+            border-radius: 10px;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             width: 100%;
             cursor: pointer;
             user-select: none;
         }
-        .card-producto:active { background-color: #33333f; }
+        .card-producto:active { transform: scale(0.99); background-color: var(--border-light); }
 
         .prod-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .prod-nombre { font-size: 13px; font-weight: bold; color: #ffffff; line-height: 1.2; }
+        .prod-nombre { font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.2; }
         
-        .prod-stock { color: #4caf50; font-size: 11px; background-color: #1b5e20; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-        .prod-stock.stock-bajo { color: #ffffff; background-color: #d32f2f; }
+        .prod-stock { 
+            color: #ffffff; 
+            font-size: 11px; 
+            background-color: #1b5e20; 
+            padding: 3px 8px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+        }
+        .prod-stock.stock-bajo { color: #ffffff; background-color: var(--danger); }
 
-        .precio-bs { color: #fbc02d; font-size: 14px; font-weight: bold; }
-        .precio-ref { color: #aaa; font-size: 12px; font-weight: bold; }
+        .precio-bs { color: var(--warning); font-size: 15px; font-weight: 800; }
+        .precio-ref { color: var(--text-muted); font-size: 12px; font-weight: 600; }
 
         /* PUNTO DE VENTA Y TICKET */
-        .pos-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .pos-box { background-color: #1e1e24; border-radius: 12px; padding: 15px; border: 1px solid #2a2a32; }
-        .pos-titulo { font-size: 16px; font-weight: bold; color: #00bcd4; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .pos-container { max-width: 900px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+        .pos-box { 
+            background-color: var(--bg-card); 
+            border-radius: 16px; 
+            padding: 18px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+        .pos-titulo { 
+            font-size: 16px; 
+            font-weight: 800; 
+            color: var(--secondary); 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
 
         .ticket-header-stats {
-            background-color: #26262e;
-            padding: 8px 12px;
-            border-radius: 6px;
+            background-color: var(--bg-box);
+            padding: 10px 14px;
+            border-radius: 8px;
             font-size: 12px;
-            color: #aaa;
-            margin-bottom: 10px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
+            font-weight: 600;
         }
 
         .ticket-item-card {
-            background-color: #26262e;
-            border: 1px solid #333;
-            border-radius: 8px;
+            background-color: var(--bg-box);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             padding: 10px 12px;
             margin-bottom: 8px;
             display: flex;
@@ -244,182 +308,226 @@
             gap: 6px;
         }
         .ticket-item-top { display: flex; justify-content: space-between; align-items: center; }
-        .ticket-item-title { font-weight: bold; font-size: 14px; color: #fff; }
-        .btn-delete-item { background: transparent; border: none; color: #ff5252; font-size: 16px; cursor: pointer; padding: 0 4px; }
+        .ticket-item-title { font-weight: 700; font-size: 14px; color: var(--text-main); }
+        .btn-delete-item { background: transparent; border: none; color: var(--danger); font-size: 16px; cursor: pointer; padding: 2px 6px; }
         
         .ticket-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
-        .ticket-controls { display: flex; align-items: center; gap: 6px; background-color: #1a1a20; padding: 3px 6px; border-radius: 6px; border: 1px solid #3a3a45; }
-        .btn-qty { background: #333; border: none; color: #fff; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-qty:active { background: #00bcd4; color: #000; }
+        .ticket-controls { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            background-color: var(--bg-input); 
+            padding: 4px 8px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-light); 
+        }
+        .btn-qty { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-light); 
+            color: var(--text-main); 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 6px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            font-size: 14px;
+        }
+        .btn-qty:active { background: var(--secondary); color: #000; }
+        
         .ticket-subtotal-box { text-align: right; }
-        .ticket-subtotal-bs { font-size: 14px; font-weight: bold; color: #fbc02d; }
-        .ticket-subtotal-usd { font-size: 11px; color: #888; font-weight: bold; }
+        .ticket-subtotal-bs { font-size: 14px; font-weight: 800; color: var(--warning); }
+        .ticket-subtotal-usd { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 
         .totales-pantalla {
-            background-color: #121214;
-            border-radius: 10px;
-            padding: 14px;
-            margin-top: 12px;
-            border: 1px solid #333;
+            background-color: var(--bg-main);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 14px;
+            border: 1px solid var(--border-light);
             text-align: right;
         }
-        body.light-mode .totales-pantalla { background-color: #e4e4e8; }
-        .monto-gran-total { font-size: 26px; font-weight: bold; color: #fbc02d; }
-        .monto-gran-usd { font-size: 17px; color: #aaa; font-weight: bold; }
+        .monto-gran-total { font-size: 28px; font-weight: 900; color: var(--warning); letter-spacing: -0.5px; }
+        .monto-gran-usd { font-size: 17px; color: var(--text-muted); font-weight: 700; }
 
         .calculadora-vuelto {
-            background-color: #26262e;
-            padding: 14px;
-            border-radius: 10px;
-            margin-top: 12px;
-            border: 1px solid #333;
+            background-color: var(--bg-box);
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 14px;
+            border: 1px solid var(--border-color);
         }
         .row-pago { display: flex; gap: 10px; margin-top: 8px; }
         .row-pago div { flex: 1; }
 
         .btn-cobrar {
-            background-color: #2e7d32;
+            background-color: var(--success);
             color: white;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 800;
             border: none;
             padding: 14px;
             width: 100%;
-            border-radius: 8px;
-            margin-top: 12px;
+            border-radius: 10px;
+            margin-top: 14px;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
         }
-        .btn-cobrar:active { opacity: 0.8; }
+        .btn-cobrar:active { opacity: 0.85; transform: scale(0.99); }
 
-        /* CIERRE DE CAJA & NAVEGADOR DE FACTURAS POR DÍA */
-        .caja-card { background-color: #1e1e24; border-radius: 10px; padding: 15px; border: 1px solid #2a2a32; }
-        .caja-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; text-align: center; }
-        .caja-item { background-color: #26262e; padding: 10px 6px; border-radius: 8px; }
+        /* CIERRE DE CAJA & HISTORIAL POR DÍAS */
+        .caja-card { 
+            background-color: var(--bg-card); 
+            border-radius: 16px; 
+            padding: 18px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+        .caja-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; text-align: center; }
+        .caja-item { 
+            background-color: var(--bg-box); 
+            padding: 12px 8px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border-color);
+        }
 
         .navegador-dias {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #26262e;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            border: 1px solid #3a3a45;
+            background-color: var(--bg-box);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 14px;
+            border: 1px solid var(--border-light);
         }
-        .btn-dia { background: #333; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
-        body.light-mode .btn-dia { background: #ddd; color: #222; }
-        .btn-dia:active { background: #00bcd4; color: #000; }
-        .label-dia-actual { font-size: 13px; font-weight: bold; color: #00bcd4; text-align: center; }
+        .btn-dia { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-light); 
+            color: var(--text-main); 
+            padding: 8px 12px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 12px; 
+        }
+        .btn-dia:active { background: var(--secondary); color: #000; }
+        .label-dia-actual { font-size: 13px; font-weight: 800; color: var(--secondary); text-align: center; }
 
         .factura-dia-box {
-            background-color: #18181c;
-            border: 1px dashed #444;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 10px;
+            background-color: var(--bg-main);
+            border: 1px dashed var(--border-light);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 12px;
             font-family: 'Courier New', Courier, monospace;
-            max-height: 250px;
+            max-height: 260px;
             overflow-y: auto;
         }
         .factura-dia-header {
             text-align: center;
-            border-bottom: 1px dashed #555;
-            padding-bottom: 6px;
-            margin-bottom: 8px;
+            border-bottom: 1px dashed var(--border-light);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
         }
         .factura-item-bloque {
-            border-bottom: 1px dotted #333;
-            padding-bottom: 6px;
-            margin-bottom: 6px;
+            border-bottom: 1px dotted var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
-        .factura-linea { display: flex; justify-content: space-between; font-size: 12px; color: #ddd; margin-bottom: 2px; }
-        body.light-mode .factura-linea { color: #333; }
+        .factura-linea { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-main); margin-bottom: 3px; }
 
         /* MODALES */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85);
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            padding: 15px;
+            padding: 16px;
         }
-        .modal-recibo-card {
-            background-color: #1e1e24;
-            border-radius: 12px;
-            padding: 20px;
+        .modal-recibo-card, .modal-editar-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 22px;
             width: 100%;
-            max-width: 400px;
-            border: 1px solid #00bcd4;
-            box-shadow: 0 0 20px rgba(0,188,212,0.2);
+            max-width: 440px;
+            border: 1px solid var(--secondary);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.25);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
-
-        .modal-editar-card {
-            background-color: #1e1e24;
-            border-radius: 12px;
-            padding: 18px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid #00bcd4;
-            box-shadow: 0 0 25px rgba(0,188,212,0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .modal-editar-card { max-width: 520px; max-height: 90vh; overflow-y: auto; }
 
         .edit-item-row {
-            background-color: #26262e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 6px;
+            background-color: var(--bg-box);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .recibo-linea { display: flex; justify-content: space-between; font-size: 13px; color: #ccc; border-bottom: 1px dashed #333; padding-bottom: 4px; }
+        .recibo-linea { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); border-bottom: 1px dashed var(--border-color); padding-bottom: 5px; }
 
         /* ADMIN */
-        .titulo-admin { text-align: center; font-size: 20px; color: #e91e63; margin-bottom: 15px; }
-        .row-paneles { display: flex; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px auto; }
-        .panel { background-color: #1e1e24; border-radius: 10px; padding: 18px; flex: 1; min-width: 280px; border: 1px solid #2a2a32; }
-        .panel-titulo { font-size: 16px; font-weight: bold; color: #e91e63; margin-bottom: 12px; }
-        label { font-size: 13px; color: #ccc; display: block; margin-top: 10px; margin-bottom: 4px; }
-        input { width: 100%; background-color: #26262e; border: 1px solid #444; padding: 10px; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
-
-        .btn-cyan { background-color: #00bcd4; color: #000; font-weight: bold; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; }
-        .btn-orange { background-color: #ff9800; color: #000; font-weight: bold; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 15px; cursor: pointer; }
-
-        .seccion-inventario { max-width: 900px; margin: 0 auto; overflow-x: auto; }
-        .cat-banner { 
-            background-color: #1e1e24; 
+        .titulo-admin { text-align: center; font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+        .row-paneles { display: flex; flex-wrap: wrap; gap: 14px; max-width: 900px; width: 100%; margin: 0 auto 20px auto; }
+        .panel { 
+            background-color: var(--bg-card); 
+            border-radius: 14px; 
+            padding: 18px; 
+            flex: 1; 
+            min-width: 280px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+        .panel-titulo { font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        
+        label { font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input { 
+            width: 100%; 
+            background-color: var(--bg-input); 
+            border: 1px solid var(--border-light); 
             padding: 10px 12px; 
-            border-radius: 6px; 
-            color: #fbc02d; 
-            font-weight: bold; 
+            border-radius: 8px; 
+            color: var(--text-main); 
+            font-size: 14px; 
+            outline: none; 
+        }
+        input:focus { border-color: var(--secondary); }
+
+        .btn-cyan { background-color: var(--secondary); color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 14px; cursor: pointer; }
+        .btn-orange { background-color: #ff9800; color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 14px; cursor: pointer; }
+
+        .seccion-inventario { max-width: 900px; width: 100%; margin: 0 auto; overflow-x: auto; }
+        .cat-banner { 
+            background-color: var(--bg-card); 
+            padding: 12px 14px; 
+            border-radius: 10px; 
+            color: var(--warning); 
+            font-weight: 800; 
             margin-top: 12px; 
             font-size: 15px; 
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid var(--border-color);
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; background-color: #1e1e24; font-size: 13px; min-width: 500px; }
-        th { text-align: left; padding: 10px; color: #aaa; border-bottom: 1px solid #333; }
-        td { padding: 8px 10px; border-bottom: 1px solid #2a2a32; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; background-color: var(--bg-card); font-size: 13px; min-width: 500px; border-radius: 10px; overflow: hidden; }
+        th { text-align: left; padding: 12px 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); font-weight: 700; }
+        td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); }
         
         .input-inline { width: 85px; padding: 6px; display: inline-block; }
-        .btn-guardar { background-color: #00bcd4; color: black; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-eliminar { background-color: #e91e63; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-cat-action { background-color: #2a2a32; border: 1px solid #444; color: #fff; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; margin-left: 4px; }
+        .btn-guardar { background-color: var(--secondary); color: black; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 800; }
+        .btn-eliminar { background-color: var(--primary); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 800; }
+        .btn-cat-action { background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; margin-left: 4px; }
 
         .oculto { display: none !important; }
     </style>
@@ -453,7 +561,7 @@
             <div class="pos-box">
                 <div class="pos-titulo">
                     <span>🧾 Ticket de Compra</span>
-                    <button style="background: transparent; color: #e91e63; border: none; font-size: 12px; cursor: pointer; font-weight: bold;" onclick="vaciarTicket()">Vaciar Ticket</button>
+                    <button style="background: transparent; color: var(--primary); border: none; font-size: 12px; cursor: pointer; font-weight: bold;" onclick="vaciarTicket()">Vaciar Ticket</button>
                 </div>
 
                 <div class="ticket-header-stats">
@@ -476,17 +584,17 @@
                 </div>
 
                 <div id="pos-lista-items">
-                    <p style="text-align: center; color: #777; font-size: 13px; padding: 10px;">Selecciona productos de la carpeta de arriba para armar la venta.</p>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 12px;">Selecciona productos de la carpeta de arriba para armar la venta.</p>
                 </div>
 
                 <div class="totales-pantalla">
-                    <div style="font-size: 12px; color: #aaa;">Total a Pagar:</div>
+                    <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total a Pagar:</div>
                     <div class="monto-gran-total" id="pos-total-bs">0,00 Bs.</div>
                     <div class="monto-gran-usd" id="pos-total-usd">$0,00</div>
                 </div>
 
                 <div class="calculadora-vuelto">
-                    <div style="font-size: 13px; font-weight: bold; color: #00bcd4;">💵 Calculadora de Vuelto</div>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Calculadora de Vuelto</div>
                     <div class="row-pago">
                         <div>
                             <label style="margin-top: 4px;">Paga con USD ($):</label>
@@ -497,36 +605,36 @@
                             <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-bs" placeholder="0,00" oninput="calcularVuelto()">
                         </div>
                     </div>
-                    <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 13px; font-weight: bold;">Vuelto a entregar:</span>
-                        <span style="font-size: 18px; font-weight: bold; color: #4caf50;" id="pos-vuelto">0,00 Bs.</span>
+                    <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 700;">Vuelto a entregar:</span>
+                        <span style="font-size: 18px; font-weight: 800; color: var(--success);" id="pos-vuelto">0,00 Bs.</span>
                     </div>
                 </div>
 
                 <button class="btn-cobrar" onclick="procesarVenta()">✓ Procesar y Cobrar Venta</button>
-                <button class="btn" style="background-color: #ff9800; color: #000; margin-top: 8px; width: 100%; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 14px;" onclick="guardarBorradorManual()">💾 Guardar / Actualizar Borrador de Factura</button>
+                <button class="btn" style="background-color: #ff9800; color: #000; margin-top: 10px; width: 100%; font-weight: 800; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 14px;" onclick="guardarBorradorManual()">💾 Guardar / Actualizar Borrador de Factura</button>
             </div>
 
             <div class="caja-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; font-size: 15px; color: #4caf50;">📊 Cierre de Caja del Día</span>
-                    <button style="background: #333; color: #ff5252; border: 1px solid #555; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold;" onclick="reiniciarCaja()">Reiniciar Caja</button>
+                    <span style="font-weight: 800; font-size: 15px; color: var(--success);">📊 Cierre de Caja del Día</span>
+                    <button style="background: var(--bg-box); color: var(--danger); border: 1px solid var(--border-light); padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 700;" onclick="reiniciarCaja()">Reiniciar Caja</button>
                 </div>
                 
                 <div class="caja-grid">
                     <div class="caja-item">
-                        <div style="font-size: 11px; color: #aaa;">Vendido</div>
-                        <div style="font-weight: bold; color: #fbc02d; font-size: 13px;" id="caja-total-bs">0,00 Bs.</div>
-                        <div style="font-size: 10px; color: #888;" id="caja-total-usd">$0,00</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Vendido</div>
+                        <div style="font-weight: 800; color: var(--warning); font-size: 13px;" id="caja-total-bs">0,00 Bs.</div>
+                        <div style="font-size: 10px; color: var(--text-muted);" id="caja-total-usd">$0,00</div>
                     </div>
                     <div class="caja-item">
-                        <div style="font-size: 11px; color: #aaa;">Ganancia</div>
-                        <div style="font-weight: bold; color: #4caf50; font-size: 13px;" id="caja-ganancia-bs">0,00 Bs.</div>
-                        <div style="font-size: 10px; color: #888;" id="caja-ganancia-usd">$0,00</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Ganancia</div>
+                        <div style="font-weight: 800; color: var(--success); font-size: 13px;" id="caja-ganancia-bs">0,00 Bs.</div>
+                        <div style="font-size: 10px; color: var(--text-muted);" id="caja-ganancia-usd">$0,00</div>
                     </div>
                     <div class="caja-item">
-                        <div style="font-size: 11px; color: #aaa;">Ventas / Unds</div>
-                        <div style="font-weight: bold; color: #00bcd4; font-size: 13px;" id="caja-num-ventas">0 / 0 und</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Ventas / Unds</div>
+                        <div style="font-weight: 800; color: var(--secondary); font-size: 13px;" id="caja-num-ventas">0 / 0 und</div>
                     </div>
                 </div>
 
@@ -534,24 +642,24 @@
                     <button class="btn-dia" onclick="cambiarDiaOffset(-1)">◀ Día Ant.</button>
                     <div style="text-align: center;">
                         <div class="label-dia-actual" id="label-dia-seleccionado">Hoy</div>
-                        <button style="background:transparent; border:none; color:#e91e63; font-size:10px; cursor:pointer; font-weight:bold;" onclick="irAlDiaHoy()">Ir a Hoy</button>
+                        <button style="background:transparent; border:none; color:var(--primary); font-size:10px; cursor:pointer; font-weight:bold;" onclick="irAlDiaHoy()">Ir a Hoy</button>
                     </div>
                     <button class="btn-dia" onclick="cambiarDiaOffset(1)">Día Sig. ▶</button>
                 </div>
 
                 <div class="factura-dia-box">
                     <div class="factura-dia-header">
-                        <div style="font-size: 13px; font-weight: bold; color: #fbc02d;" id="titulo-facturas-fecha">🧾 FACTURAS DEL DÍA</div>
-                        <div style="font-size: 11px; color: #aaa;" id="factura-dia-fecha">--/--/----</div>
+                        <div style="font-size: 13px; font-weight: 800; color: var(--warning);" id="titulo-facturas-fecha">🧾 FACTURAS DEL DÍA</div>
+                        <div style="font-size: 11px; color: var(--text-muted);" id="factura-dia-fecha">--/--/----</div>
                     </div>
                     
                     <div id="factura-dia-desglose">
-                        <div style="text-align: center; color: #666; font-size: 11px; padding: 6px;">Sin transacciones en esta fecha.</div>
+                        <div style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 6px;">Sin transacciones en esta fecha.</div>
                     </div>
 
-                    <div style="border-top: 1px dashed #555; margin-top: 8px; padding-top: 6px;">
-                        <div class="factura-linea"><span style="font-weight: bold;">TOTAL UNIDADES DÍA:</span><strong style="color: #00bcd4;" id="factura-dia-unds">0 unds</strong></div>
-                        <div class="factura-linea"><span style="font-weight: bold;">TOTAL VENDIDO DÍA:</span><strong style="color: #fbc02d;" id="factura-dia-total">0,00 Bs.</strong></div>
+                    <div style="border-top: 1px dashed var(--border-light); margin-top: 8px; padding-top: 8px;">
+                        <div class="factura-linea"><span style="font-weight: 700;">TOTAL UNIDADES DÍA:</span><strong style="color: var(--secondary);" id="factura-dia-unds">0 unds</strong></div>
+                        <div class="factura-linea"><span style="font-weight: 700;">TOTAL VENDIDO DÍA:</span><strong style="color: var(--warning);" id="factura-dia-total">0,00 Bs.</strong></div>
                     </div>
                 </div>
             </div>
@@ -561,14 +669,14 @@
 
     <div id="modal-recibo" class="modal-overlay oculto">
         <div class="modal-recibo-card">
-            <h2 style="text-align: center; color: #4caf50; font-size: 18px;">✅ ¡Venta Registrada!</h2>
-            <div style="text-align: center; font-size: 12px; color: #aaa;" id="recibo-fecha-hora">--/--/---- --:--</div>
+            <h2 style="text-align: center; color: var(--success); font-size: 18px; font-weight: 800;">✅ ¡Venta Registrada!</h2>
+            <div style="text-align: center; font-size: 12px; color: var(--text-muted);" id="recibo-fecha-hora">--/--/---- --:--</div>
             
             <div style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin: 10px 0;" id="recibo-desglose"></div>
 
-            <div style="background: #121214; padding: 10px; border-radius: 8px;">
-                <div class="recibo-linea"><span>Total Cobrado:</span><strong style="color: #fbc02d;" id="recibo-total">0,00 Bs.</strong></div>
-                <div class="recibo-linea" style="margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: #4caf50;" id="recibo-vuelto">0,00 Bs.</strong></div>
+            <div style="background: var(--bg-main); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+                <div class="recibo-linea"><span>Total Cobrado:</span><strong style="color: var(--warning);" id="recibo-total">0,00 Bs.</strong></div>
+                <div class="recibo-linea" style="margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: var(--success);" id="recibo-vuelto">0,00 Bs.</strong></div>
             </div>
 
             <button class="btn-cyan" style="margin-top: 5px;" onclick="cerrarModalRecibo()">Nueva Venta</button>
@@ -577,7 +685,7 @@
 
     <div id="modal-editar-factura" class="modal-overlay oculto">
         <div class="modal-editar-card">
-            <h2 style="text-align: center; color: #00bcd4; font-size: 17px;">✏️ Editar Factura Registrada</h2>
+            <h2 style="text-align: center; color: var(--secondary); font-size: 17px; font-weight: 800;">✏️ Editar Factura Registrada</h2>
             <input type="hidden" id="edit-venta-id">
 
             <div style="display: flex; gap: 10px;">
@@ -592,20 +700,20 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
-                <span style="font-weight: bold; font-size: 13px; color: #fbc02d;">📦 Productos en Factura:</span>
-                <button type="button" style="background: #2e7d32; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;" onclick="agregarItemAFacturaEditada()">+ Agregar Producto</button>
+                <span style="font-weight: 800; font-size: 13px; color: var(--warning);">📦 Productos en Factura:</span>
+                <button type="button" style="background: var(--success); color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="agregarItemAFacturaEditada()">+ Agregar Producto</button>
             </div>
 
             <div id="edit-lista-items" style="max-height: 200px; overflow-y: auto; margin-top: 4px;"></div>
 
             <div>
                 <label>Total de Factura (Bs):</label>
-                <input type="text" inputmode="decimal" class="input-formato-monto" id="edit-total-bs" style="font-size: 16px; font-weight: bold; color: #fbc02d;">
+                <input type="text" inputmode="decimal" class="input-formato-monto" id="edit-total-bs" style="font-size: 16px; font-weight: 800; color: var(--warning);">
             </div>
 
-            <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button class="btn-cyan" style="flex: 1; margin-top:0;" onclick="guardarEdicionVenta()">💾 Guardar Cambios</button>
-                <button style="flex: 1; background-color: #555; color: #fff; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer;" onclick="cerrarModalEditarVenta()">Cancelar</button>
+                <button style="flex: 1; background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); font-weight: 700; padding: 12px; border-radius: 8px; cursor: pointer;" onclick="cerrarModalEditarVenta()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -616,42 +724,43 @@
         <div class="row-paneles">
             <div class="panel">
                 <div class="panel-titulo">1. Cambio del Dólar</div>
-                <p style="font-size: 14px;">Tasa actual: <strong style="color: #4caf50;" id="tasa-actual">0,00 Bs.</strong></p>
-                <p style="font-size: 11px; color: #888; margin-top: 4px;" id="tasa-fecha">Modificado: -</p>
+                <p style="font-size: 14px;">Tasa actual: <strong style="color: var(--success);" id="tasa-actual">0,00 Bs.</strong></p>
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;" id="tasa-fecha">Modificado: -</p>
 
                 <label>Nueva Tasa del Dólar (Bs):</label>
-                <input type="text" inputmode="decimal" class="input-formato-monto" id="input-tasa" placeholder="Ej: 1.000,00">
+                <input type="text" inputmode="decimal" class="input-formato-monto" id="input-tasa" placeholder="0,00">
                 <button class="btn-cyan" onclick="actualizarTasa()">Actualizar Tasa en Todos los Equipos</button>
             </div>
 
             <div class="panel">
                 <div class="panel-titulo">2. Agregar Producto</div>
                 <label>Nombre:</label>
-                <input type="text" id="p-nombre" placeholder="Ej: Harina Pan">
+                <input type="text" id="p-nombre" placeholder="escriba el nombre del producto">
 
                 <label>Categoría:</label>
-                <input type="text" id="p-categoria" placeholder="Ej: Viveres">
+                <input type="text" id="p-categoria" list="lista-categorias-sugeridas" placeholder="escriba la categoría">
+                <datalist id="lista-categorias-sugeridas"></datalist>
 
                 <div style="display: flex; gap: 10px;">
                     <div style="flex:1;">
                         <label>Costo (Bs):</label>
-                        <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo" placeholder="Ej: 4.568,50">
+                        <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo" placeholder="0,00">
                     </div>
                     <div style="flex:1;">
                         <label>Ganancia (%):</label>
-                        <input type="number" step="0.1" id="p-ganancia" placeholder="15">
+                        <input type="number" step="0.1" id="p-ganancia" placeholder="0">
                     </div>
                 </div>
 
                 <label>Stock:</label>
-                <input type="number" id="p-stock" placeholder="8">
+                <input type="number" id="p-stock" placeholder="0">
 
                 <button class="btn-orange" onclick="registrarProducto()">Guardar Producto en la Nube</button>
             </div>
         </div>
 
         <div class="seccion-inventario">
-            <h2 style="text-align: center; font-size: 16px; margin-bottom: 12px;">Inventario Registrado</h2>
+            <h2 style="text-align: center; font-size: 16px; margin-bottom: 12px; font-weight: 800;">Inventario Registrado</h2>
             
             <div class="search-container" style="margin-bottom: 15px;">
                 <input type="text" class="search-box" id="input-search-admin" placeholder="🔍 Buscar producto o carpeta en inventario...">
@@ -819,6 +928,22 @@
             renderCierreCaja();
         });
 
+        function actualizarSugerenciasCategorias() {
+            const datalist = document.getElementById('lista-categorias-sugeridas');
+            if (!datalist) return;
+            const categoriasSet = new Set();
+            productos.forEach(function(p) {
+                if (p && p.categoria && String(p.categoria).trim() !== '') {
+                    categoriasSet.add(String(p.categoria).trim());
+                }
+            });
+            let html = '';
+            Array.from(categoriasSet).sort().forEach(function(cat) {
+                html += '<option value="' + escapeAttr(cat) + '">';
+            });
+            datalist.innerHTML = html;
+        }
+
         function cambiarVista(vista) {
             document.getElementById('vista-catalogo').classList.add('oculto');
             document.getElementById('vista-pos').classList.add('oculto');
@@ -850,6 +975,8 @@
             const tasaNum = parsearMonto(config.tasaDolar) || 1;
             document.getElementById('bodega-nombre').textContent = config.nombreBodega || "Abasto Paso a Paso";
             document.getElementById('bodega-tasa').textContent = formatearNumero(tasaNum);
+
+            actualizarSugerenciasCategorias();
 
             if (!document.getElementById('vista-catalogo').classList.contains('oculto')) {
                 cargarCatalogo();
@@ -939,7 +1066,7 @@
 
             const listaCats = Object.keys(categorias);
             if (listaCats.length === 0) {
-                contenedor.innerHTML = '<p style="text-align: center; color: #777; font-size: 12px; padding: 10px;">No se encontraron productos.</p>';
+                contenedor.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px;">No se encontraron productos.</p>';
                 return;
             }
 
@@ -1041,11 +1168,10 @@
             document.getElementById('ticket-cant-articulos').textContent = cantArticulos + (cantArticulos === 1 ? ' producto' : ' productos');
             document.getElementById('ticket-cant-unidades').textContent = cantUnidades + ' unds';
 
-            // Autoguardar cada vez que se renderiza el ticket modificado
             guardarBorradorTicket();
 
             if (ticketActual.length === 0) {
-                contenedor.innerHTML = '<p style="text-align: center; color: #777; font-size: 13px; padding: 10px;">Selecciona productos de la carpeta de arriba para armar la venta.</p>';
+                contenedor.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 12px;">Selecciona productos de la carpeta de arriba para armar la venta.</p>';
                 document.getElementById('pos-total-bs').textContent = '0,00 Bs.';
                 document.getElementById('pos-total-usd').textContent = '$0,00';
                 calcularVuelto();
@@ -1060,7 +1186,7 @@
                 const subtotalUSD = subtotalBs / tasa;
                 totalBs += subtotalBs;
 
-                html += '<div class="ticket-item-card"><div class="ticket-item-top"><span class="ticket-item-title">' + item.nombre + '</span><button class="btn-delete-item" onclick="eliminarItemTicket(\'' + escapeAttr(item.id) + '\')">🗑️</button></div><div class="ticket-item-bottom"><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', -1)">-</button><span style="font-weight: bold; width: 22px; text-align: center; font-size: 13px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', 1)">+</button></div><div class="ticket-subtotal-box"><div class="ticket-subtotal-bs">' + formatearNumero(subtotalBs) + ' Bs.</div><div class="ticket-subtotal-usd">(' + formatearNumero(item.precioBs) + ' c/u | $' + formatearNumero(subtotalUSD) + ')</div></div></div></div>';
+                html += '<div class="ticket-item-card"><div class="ticket-item-top"><span class="ticket-item-title">' + item.nombre + '</span><button class="btn-delete-item" onclick="eliminarItemTicket(\'' + escapeAttr(item.id) + '\')">🗑️</button></div><div class="ticket-item-bottom"><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', -1)">-</button><span style="font-weight: 800; width: 22px; text-align: center; font-size: 13px;">' + item.cantidad + '</span><button class="btn-qty" onclick="cambiarCantidadTicket(\'' + escapeAttr(item.id) + '\', 1)">+</button></div><div class="ticket-subtotal-box"><div class="ticket-subtotal-bs">' + formatearNumero(subtotalBs) + ' Bs.</div><div class="ticket-subtotal-usd">(' + formatearNumero(item.precioBs) + ' c/u | $' + formatearNumero(subtotalUSD) + ')</div></div></div></div>';
             });
 
             contenedor.innerHTML = html;
@@ -1083,10 +1209,10 @@
             const elVuelto = document.getElementById('pos-vuelto');
             if (vueltoBs >= 0) {
                 elVuelto.textContent = formatearNumero(vueltoBs) + ' Bs.';
-                elVuelto.style.color = '#4caf50';
+                elVuelto.style.color = 'var(--success)';
             } else {
                 elVuelto.textContent = 'Faltan ' + formatearNumero(Math.abs(vueltoBs)) + ' Bs.';
-                elVuelto.style.color = '#e91e63';
+                elVuelto.style.color = 'var(--primary)';
             }
         }
 
@@ -1110,7 +1236,7 @@
             const idVenta = Date.now();
             const fechaObj = new Date();
             
-            const fechaIsoStr = getFechaLocalISO(fechaObj); // YYYY-MM-DD Local
+            const fechaIsoStr = getFechaLocalISO(fechaObj);
             const fechaLocalStr = fechaObj.toLocaleDateString();
             const horaStr = fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
@@ -1169,7 +1295,6 @@
             document.getElementById('modal-recibo').classList.add('oculto');
         }
 
-        // CONTROL DE NAVEGACIÓN HISTÓRICA POR DÍAS
         function cambiarDiaOffset(delta) {
             diasOffsetSeleccionado += delta;
             renderCierreCaja();
@@ -1180,12 +1305,10 @@
             renderCierreCaja();
         }
 
-        // MODAL Y LÓGICA DE EDICIÓN COMPLETA DE FACTURA
         function editarVentaRegistrada(idVenta) {
             const venta = ventas.find(v => String(v.id) === String(idVenta));
             if (!venta) return;
 
-            // Clonamos los datos para no afectar directamente antes de guardar
             ventaEnEdicion = JSON.parse(JSON.stringify(venta));
             if (!ventaEnEdicion.items) ventaEnEdicion.items = [];
 
@@ -1201,7 +1324,7 @@
         function renderItemsEditarVenta() {
             const contenedor = document.getElementById('edit-lista-items');
             if (!ventaEnEdicion || !ventaEnEdicion.items || ventaEnEdicion.items.length === 0) {
-                contenedor.innerHTML = '<p style="text-align:center; font-size:11px; color:#aaa; padding:8px;">Sin productos en esta factura.</p>';
+                contenedor.innerHTML = '<p style="text-align:center; font-size:11px; color:var(--text-muted); padding:8px;">Sin productos en esta factura.</p>';
                 return;
             }
 
@@ -1209,17 +1332,17 @@
             ventaEnEdicion.items.forEach((item, index) => {
                 html += `<div class="edit-item-row">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <input type="text" value="${escapeAttr(item.nombre || '')}" placeholder="Nombre del producto" style="font-size: 12px; padding: 4px; flex:1; margin-right: 6px;" oninput="actualizarItemEditado(${index}, 'nombre', this.value)">
-                        <button type="button" style="background:transparent; border:none; color:#ff5252; cursor:pointer;" onclick="eliminarItemDeFacturaEditada(${index})">🗑️</button>
+                        <input type="text" value="${escapeAttr(item.nombre || '')}" placeholder="escriba el nombre del producto" style="font-size: 12px; padding: 6px; flex:1; margin-right: 6px;" oninput="actualizarItemEditado(${index}, 'nombre', this.value)">
+                        <button type="button" style="background:transparent; border:none; color:var(--danger); cursor:pointer;" onclick="eliminarItemDeFacturaEditada(${index})">🗑️</button>
                     </div>
                     <div style="display: flex; gap: 6px;">
                         <div style="flex: 1;">
                             <label style="font-size:10px; margin:0;">Cant:</label>
-                            <input type="number" value="${item.cantidad || 1}" min="1" style="font-size: 12px; padding: 4px;" oninput="actualizarItemEditado(${index}, 'cantidad', this.value)">
+                            <input type="number" value="${item.cantidad || 1}" min="1" style="font-size: 12px; padding: 6px;" oninput="actualizarItemEditado(${index}, 'cantidad', this.value)">
                         </div>
                         <div style="flex: 2;">
                             <label style="font-size:10px; margin:0;">Precio C/U (Bs):</label>
-                            <input type="text" inputmode="decimal" class="input-formato-monto" value="${formatearNumero(item.precioBs || 0)}" style="font-size: 12px; padding: 4px;" oninput="actualizarItemEditado(${index}, 'precioBs', this.value)">
+                            <input type="text" inputmode="decimal" class="input-formato-monto" value="${formatearNumero(item.precioBs || 0)}" style="font-size: 12px; padding: 6px;" oninput="actualizarItemEditado(${index}, 'precioBs', this.value)">
                         </div>
                     </div>
                 </div>`;
@@ -1244,7 +1367,7 @@
         function agregarItemAFacturaEditada() {
             if (!ventaEnEdicion) return;
             ventaEnEdicion.items.push({
-                nombre: 'Nuevo Producto',
+                nombre: '',
                 cantidad: 1,
                 precioBs: 0
             });
@@ -1285,7 +1408,6 @@
                 return;
             }
 
-            // Formatear fecha local DD/MM/AAAA
             const partesFecha = nuevaFechaIso.split('-');
             const fechaFormatoStr = partesFecha.length === 3 ? `${partesFecha[2]}/${partesFecha[1]}/${partesFecha[0]}` : nuevaFechaIso;
 
@@ -1356,15 +1478,15 @@
             const contenedorFactura = document.getElementById('factura-dia-desglose');
 
             if (ventasFiltradas.length === 0) {
-                contenedorFactura.innerHTML = '<div style="text-align: center; color: #666; font-size: 11px; padding: 10px;">Sin facturas registradas en esta fecha.</div>';
+                contenedorFactura.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 10px;">Sin facturas registradas en esta fecha.</div>';
             } else {
                 let htmlFactura = '';
                 ventasFiltradas.forEach((v, index) => {
                     const horaFactura = v.hora || 'Sin hora';
                     htmlFactura += `<div class="factura-item-bloque">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                            <span style="font-size: 11px; font-weight: bold; color: #00bcd4;">🧾 Factura #${index + 1} — Hora: ${horaFactura}</span>
-                            <button style="background: transparent; border: none; color: #00bcd4; font-size: 11px; cursor: pointer; font-weight: bold;" onclick="editarVentaRegistrada('${escapeAttr(v.id)}')">✏️ Editar</button>
+                            <span style="font-size: 11px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1} — Hora: ${horaFactura}</span>
+                            <button style="background: transparent; border: none; color: var(--secondary); font-size: 11px; cursor: pointer; font-weight: 800;" onclick="editarVentaRegistrada('${escapeAttr(v.id)}')">✏️ Editar</button>
                         </div>`;
                     
                     if (v.items && Array.isArray(v.items)) {
@@ -1373,7 +1495,7 @@
                             htmlFactura += `<div class="factura-linea"><span style="padding-left: 8px;">• ${item.cantidad}x ${item.nombre}</span><strong>${formatearNumero(sub)} Bs.</strong></div>`;
                         });
                     }
-                    htmlFactura += `<div class="factura-linea" style="border-top: 1px dotted #444; margin-top: 4px; padding-top: 2px;"><span style="font-weight:bold; color:#fbc02d;">Total Factura:</span><strong style="color: #fbc02d;">${formatearNumero(v.totalBs || 0)} Bs.</strong></div></div>`;
+                    htmlFactura += `<div class="factura-linea" style="border-top: 1px dotted var(--border-light); margin-top: 4px; padding-top: 3px;"><span style="font-weight:bold; color:var(--warning);">Total Factura:</span><strong style="color: var(--warning);">${formatearNumero(v.totalBs || 0)} Bs.</strong></div></div>`;
                 });
                 contenedorFactura.innerHTML = htmlFactura;
             }
@@ -1390,6 +1512,7 @@
             document.getElementById('tasa-actual').textContent = formatearNumero(tasaNum) + " Bs.";
             document.getElementById('tasa-fecha').textContent = "Modificado: " + (config.ultimaModificacion || '-');
             const filtroAdmin = document.getElementById('input-search-admin') ? document.getElementById('input-search-admin').value : '';
+            actualizarSugerenciasCategorias();
             renderTablasAdmin(filtroAdmin);
         }
 
@@ -1425,10 +1548,13 @@
 
             db.ref('abasto/productos/' + id).set(nuevoProd);
 
+            // Limpieza completa de campos
             document.getElementById('p-nombre').value = '';
+            document.getElementById('p-categoria').value = '';
             document.getElementById('p-costo').value = '';
             document.getElementById('p-ganancia').value = '';
             document.getElementById('p-stock').value = '';
+
             alert('Producto guardado en la nube.');
         }
 
@@ -1456,7 +1582,7 @@
 
             Object.keys(categorias).sort().forEach(function(cat) {
                 const catEscapada = escapeAttr(cat);
-                let html = '<div class="cat-banner"><div class="cat-title-click" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: #ff5252;" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><table><thead><tr><th>Nombre</th><th>Costo</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
+                let html = '<div class="cat-banner"><div class="cat-title-click" onclick="toggleAdminCat(this)"><span class="flecha-icon ' + estadoRotado + '">▼</span><span>📁 ' + cat + ' (' + categorias[cat].length + ')</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria(\'' + catEscapada + '\')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria(\'' + catEscapada + '\')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ' + estadoColapsado + '"><div class="cat-content-inner"><table><thead><tr><th>Nombre</th><th>Costo</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
 
                 categorias[cat].sort(function(a, b) { return String(a.nombre).localeCompare(String(b.nombre)); });
 
@@ -1464,7 +1590,7 @@
                     const costoBs = parsearMonto(p.costoBs) || 0;
                     const ganancia = p.ganancia !== undefined ? p.ganancia : 0;
                     const stock = p.stock !== undefined ? p.stock : 0;
-                    const alertaStockStyle = stock <= 3 ? 'color: #ff5252; font-weight: bold;' : '';
+                    const alertaStockStyle = stock <= 3 ? 'color: var(--danger); font-weight: 800;' : '';
 
                     html += '<tr><td><input type="text" style="width: 100px;" id="nom-' + p.id + '" value="' + escapeAttr(p.nombre || '') + '"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-' + p.id + '" value="' + formatearNumero(costoBs) + '"></td><td><input type="number" class="input-inline" id="gan-' + p.id + '" value="' + ganancia + '"></td><td><input type="number" class="input-inline" style="' + alertaStockStyle + '" id="stk-' + p.id + '" value="' + stock + '"></td><td><button class="btn-guardar" onclick="guardarFila(\'' + escapeAttr(p.id) + '\')">✓</button><button class="btn-eliminar" onclick="eliminarFila(\'' + escapeAttr(p.id) + '\')">✕</button></td></tr>';
                 });
