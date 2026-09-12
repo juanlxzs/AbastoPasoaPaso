@@ -480,7 +480,6 @@
         let ticketActual = [];
         let diasOffsetSeleccionado = 0;
         
-        // Estado para recordar qué carpetas de Cuaderno están abiertas
         let estadoCarpetasCuaderno = {};
 
         function escapeAttr(str) {
@@ -822,7 +821,8 @@
             const cliente = prompt('Nombre del cliente para anotar el fiado:');
             if (!cliente || cliente.trim() === '') return;
 
-            const nombreLimpio = cliente.trim().toUpperCase();
+            // Se respeta el formato ingresado por el operador (sin forzar toUpperCase())
+            const nombreCliente = cliente.trim();
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
             const fechaObj = new Date();
             const idRegistro = Date.now();
@@ -833,18 +833,17 @@
                 if (prod) actualizaciones['abasto/productos/' + item.id + '/stock'] = Math.max(0, (prod.stock || 0) - item.cantidad);
             });
 
-            actualizaciones[`abasto/cuaderno/${nombreLimpio}/registros/${idRegistro}`] = {
+            actualizaciones[`abasto/cuaderno/${nombreCliente}/registros/${idRegistro}`] = {
                 id: idRegistro, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), totalBs: totalBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs }))
             };
 
             db.ref().update(actualizaciones, error => {
                 if (!error) {
-                    alert(`✅ Fiado registrado a nombre de ${nombreLimpio} exitosamente.`);
+                    alert(`✅ Fiado registrado a nombre de ${nombreCliente} exitosamente.`);
                     ticketActual = []; localStorage.removeItem('abasto_ticket_borrador');
                     document.getElementById('pos-pago-usd').value = ''; document.getElementById('pos-pago-bs').value = '';
                     renderTicket();
-                    // Expandir la carpeta de este cliente para cuando vayan al cuaderno
-                    estadoCarpetasCuaderno[nombreLimpio] = true;
+                    estadoCarpetasCuaderno[nombreCliente] = true;
                 } else alert('Error al registrar: ' + error.message);
             });
         }
@@ -860,7 +859,7 @@
             const filtro = document.getElementById('input-search-cuaderno') ? document.getElementById('input-search-cuaderno').value.toLowerCase().trim() : '';
             contenedor.innerHTML = '';
             
-            const clientes = Object.keys(datosCuaderno).sort((a, b) => a.localeCompare(b));
+            const clientes = Object.keys(datosCuaderno).sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'accent' }));
             const clientesFiltrados = clientes.filter(c => c.toLowerCase().includes(filtro));
             
             if (clientesFiltrados.length === 0) {
@@ -886,7 +885,6 @@
 
                 let totalDeudaBs = clienteData.totalManual !== undefined ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
 
-                // Armado de las Notas (Registros)
                 let htmlRegistros = '';
                 registros.sort((a, b) => (b.id || 0) - (a.id || 0)).forEach(reg => {
                     const regId = reg.id || Date.now();
@@ -925,14 +923,12 @@
                         </div>`;
                 });
 
-                // ESTADO DE CARPETA
                 const estaAbierto = estadoCarpetasCuaderno[cliente] === true;
                 const claseColapsado = estaAbierto ? '' : 'colapsado';
                 const claseRotado = estaAbierto ? '' : 'rotado';
 
                 let html = `
                     <div class="categoria-section" style="margin-bottom:12px;">
-                        <!-- Importante: onclick localiza el evento en el div de titulo, sin chocar con global -->
                         <div class="categoria-header" onclick="toggleCarpetaCuaderno('${escapeAttr(cliente)}')">
                             <div style="display:flex; gap:10px; align-items:center; flex:1; min-width:0;">
                                 <span class="flecha-icon ${claseRotado}">▼</span>
@@ -973,17 +969,18 @@
         function agregarNuevoClienteFiado() {
             const nombre = prompt('Nombre del nuevo cliente para el cuaderno:');
             if (!nombre || nombre.trim() === '') return;
-            const nombreLimpio = nombre.trim().toUpperCase();
+            // Respeta el formato de mayúsculas/minúsculas ingresado
+            const nombreCliente = nombre.trim();
             const fechaObj = new Date();
             const regId = Date.now();
 
-            db.ref(`abasto/cuaderno/${nombreLimpio}/registros/${regId}`).set({
+            db.ref(`abasto/cuaderno/${nombreCliente}/registros/${regId}`).set({
                 id: regId,
                 fecha: fechaObj.toLocaleDateString(),
                 hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: [{ nombre: "Producto Inicial", cantidad: 1, precioBs: 0 }]
             }).then(() => {
-                estadoCarpetasCuaderno[nombreLimpio] = true;
+                estadoCarpetasCuaderno[nombreCliente] = true;
                 renderCuaderno();
             });
         }
@@ -991,7 +988,7 @@
         function renombrarClienteFiado(clienteViejo) {
             const nuevoInput = document.getElementById(`input-nom-cli-${clienteViejo}`);
             if (!nuevoInput) return;
-            const nuevoNombre = nuevoInput.value.trim().toUpperCase();
+            const nuevoNombre = nuevoInput.value.trim();
             if (!nuevoNombre || nuevoNombre === clienteViejo) return;
 
             db.ref(`abasto/cuaderno/${clienteViejo}`).once('value', snapshot => {
@@ -1235,7 +1232,7 @@
             const ganancia = parseFloat(document.getElementById('p-ganancia').value) || 0;
             const stock = parseInt(document.getElementById('p-stock').value) || 0;
 
-            if (!nombre || co:sto <= 0) return alert('Escribe un nombre y un costo válido.');
+            if (!nombre || costo <= 0) return alert('Escribe un nombre y un costo válido.');
             const id = Date.now();
             db.ref('abasto/productos/' + id).set({ id: id, nombre: nombre, categoria: categoria, costoBs: costo, ganancia: ganancia, stock: stock });
             document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
@@ -1302,7 +1299,6 @@
 
         function eliminarFila(id) { if (confirm('¿Eliminar producto?')) db.ref('abasto/productos/' + id).remove(); }
 
-        // EVENTOS DE BÚSQUEDA Y CLICK
         document.getElementById('input-search').addEventListener('input', e => cargarCatalogo(e.target.value));
         document.getElementById('input-search-pos').addEventListener('input', e => cargarPosCatalogo(e.target.value));
         document.getElementById('input-search-admin').addEventListener('input', e => renderTablasAdmin(e.target.value));
@@ -1311,7 +1307,6 @@
         document.addEventListener('click', e => {
             const header = e.target.closest('.categoria-header');
             if (header && !e.target.closest('.btn-cyan') && !e.target.closest('.btn-guardar')) {
-                // Si el header tiene su propio evento onclick asignado (como en Cuaderno Virtual), lo ignoramos aquí.
                 if(!header.hasAttribute('onclick')) {
                     const wrapper = header.nextElementSibling;
                     const icon = header.querySelector('.flecha-icon');
