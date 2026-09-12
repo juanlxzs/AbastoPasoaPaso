@@ -892,7 +892,6 @@
             const idRegistro = Date.now();
             let actualizaciones = {};
 
-            // Guardar nota en el cuaderno SIN descontar inventario automáticamente (el usuario usará el botón "Registrar Anotado" si desea validar y descontar).
             actualizaciones[`abasto/cuaderno/${nombreCliente}/registros/${idRegistro}`] = {
                 id: idRegistro, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), totalBs: totalBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs }))
             };
@@ -982,7 +981,7 @@
                                 itemsHtml += `
                                     <div class="cuaderno-item-row">
                                         <div class="autocomplete-wrapper">
-                                            <input type="text" class="cuaderno-input-nom" value="${escapeAttr(item.nombre)}" oninput="filtrarProductosCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'nombre', this.value)" onblur="ocultarSugerenciasConRetraso(this)" placeholder="Producto">
+                                            <input type="text" class="cuaderno-input-nom" value="${escapeAttr(item.nombre)}" oninput="filtrarProductosCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" onkeydown="if(event.key==='Enter'){seleccionarPrimerSugerido(this, '${escapeAttr(cliente)}', ${regId}, ${idx});}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'nombre', this.value)" onblur="ocultarSugerenciasConRetraso(this)" placeholder="Producto">
                                             <div class="autocomplete-suggestions oculto"></div>
                                         </div>
                                         <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
@@ -1079,7 +1078,7 @@
                     return alert('Esta nota no tiene productos para registrar.');
                 }
 
-                let advertencias = [];
+                let errores = [];
                 let itemsValidos = [];
 
                 reg.items.forEach(item => {
@@ -1087,26 +1086,23 @@
                     const prod = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === item.nombre.toLowerCase());
                     
                     if (!prod) {
-                        advertencias.push(`• El producto "${item.nombre}" NO existe en el inventario.`);
+                        errores.push(`• El producto "${item.nombre}" NO existe en el inventario.`);
                     } else {
                         const stockDisp = prod.stock !== undefined ? parseInt(prod.stock) : 0;
                         const cantReq = parseInt(item.cantidad) || 1;
                         if (stockDisp <= 0) {
-                            advertencias.push(`• El producto "${prod.nombre}" está agotado (stock en 0).`);
+                            errores.push(`• El producto "${prod.nombre}" está agotado (stock en 0).`);
                         } else if (cantReq > stockDisp) {
-                            advertencias.push(`• Stock insuficiente para "${prod.nombre}" (Disponible: ${stockDisp}, requerido: ${cantReq}).`);
+                            errores.push(`• Stock insuficiente para "${prod.nombre}" (Disponible: ${stockDisp}, requerido: ${cantReq}).`);
                         } else {
                             itemsValidos.push({ prod: prod, cantidad: cantReq });
                         }
                     }
                 });
 
-                if (advertencias.length > 0) {
-                    let mensaje = "⚠️ Se encontraron observaciones en el inventario:\n\n" + advertencias.join('\n');
-                    mensaje += "\n\n¿Deseas registrar el anotado de todas formas y descontar el stock disponible?";
-                    if (!confirm(mensaje)) return;
-                } else {
-                    if (!confirm('✅ Todos los productos existen y tienen stock disponible. ¿Deseas registrar este anotado y descontar el stock del inventario?')) return;
+                if (errores.length > 0) {
+                    alert("❌ No se puede registrar ni anotar el producto en el inventario:\n\n" + errores.join('\n') + "\n\nLos productos no existen o se encuentran agotados/sin stock.");
+                    return;
                 }
 
                 let updates = {};
@@ -1158,7 +1154,6 @@
                 const idVenta = Date.now();
                 let updates = {};
 
-                // Registrar el pago en la caja / ventas del día (factura)
                 updates[`abasto/ventas/${idVenta}`] = {
                     id: idVenta,
                     fechaIso: getFechaLocalISO(fechaObj),
@@ -1170,10 +1165,8 @@
                 };
 
                 if (montoPago >= totalDeudaBs) {
-                    // Deuda pagada por completo -> limpiar cliente del cuaderno
                     updates[`abasto/cuaderno/${cliente}`] = null;
                 } else {
-                    // Abono parcial -> actualizar deuda restante
                     const deudaRestante = totalDeudaBs - montoPago;
                     updates[`abasto/cuaderno/${cliente}/totalManual`] = deudaRestante;
                 }
@@ -1203,7 +1196,16 @@
                 return;
             }
 
-            const matches = productos.filter(p => p && p.nombre && p.nombre.toLowerCase().includes(query));
+            let matches = productos.filter(p => p && p.nombre && p.nombre.toLowerCase().includes(query));
+            matches.sort((a, b) => {
+                const aName = a.nombre.toLowerCase();
+                const bName = b.nombre.toLowerCase();
+                const aStarts = aName.startsWith(query);
+                const bStarts = bName.startsWith(query);
+                if (aStarts && !bStarts) return -1;
+                if (!aStarts && bStarts) return 1;
+                return aName.localeCompare(bName);
+            });
 
             if (matches.length === 0) {
                 suggestionsBox.classList.add('oculto');
@@ -1223,6 +1225,17 @@
 
             suggestionsBox.innerHTML = html;
             suggestionsBox.classList.remove('oculto');
+        }
+
+        function seleccionarPrimerSugerido(inputEl, cliente, regId, idx) {
+            const wrapper = inputEl.parentElement;
+            const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
+            const firstItem = suggestionsBox.querySelector('.autocomplete-suggestion-item');
+            if (firstItem) {
+                firstItem.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+            } else {
+                inputEl.blur();
+            }
         }
 
         function seleccionarProductoCuaderno(itemEl, cliente, regId, idx, nombreProducto) {
@@ -1303,16 +1316,23 @@
                         return;
                     }
 
-                    const prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase());
+                    let prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase());
+                    if (!prodEncontrado) {
+                        prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase().startsWith(nombreVal.toLowerCase()));
+                    }
+                    if (!prodEncontrado) {
+                        prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase().includes(nombreVal.toLowerCase()));
+                    }
                     
                     if (!prodEncontrado) {
-                        items[itemIdx].nombre = valor;
-                        items[itemIdx].precioBs = 0;
-                    } else {
-                        items[itemIdx].nombre = prodEncontrado.nombre;
-                        const precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
-                        items[itemIdx].precioBs = precioBs;
+                        alert(`❌ El producto "${nombreVal}" no se encontró en el inventario.`);
+                        renderCuaderno();
+                        return;
                     }
+
+                    items[itemIdx].nombre = prodEncontrado.nombre;
+                    const precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
+                    items[itemIdx].precioBs = precioBs;
 
                 } else if (campo === 'cantidad') {
                     items[itemIdx].cantidad = parseInt(valor) || 1;
