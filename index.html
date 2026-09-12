@@ -139,8 +139,8 @@
         .btn-nav:hover { background: var(--bg-box); }
         .btn-nav.activo { background: var(--primary); color: #ffffff; box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4); }
 
-        .search-container { max-width: 900px; width: 100%; margin: 0 auto 12px auto; }
-        .search-box { width: 100%; background-color: var(--bg-card); border: 1px solid var(--border-light); padding: 12px 14px; border-radius: 10px; color: var(--text-main); font-size: 0.95rem; outline: none; box-shadow: 0 2px 6px var(--shadow-color); }
+        .search-container { max-width: 900px; width: 100%; margin: 0 auto 12px auto; display: flex; gap: 8px; align-items: center; }
+        .search-box { flex: 1; background-color: var(--bg-card); border: 1px solid var(--border-light); padding: 12px 14px; border-radius: 10px; color: var(--text-main); font-size: 0.95rem; outline: none; box-shadow: 0 2px 6px var(--shadow-color); }
         .search-box:focus { border-color: var(--secondary); }
 
         .categoria-section { max-width: 900px; width: 100%; margin: 0 auto 10px auto; background-color: var(--bg-card); border-radius: 12px; padding: 12px 14px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px var(--shadow-color); }
@@ -199,16 +199,55 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 12px; }
         .modal-recibo-card, .modal-editar-card { background-color: var(--bg-card); border-radius: 16px; padding: 18px; width: 100%; max-width: 460px; border: 1px solid var(--secondary); display: flex; flex-direction: column; gap: 14px; }
 
-        /* CUADERNO VIRTUAL UI */
-        .cuaderno-registro-card { background-color: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 6px var(--shadow-color); }
-        .cuaderno-item-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: var(--bg-box); padding: 8px; border-radius: 8px; border: 1px solid var(--border-light); transition: border-color 0.2s; }
-        .cuaderno-item-row:hover { border-color: var(--secondary); }
-        .cuaderno-input-nom { flex: 2; min-width: 60px; padding: 8px; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; transition: border-color 0.2s; }
-        .cuaderno-input-qty { width: 55px; padding: 8px 4px; font-size: 0.85rem; text-align: center; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
-        .cuaderno-input-precio { width: 90px; padding: 8px; font-size: 0.85rem; text-align: right; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
-        .cuaderno-input-nom:focus, .cuaderno-input-qty:focus, .cuaderno-input-precio:focus { border-color: var(--secondary); }
-        .btn-cuaderno-action { background: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-        .btn-cuaderno-action:hover { background: var(--bg-input); }
+        /* CUADERNO VIRTUAL UI (ESTILO CARPETAS DELGADAS A-Z) */
+        .cuaderno-cliente-slim { 
+            background-color: var(--bg-box); 
+            border: 1px solid var(--border-light); 
+            border-radius: 8px; 
+            margin-bottom: 6px; 
+            overflow: hidden; 
+            border-left: 3px solid var(--secondary);
+        }
+        .cuaderno-cliente-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; cursor: pointer; user-select: none; font-size: 0.9rem; font-weight: 700; }
+        .cuaderno-cliente-header:hover { background-color: var(--border-color); }
+        .cuaderno-registro-card { background-color: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+        .cuaderno-item-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; background: var(--bg-card); padding: 6px; border-radius: 6px; border: 1px solid var(--border-light); }
+        .cuaderno-input-nom { flex: 2; min-width: 60px; padding: 6px; font-size: 0.82rem; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; width: 100%; }
+        .cuaderno-input-qty { width: 50px; padding: 6px 4px; font-size: 0.82rem; text-align: center; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .cuaderno-input-precio { width: 85px; padding: 6px; font-size: 0.82rem; text-align: right; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .btn-cuaderno-action { background: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 5px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+
+        /* AUTOCOMPLETE DROPDOWN */
+        .autocomplete-wrapper { position: relative; flex: 2; min-width: 60px; }
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--secondary);
+            border-radius: 6px;
+            max-height: 160px;
+            overflow-y: auto;
+            z-index: 99999;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            margin-top: 2px;
+        }
+        .autocomplete-suggestion-item {
+            padding: 8px 10px;
+            font-size: 0.82rem;
+            color: var(--text-main);
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .autocomplete-suggestion-item:last-child { border-bottom: none; }
+        .autocomplete-suggestion-item:hover {
+            background: var(--bg-box);
+            color: var(--secondary);
+        }
 
         /* ADMIN */
         .titulo-admin { text-align: center; font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
@@ -229,8 +268,7 @@
         
         .input-inline { width: 75px; padding: 8px !important; text-align: right; }
         .input-admin-nom { min-width: 150px; width: 100%; padding: 8px !important; }
-        .btn-guardar { background-color: var(--secondary); color: black; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; transition: opacity 0.2s; }
-        .btn-guardar:hover { opacity: 0.9; }
+        .btn-guardar { background-color: var(--secondary); color: black; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
         .btn-eliminar { background-color: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
         .btn-cat-action { background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 4px; }
         .acciones-fila { display: flex; gap: 4px; }
@@ -241,7 +279,6 @@
 
     <div class="estado-conexion" id="estado-conexion">🌐 Sincronizado en la nube (Tiempo real)</div>
 
-    <!-- Menú Lateral -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -328,7 +365,6 @@
                 <button class="btn-orange" onclick="guardarBorradorManual()">💾 Guardar Borrador de Factura</button>
             </div>
 
-            <!-- CAJA -->
             <div class="caja-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                     <span style="font-weight: 800; font-size: 15px; color: var(--success);">📊 Cierre de Caja del Día</span>
@@ -378,10 +414,9 @@
         </div>
     </div>
 
-    <!-- VISTA CUADERNO VIRTUAL -->
     <div id="vista-cuaderno" class="oculto">
         <h1 class="titulo-admin" style="color: #9c27b0;">📓 Cuaderno Virtual (Fiados)</h1>
-        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Listado de clientes con deudas pendientes. Edita en tiempo real.</p>
+        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Listado de clientes ordenados de la A a la Z. Edita en tiempo real.</p>
         
         <div class="search-container" style="margin-bottom: 12px;">
             <input type="text" class="search-box" id="input-search-cuaderno" placeholder="🔍 Buscar cliente en cuaderno...">
@@ -394,7 +429,6 @@
         <div id="contenedor-cuaderno" style="max-width: 900px; width: 100%; margin: 0 auto;">Cargando cuaderno...</div>
     </div>
 
-    <!-- MODAL RECIBO -->
     <div id="modal-recibo" class="modal-overlay oculto">
         <div class="modal-recibo-card">
             <h2 style="text-align: center; color: var(--success); font-size: 18px; font-weight: 800;">✅ ¡Venta Registrada!</h2>
@@ -408,7 +442,6 @@
         </div>
     </div>
 
-    <!-- VISTA ADMIN -->
     <div id="vista-admin" class="oculto">
         <h1 class="titulo-admin">Control de Inventario</h1>
 
@@ -424,7 +457,7 @@
 
             <div class="panel">
                 <div class="panel-titulo">2. Agregar Producto</div>
-                <label>Nombre:</label>
+                <label>Nombre del Producto:</label>
                 <input type="text" id="p-nombre" placeholder="Nombre del producto">
 
                <label>Categoría:</label>
@@ -479,7 +512,6 @@
         let datosCuaderno = {};
         let ticketActual = [];
         let diasOffsetSeleccionado = 0;
-        
         let estadoCarpetasCuaderno = {};
 
         function escapeAttr(str) {
@@ -716,13 +748,23 @@
         // TICKET & POS LOGIC
         function agregarAlTicket(id) {
             const prod = productos.find(p => String(p.id) === String(id));
-            if (!prod) return;
+            if (!prod) {
+                alert('⚠️ El producto no está registrado en el catálogo.');
+                return;
+            }
             const stockDisponible = prod.stock !== undefined ? parseInt(prod.stock) : 0;
+            if (stockDisponible <= 0) {
+                alert('⚠️ El producto "' + prod.nombre + '" no está disponible porque el stock está agotado (en cero).');
+                return;
+            }
+
             let item = ticketActual.find(i => String(i.id) === String(id));
             const cantidadActual = item ? item.cantidad : 0;
 
-            if (stockDisponible <= 0) return alert('⚠️ El producto ' + prod.nombre + ' no tiene stock disponible.');
-            if (cantidadActual + 1 > stockDisponible) return alert('⚠️ No puedes superar el stock de ' + prod.nombre + '.\nStock disponible: ' + stockDisponible);
+            if (cantidadActual + 1 > stockDisponible) {
+                alert('⚠️ No puedes superar el stock disponible de ' + prod.nombre + '.\nStock disponible: ' + stockDisponible);
+                return;
+            }
 
             const precioBs = (parsearMonto(prod.costoBs) || 0) * (1 + (parseFloat(prod.ganancia) || 0) / 100);
             if (item) item.cantidad += 1;
@@ -736,7 +778,10 @@
             const prod = productos.find(p => String(p.id) === String(id));
             const stockDisponible = prod ? (prod.stock !== undefined ? parseInt(prod.stock) : 0) : 0;
 
-            if (delta > 0 && stockDisponible > 0 && (item.cantidad + delta > stockDisponible)) return alert('⚠️ No puedes superar el stock disponible de ' + item.nombre + '.\nStock máximo: ' + stockDisponible);
+            if (delta > 0 && (stockDisponible <= 0 || item.cantidad + delta > stockDisponible)) {
+                alert('⚠️ El producto no está disponible o supera el stock máximo (' + stockDisponible + ').');
+                return;
+            }
             item.cantidad += delta;
             if (item.cantidad <= 0) eliminarItemTicket(id);
             else renderTicket();
@@ -787,6 +832,25 @@
 
         function procesarVenta() {
             if (ticketActual.length === 0) return alert('El ticket de compra está vacío.');
+
+            for (let item of ticketActual) {
+                const prod = productos.find(p => String(p.id) === String(item.id));
+                
+                if (!prod) {
+                    alert(`⚠️ El producto "${item.nombre}" no está registrado en el catálogo.`);
+                    return;
+                }
+                const stockDisponible = prod.stock !== undefined ? parseInt(prod.stock) : 0;
+                if (stockDisponible <= 0) {
+                    alert(`⚠️ El producto "${item.nombre}" no está disponible porque se agotó (stock en cero).`);
+                    return;
+                }
+                if (item.cantidad > stockDisponible) {
+                    alert(`⚠️ No hay suficiente stock para "${item.nombre}". Stock disponible: ${stockDisponible}, solicitado: ${item.cantidad}.`);
+                    return;
+                }
+            }
+
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
             const gananciaBs = totalBs - ticketActual.reduce((acc, item) => acc + (item.costoBs * item.cantidad), 0);
             const tasa = parsearMonto(config.tasaDolar) || 1;
@@ -818,28 +882,26 @@
 
         function anotarAlCuaderno() {
             if (ticketActual.length === 0) return alert('El ticket está vacío. Agrega productos primero.');
+
             const cliente = prompt('Nombre del cliente para anotar el fiado:');
             if (!cliente || cliente.trim() === '') return;
 
-            // Se respeta el formato ingresado por el operador (sin forzar toUpperCase())
             const nombreCliente = cliente.trim();
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
             const fechaObj = new Date();
             const idRegistro = Date.now();
             let actualizaciones = {};
 
-            ticketActual.forEach(item => {
-                const prod = productos.find(p => String(p.id) === String(item.id));
-                if (prod) actualizaciones['abasto/productos/' + item.id + '/stock'] = Math.max(0, (prod.stock || 0) - item.cantidad);
-            });
-
+            // Guardar nota en el cuaderno SIN descontar inventario automáticamente (el usuario usará el botón "Registrar Anotado" si desea validar y descontar).
             actualizaciones[`abasto/cuaderno/${nombreCliente}/registros/${idRegistro}`] = {
                 id: idRegistro, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), totalBs: totalBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs }))
             };
+            
+            actualizaciones[`abasto/cuaderno/${nombreCliente}/totalManual`] = null;
 
             db.ref().update(actualizaciones, error => {
                 if (!error) {
-                    alert(`✅ Fiado registrado a nombre de ${nombreCliente} exitosamente.`);
+                    alert(`✅ Fiado anotado a nombre de ${nombreCliente} en el Cuaderno Virtual.`);
                     ticketActual = []; localStorage.removeItem('abasto_ticket_borrador');
                     document.getElementById('pos-pago-usd').value = ''; document.getElementById('pos-pago-bs').value = '';
                     renderTicket();
@@ -848,9 +910,14 @@
             });
         }
 
-        /* CUADERNO VIRTUAL LOGIC */
+        /* CUADERNO VIRTUAL LOGIC (ESTRUCTURA A-Z Y CARPETAS DELGADAS) */
         function toggleCarpetaCuaderno(clienteStr) {
             estadoCarpetasCuaderno[clienteStr] = !estadoCarpetasCuaderno[clienteStr];
+            renderCuaderno();
+        }
+
+        function toggleLetraCuaderno(letra) {
+            estadoCarpetasCuaderno['letra_' + letra] = !estadoCarpetasCuaderno['letra_' + letra];
             renderCuaderno();
         }
 
@@ -867,120 +934,336 @@
                 return;
             }
 
+            const letrasMap = {};
             clientesFiltrados.forEach(cliente => {
-                const clienteData = datosCuaderno[cliente] || {};
-                const registrosObj = clienteData.registros || {};
-                const registros = Object.values(registrosObj);
-                
-                let totalRegistrosBs = 0;
-                registros.forEach(reg => {
-                    let subReg = 0;
-                    if (reg.items && Array.isArray(reg.items)) {
-                        reg.items.forEach(i => subReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
-                    } else {
-                        subReg = parsearMonto(reg.totalBs) || 0;
-                    }
-                    totalRegistrosBs += subReg;
-                });
+                let primeraLetra = cliente.charAt(0).toUpperCase();
+                if (!/[A-ZÁÉÍÓÚÑ]/.test(primeraLetra)) primeraLetra = '#';
+                if (!letrasMap[primeraLetra]) letrasMap[primeraLetra] = [];
+                letrasMap[primeraLetra].push(cliente);
+            });
 
-                let totalDeudaBs = clienteData.totalManual !== undefined ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
+            const letrasOrdenadas = Object.keys(letrasMap).sort((a, b) => {
+                if (a === '#') return 1;
+                if (b === '#') return -1;
+                return a.localeCompare(b, 'es');
+            });
 
-                let htmlRegistros = '';
-                registros.sort((a, b) => (b.id || 0) - (a.id || 0)).forEach(reg => {
-                    const regId = reg.id || Date.now();
-                    let itemsHtml = '';
+            letrasOrdenadas.forEach(letra => {
+                let clientesLetra = letrasMap[letra];
+                let htmlClientes = '';
+
+                clientesLetra.forEach(cliente => {
+                    const clienteData = datosCuaderno[cliente] || {};
+                    const registrosObj = clienteData.registros || {};
+                    const registros = Object.values(registrosObj);
                     
-                    if (reg.items && Array.isArray(reg.items)) {
-                        reg.items.forEach((item, idx) => {
-                            let precioItem = parsearMonto(item.precioBs) || 0;
-                            let cantItem = parseInt(item.cantidad) || 1;
-                            itemsHtml += `
-                                <div class="cuaderno-item-row">
-                                    <input type="text" class="cuaderno-input-nom" value="${escapeAttr(item.nombre)}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'nombre', this.value)" placeholder="Producto">
-                                    <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
-                                    <input type="text" inputmode="decimal" class="cuaderno-input-precio input-formato-monto" value="${formatearNumero(precioItem)}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'precioBs', this.value)" title="Precio Bs">
-                                    <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:16px; padding:4px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar producto">✕</button>
-                                </div>`;
-                        });
-                    }
+                    let totalRegistrosBs = 0;
+                    registros.forEach(reg => {
+                        let subReg = 0;
+                        if (reg.items && Array.isArray(reg.items)) {
+                            reg.items.forEach(i => subReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                        } else {
+                            subReg = parsearMonto(reg.totalBs) || 0;
+                        }
+                        totalRegistrosBs += subReg;
+                    });
 
-                    htmlRegistros += `
-                        <div class="cuaderno-registro-card">
-                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; border-bottom:1px solid var(--border-light); padding-bottom:10px; margin-bottom:10px; flex-wrap:wrap;">
-                                <div style="display:flex; gap:8px; align-items:center;">
-                                    <span style="font-size:13px; color:var(--text-muted);">📅</span>
-                                    <input type="text" class="cuaderno-input-nom" style="width:95px; flex:none; text-align:center;" value="${escapeAttr(reg.fecha || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'fecha', this.value)">
-                                    <input type="text" class="cuaderno-input-nom" style="width:75px; flex:none; text-align:center;" value="${escapeAttr(reg.hora || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'hora', this.value)">
+                    let totalDeudaBs = clienteData.totalManual !== undefined && clienteData.totalManual !== null ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
+
+                    let htmlRegistros = '';
+                    registros.sort((a, b) => (b.id || 0) - (a.id || 0)).forEach(reg => {
+                        const regId = reg.id || Date.now();
+                        let itemsHtml = '';
+                        
+                        if (reg.items && Array.isArray(reg.items)) {
+                            reg.items.forEach((item, idx) => {
+                                let precioItem = parsearMonto(item.precioBs) || 0;
+                                let cantItem = parseInt(item.cantidad) || 1;
+                                itemsHtml += `
+                                    <div class="cuaderno-item-row">
+                                        <div class="autocomplete-wrapper">
+                                            <input type="text" class="cuaderno-input-nom" value="${escapeAttr(item.nombre)}" oninput="filtrarProductosCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'nombre', this.value)" onblur="ocultarSugerenciasConRetraso(this)" placeholder="Producto">
+                                            <div class="autocomplete-suggestions oculto"></div>
+                                        </div>
+                                        <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
+                                        <input type="text" inputmode="decimal" class="input-formato-monto cuaderno-input-precio" value="${formatearNumero(precioItem)}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'precioBs', this.value)" title="Precio Bs">
+                                        <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:2px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar producto">✕</button>
+                                    </div>`;
+                            });
+                        }
+
+                        const badgeRegistrado = reg.registradoEnInventario ? `<span style="font-size:10px; color:var(--success); font-weight:bold; background:var(--bg-box); padding:2px 6px; border-radius:4px; border:1px solid var(--success);">✅ Anotado en Inventario</span>` : '';
+
+                        htmlRegistros += `
+                            <div class="cuaderno-registro-card">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; border-bottom:1px solid var(--border-light); padding-bottom:6px; margin-bottom:6px; flex-wrap:wrap;">
+                                    <div style="display:flex; gap:6px; align-items:center;">
+                                        <span style="font-size:12px; color:var(--text-muted);">📅</span>
+                                        <input type="text" class="cuaderno-input-nom" style="width:85px; flex:none; text-align:center; padding:4px;" value="${escapeAttr(reg.fecha || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'fecha', this.value)">
+                                        <input type="text" class="cuaderno-input-nom" style="width:65px; flex:none; text-align:center; padding:4px;" value="${escapeAttr(reg.hora || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'hora', this.value)">
+                                        ${badgeRegistrado}
+                                    </div>
+                                    <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                                        <button class="btn-cuaderno-action" style="background:var(--success); color:white; border-color:var(--success);" onclick="registrarAnotadoRecord('${escapeAttr(cliente)}', ${regId})">📝 Registrar Anotado</button>
+                                        <button class="btn-cuaderno-action" style="color:var(--secondary);" onclick="cargarNotaATicket('${escapeAttr(cliente)}', ${regId})">🛒 Cargar</button>
+                                        <button class="btn-cuaderno-action" style="color:var(--danger); border-color:var(--danger);" onclick="eliminarRegistroCuaderno('${escapeAttr(cliente)}', ${regId})">🗑️</button>
+                                    </div>
                                 </div>
-                                <div style="display:flex; gap:6px;">
-                                    <button class="btn-cuaderno-action" style="color:var(--secondary);" onclick="cargarNotaATicket('${escapeAttr(cliente)}', ${regId})">🛒 Cargar Ticket</button>
-                                    <button class="btn-cuaderno-action" style="color:var(--danger); border-color:var(--danger);" onclick="eliminarRegistroCuaderno('${escapeAttr(cliente)}', ${regId})">🗑️ Borrar</button>
+                                <div style="font-size:10px; font-weight:700; color:var(--secondary); margin-bottom:4px; text-transform:uppercase;">Artículos:</div>
+                                ${itemsHtml}
+                                <button style="background:transparent; border:1px dashed var(--secondary); color:var(--secondary); font-size:11px; font-weight:bold; padding:6px; width:100%; border-radius:6px; cursor:pointer; margin-top:8px;" onclick="agregarItemACuaderno('${escapeAttr(cliente)}', ${regId})">＋ Añadir Producto</button>
+                            </div>`;
+                    });
+
+                    const clienteAbierto = estadoCarpetasCuaderno[cliente] === true;
+                    const claseColClient = clienteAbierto ? '' : 'colapsado';
+                    const claseRotClient = clienteAbierto ? '' : 'rotado';
+
+                    htmlClientes += `
+                        <div class="cuaderno-cliente-slim">
+                            <div class="cuaderno-cliente-header" onclick="toggleCarpetaCuaderno('${escapeAttr(cliente)}')">
+                                <div style="display:flex; gap:8px; align-items:center; min-width:0; flex:1;">
+                                    <span class="flecha-icon ${claseRotClient}" style="font-size:10px;">▼</span>
+                                    <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-main); font-weight:bold;">${cliente}</span>
+                                </div>
+                                <span style="color:var(--danger); font-size:0.9rem; font-weight:800; white-space:nowrap;">${formatearNumero(totalDeudaBs)} Bs.</span>
+                            </div>
+                            <div class="cat-content-wrapper ${claseColClient}">
+                                <div class="cat-content-inner" style="padding: 10px; background:var(--bg-card); border-top:1px solid var(--border-light);">
+                                    <div style="margin-bottom:10px; display:flex; gap:6px; align-items:center;">
+                                        <input type="text" class="cuaderno-input-nom" id="input-nom-cli-${escapeAttr(cliente)}" value="${escapeAttr(cliente)}" style="padding:6px;">
+                                        <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="renombrarClienteFiado('${escapeAttr(cliente)}')">Renombrar</button>
+                                    </div>
+                                    ${htmlRegistros}
+                                    <button style="background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main); font-size:11px; font-weight:bold; padding:8px; width:100%; border-radius:6px; cursor:pointer; margin-top:6px;" onclick="crearNuevoRegistroCuaderno('${escapeAttr(cliente)}')">📝 Crear Nueva Nota</button>
+                                    <div style="background:var(--bg-main); border:1px solid var(--border-light); padding:10px; border-radius:8px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                                        <span style="font-size:11px; font-weight:800; color:var(--warning);">Total Deuda:</span>
+                                        <div style="display:flex; gap:6px; align-items:center;">
+                                            <input type="text" inputmode="decimal" class="input-formato-monto cuaderno-input-precio" style="width:100px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}">
+                                            <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="guardarTotalManualCliente('${escapeAttr(cliente)}')">Fijar</button>
+                                            <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem; background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main);" onclick="recalcularTotalCliente('${escapeAttr(cliente)}')">🔄 Actualizar</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn-cyan" style="margin-top:10px; background:var(--success); color:white; font-size:12px; padding:10px;" onclick="registrarPagoCliente('${escapeAttr(cliente)}')">💵 Registrar Pago / Abono</button>
                                 </div>
                             </div>
-                            <div style="font-size:11px; font-weight:700; color:var(--secondary); margin-bottom:4px; text-transform:uppercase;">Productos pedidos:</div>
-                            ${itemsHtml}
-                            <button style="background:transparent; border:1px dashed var(--secondary); color:var(--secondary); font-size:12px; font-weight:bold; padding:8px; width:100%; border-radius:8px; cursor:pointer; margin-top:12px; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-box)'" onmouseout="this.style.background='transparent'" onclick="agregarItemACuaderno('${escapeAttr(cliente)}', ${regId})">＋ Añadir Producto a esta Nota</button>
                         </div>`;
                 });
 
-                const estaAbierto = estadoCarpetasCuaderno[cliente] === true;
-                const claseColapsado = estaAbierto ? '' : 'colapsado';
-                const claseRotado = estaAbierto ? '' : 'rotado';
+                const letraAbierta = estadoCarpetasCuaderno['letra_' + letra] === true;
+                const claseColLetra = letraAbierta ? '' : 'colapsado';
+                const claseRotLetra = letraAbierta ? '' : 'rotado';
 
-                let html = `
-                    <div class="categoria-section" style="margin-bottom:12px;">
-                        <div class="categoria-header" onclick="toggleCarpetaCuaderno('${escapeAttr(cliente)}')">
-                            <div style="display:flex; gap:10px; align-items:center; flex:1; min-width:0;">
-                                <span class="flecha-icon ${claseRotado}">▼</span>
-                                <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">👤 ${cliente}</span>
+                contenedor.innerHTML += `
+                    <div class="categoria-section" style="margin-bottom:10px;">
+                        <div class="categoria-header" onclick="toggleLetraCuaderno('${letra}')" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <span class="flecha-icon ${claseRotLetra}">▼</span>
+                                <span style="font-size:1.05rem; font-weight:900; color:var(--primary);">${letra}</span>
                             </div>
-                            <span style="color:var(--danger); font-size:1.05rem; white-space:nowrap;">${formatearNumero(totalDeudaBs)} Bs.</span>
+                            <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted); background:var(--bg-box); padding:2px 8px; border-radius:6px; border:1px solid var(--border-light);">${clientesLetra.length}</span>
                         </div>
-                        
-                        <div class="cat-content-wrapper ${claseColapsado}" style="margin-top:10px;">
-                            <div class="cat-content-inner" style="padding:4px 2px;">
-                                
-                                <div style="margin-bottom:15px; display:flex; gap:8px; align-items:center; background:var(--bg-box); padding:10px; border-radius:10px; border:1px solid var(--border-light);">
-                                    <label style="margin:0; font-size:12px; font-weight:bold; color:var(--text-muted);">Renombrar Cliente:</label>
-                                    <input type="text" class="cuaderno-input-nom" id="input-nom-cli-${escapeAttr(cliente)}" value="${escapeAttr(cliente)}">
-                                    <button class="btn-guardar" style="padding:8px 14px; border-radius:8px;" onclick="renombrarClienteFiado('${escapeAttr(cliente)}')">Guardar</button>
-                                </div>
-
-                                ${htmlRegistros}
-
-                                <button style="background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main); font-size:13px; font-weight:bold; padding:12px; width:100%; border-radius:10px; cursor:pointer; margin-top:8px; transition: background 0.2s;" onmouseover="this.style.background='var(--border-light)'" onmouseout="this.style.background='var(--bg-box)'" onclick="crearNuevoRegistroCuaderno('${escapeAttr(cliente)}')">📝 Crear Nueva Nota / Factura</button>
-
-                                <div style="background:var(--bg-card); border:1px solid var(--border-light); box-shadow:0 4px 10px var(--shadow-color); padding:16px; border-radius:12px; margin-top:16px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
-                                    <div style="font-size:12px; font-weight:800; color:var(--warning); text-transform:uppercase;">Deuda Total Acumulada:</div>
-                                    <div style="display:flex; gap:8px; align-items:center;">
-                                        <input type="text" inputmode="decimal" class="cuaderno-input-precio input-formato-monto" style="width:120px; font-size:14px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}">
-                                        <button class="btn-guardar" style="padding:8px 14px; border-radius:8px;" onclick="guardarTotalManualCliente('${escapeAttr(cliente)}')">Fijar Total</button>
-                                    </div>
-                                </div>
-
-                                <button class="btn-cyan" style="margin-top:12px; background:var(--success); color:white; font-size:14px; padding:14px; border-radius:10px;" onclick="saldarDeuda('${escapeAttr(cliente)}')">💵 Registrar Pago y Saldar Deuda</button>
+                        <div class="cat-content-wrapper ${claseColLetra}" style="margin-top:8px;">
+                            <div class="cat-content-inner">
+                                ${htmlClientes}
                             </div>
                         </div>
                     </div>`;
-                contenedor.innerHTML += html;
             });
+        }
+
+        function registrarAnotadoRecord(cliente, regId) {
+            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).once('value', snap => {
+                const reg = snap.val();
+                if (!reg || !reg.items || reg.items.length === 0) {
+                    return alert('Esta nota no tiene productos para registrar.');
+                }
+
+                let advertencias = [];
+                let itemsValidos = [];
+
+                reg.items.forEach(item => {
+                    if (!item.nombre || item.nombre.trim() === '') return;
+                    const prod = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === item.nombre.toLowerCase());
+                    
+                    if (!prod) {
+                        advertencias.push(`• El producto "${item.nombre}" NO existe en el inventario.`);
+                    } else {
+                        const stockDisp = prod.stock !== undefined ? parseInt(prod.stock) : 0;
+                        const cantReq = parseInt(item.cantidad) || 1;
+                        if (stockDisp <= 0) {
+                            advertencias.push(`• El producto "${prod.nombre}" está agotado (stock en 0).`);
+                        } else if (cantReq > stockDisp) {
+                            advertencias.push(`• Stock insuficiente para "${prod.nombre}" (Disponible: ${stockDisp}, requerido: ${cantReq}).`);
+                        } else {
+                            itemsValidos.push({ prod: prod, cantidad: cantReq });
+                        }
+                    }
+                });
+
+                if (advertencias.length > 0) {
+                    let mensaje = "⚠️ Se encontraron observaciones en el inventario:\n\n" + advertencias.join('\n');
+                    mensaje += "\n\n¿Deseas registrar el anotado de todas formas y descontar el stock disponible?";
+                    if (!confirm(mensaje)) return;
+                } else {
+                    if (!confirm('✅ Todos los productos existen y tienen stock disponible. ¿Deseas registrar este anotado y descontar el stock del inventario?')) return;
+                }
+
+                let updates = {};
+                itemsValidos.forEach(iv => {
+                    const stockActual = iv.prod.stock !== undefined ? parseInt(iv.prod.stock) : 0;
+                    updates[`abasto/productos/${iv.prod.id}/stock`] = Math.max(0, stockActual - iv.cantidad);
+                });
+
+                updates[`abasto/cuaderno/${cliente}/registros/${regId}/registradoEnInventario`] = true;
+
+                db.ref().update(updates, error => {
+                    if (!error) {
+                        alert('✅ ¡Anotado registrado en inventario y stock actualizado exitosamente!');
+                    } else {
+                        alert('Error al actualizar inventario: ' + error.message);
+                    }
+                });
+            });
+        }
+
+        function registrarPagoCliente(cliente) {
+            db.ref(`abasto/cuaderno/${cliente}`).once('value', snap => {
+                const clienteData = snap.val();
+                if (!clienteData) return;
+
+                const registros = Object.values(clienteData.registros || {});
+                let totalRegistrosBs = 0;
+                let itemsTotales = [];
+
+                registros.forEach(reg => {
+                    if (reg.items && Array.isArray(reg.items)) {
+                        reg.items.forEach(i => {
+                            itemsTotales.push(i);
+                            totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1);
+                        });
+                    } else {
+                        totalRegistrosBs += parsearMonto(reg.totalBs) || 0;
+                    }
+                });
+
+                const totalDeudaBs = clienteData.totalManual !== undefined && clienteData.totalManual !== null ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
+
+                const inputPago = prompt(`Deuda total de ${cliente}: ${formatearNumero(totalDeudaBs)} Bs.\nIngrese el monto que paga o abona el cliente:`, totalDeudaBs);
+                if (!inputPago) return;
+                const montoPago = parsearMonto(inputPago);
+                if (montoPago <= 0) return alert('Monto inválido.');
+
+                const fechaObj = new Date();
+                const idVenta = Date.now();
+                let updates = {};
+
+                // Registrar el pago en la caja / ventas del día (factura)
+                updates[`abasto/ventas/${idVenta}`] = {
+                    id: idVenta,
+                    fechaIso: getFechaLocalISO(fechaObj),
+                    fechaFormato: fechaObj.toLocaleDateString(),
+                    hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                    totalBs: montoPago,
+                    gananciaBs: 0,
+                    items: [{ nombre: `Pago / Abono de deuda - ${cliente}`, cantidad: 1, precioBs: montoPago }]
+                };
+
+                if (montoPago >= totalDeudaBs) {
+                    // Deuda pagada por completo -> limpiar cliente del cuaderno
+                    updates[`abasto/cuaderno/${cliente}`] = null;
+                } else {
+                    // Abono parcial -> actualizar deuda restante
+                    const deudaRestante = totalDeudaBs - montoPago;
+                    updates[`abasto/cuaderno/${cliente}/totalManual`] = deudaRestante;
+                }
+
+                db.ref().update(updates, error => {
+                    if (!error) {
+                        if (montoPago >= totalDeudaBs) {
+                            alert(`✅ Pago registrado en caja y deuda saldada por completo. ${cliente} fue limpiado y retirado del cuaderno.`);
+                        } else {
+                            alert(`✅ Abono de ${formatearNumero(montoPago)} Bs. registrado en la factura/caja.\nDeuda restante de ${cliente}: ${formatearNumero(totalDeudaBs - montoPago)} Bs.`);
+                        }
+                    } else {
+                        alert('Error: ' + error.message);
+                    }
+                });
+            });
+        }
+
+        function filtrarProductosCuaderno(inputEl, cliente, regId, idx) {
+            const query = inputEl.value.toLowerCase().trim();
+            const wrapper = inputEl.parentElement;
+            const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
+            
+            if (query === '') {
+                suggestionsBox.classList.add('oculto');
+                suggestionsBox.innerHTML = '';
+                return;
+            }
+
+            const matches = productos.filter(p => p && p.nombre && p.nombre.toLowerCase().includes(query));
+
+            if (matches.length === 0) {
+                suggestionsBox.classList.add('oculto');
+                suggestionsBox.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            matches.slice(0, 10).forEach(p => {
+                const stockNum = p.stock !== undefined ? p.stock : 0;
+                const precioBs = (parsearMonto(p.costoBs) || 0) * (1 + (parseFloat(p.ganancia) || 0) / 100);
+                html += `<div class="autocomplete-suggestion-item" onmousedown="seleccionarProductoCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, '${escapeAttr(p.nombre)}')">
+                    <span>${p.nombre}</span>
+                    <span style="font-size: 0.75rem; color: var(--warning); font-weight: bold;">${formatearNumero(precioBs)} Bs. (${stockNum} und)</span>
+                </div>`;
+            });
+
+            suggestionsBox.innerHTML = html;
+            suggestionsBox.classList.remove('oculto');
+        }
+
+        function seleccionarProductoCuaderno(itemEl, cliente, regId, idx, nombreProducto) {
+            const wrapper = itemEl.closest('.autocomplete-wrapper');
+            const inputEl = wrapper.querySelector('.cuaderno-input-nom');
+            if (inputEl) {
+                inputEl.value = nombreProducto;
+                editarItemCuaderno(cliente, regId, idx, 'nombre', nombreProducto);
+            }
+            const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
+            if (suggestionsBox) {
+                suggestionsBox.classList.add('oculto');
+            }
+        }
+
+        function ocultarSugerenciasConRetraso(inputEl) {
+            setTimeout(() => {
+                const wrapper = inputEl.parentElement;
+                const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
+                if (suggestionsBox) {
+                    suggestionsBox.classList.add('oculto');
+                }
+            }, 200);
         }
 
         function agregarNuevoClienteFiado() {
             const nombre = prompt('Nombre del nuevo cliente para el cuaderno:');
             if (!nombre || nombre.trim() === '') return;
-            // Respeta el formato de mayúsculas/minúsculas ingresado
             const nombreCliente = nombre.trim();
             const fechaObj = new Date();
             const regId = Date.now();
+            const primeraLetra = nombreCliente.charAt(0).toUpperCase();
 
             db.ref(`abasto/cuaderno/${nombreCliente}/registros/${regId}`).set({
                 id: regId,
                 fecha: fechaObj.toLocaleDateString(),
                 hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: [{ nombre: "Producto Inicial", cantidad: 1, precioBs: 0 }]
+                items: [{ nombre: "", cantidad: 1, precioBs: 0 }]
             }).then(() => {
                 estadoCarpetasCuaderno[nombreCliente] = true;
+                estadoCarpetasCuaderno['letra_' + (/[A-ZÁÉÍÓÚÑ]/.test(primeraLetra) ? primeraLetra : '#')] = true;
                 renderCuaderno();
             });
         }
@@ -1009,15 +1292,40 @@
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).once('value', snap => {
                 let items = snap.val() || [];
                 if (!items[itemIdx]) return;
-                if (campo === 'precioBs') items[itemIdx].precioBs = parsearMonto(valor);
-                else if (campo === 'cantidad') items[itemIdx].cantidad = parseInt(valor) || 1;
-                else items[itemIdx].nombre = valor;
+
+                if (campo === 'nombre') {
+                    const nombreVal = String(valor).trim();
+                    if (nombreVal === "") {
+                        items[itemIdx].nombre = "";
+                        items[itemIdx].precioBs = 0;
+                        db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
+                        db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
+                        return;
+                    }
+
+                    const prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase());
+                    
+                    if (!prodEncontrado) {
+                        items[itemIdx].nombre = valor;
+                        items[itemIdx].precioBs = 0;
+                    } else {
+                        items[itemIdx].nombre = prodEncontrado.nombre;
+                        const precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
+                        items[itemIdx].precioBs = precioBs;
+                    }
+
+                } else if (campo === 'cantidad') {
+                    items[itemIdx].cantidad = parseInt(valor) || 1;
+                } else if (campo === 'precioBs') {
+                    items[itemIdx].precioBs = parsearMonto(valor);
+                }
 
                 let totalReg = 0;
                 items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
 
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
+                db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
             });
         }
 
@@ -1037,14 +1345,17 @@
                 items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
+                db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
             });
         }
 
         function agregarItemACuaderno(cliente, regId) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).once('value', snap => {
                 let items = snap.val() || [];
-                items.push({ nombre: "Nuevo producto", cantidad: 1, precioBs: 0 });
-                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
+                items.push({ nombre: "", cantidad: 1, precioBs: 0 });
+                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items).then(() => {
+                    db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
+                });
             });
         }
 
@@ -1055,13 +1366,19 @@
                 id: regId,
                 fecha: fechaObj.toLocaleDateString(),
                 hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: [{ nombre: "Artículo nuevo", cantidad: 1, precioBs: 0 }],
+                items: [{ nombre: "", cantidad: 1, precioBs: 0 }],
                 totalBs: 0
+            }).then(() => {
+                db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
             });
         }
 
         function eliminarRegistroCuaderno(cliente, regId) {
-            if (confirm('¿Eliminar esta nota de pedido?')) db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).remove();
+            if (confirm('¿Eliminar esta nota de pedido?')) {
+                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).remove().then(() => {
+                    db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
+                });
+            }
         }
 
         function cargarNotaATicket(cliente, regId) {
@@ -1070,14 +1387,17 @@
                 if (!reg || !reg.items) return alert('No hay productos en esta nota.');
                 
                 reg.items.forEach(item => {
+                    if (!item.nombre || item.nombre.trim() === '') return;
                     const prodExacto = productos.find(p => p.nombre.toLowerCase() === item.nombre.toLowerCase());
-                    ticketActual.push({
-                        id: prodExacto ? prodExacto.id : ('cuad_' + Date.now() + '_' + Math.floor(Math.random() * 1000)),
-                        nombre: item.nombre,
-                        precioBs: parsearMonto(item.precioBs) || 0,
-                        costoBs: prodExacto ? (parsearMonto(prodExacto.costoBs) || 0) : 0,
-                        cantidad: parseInt(item.cantidad) || 1
-                    });
+                    if (prodExacto) {
+                        ticketActual.push({
+                            id: prodExacto.id,
+                            nombre: item.nombre,
+                            precioBs: parsearMonto(item.precioBs) || 0,
+                            costoBs: parsearMonto(prodExacto.costoBs) || 0,
+                            cantidad: parseInt(item.cantidad) || 1
+                        });
+                    }
                 });
                 cambiarVista('pos');
                 alert(`🛒 Productos de la nota cargados al Ticket de Venta.`);
@@ -1089,57 +1409,13 @@
             if (!inputTotal) return;
             const nuevoTotal = parsearMonto(inputTotal.value);
             db.ref(`abasto/cuaderno/${cliente}/totalManual`).set(nuevoTotal).then(() => {
-                alert(`✅ Monto acumulado de ${cliente} actualizado a ${formatearNumero(nuevoTotal)} Bs.`);
+                alert(`✅ Monto acumulado de ${cliente} fijado manualmente a ${formatearNumero(nuevoTotal)} Bs.`);
             });
         }
 
-        function saldarDeuda(cliente) {
-            db.ref(`abasto/cuaderno/${cliente}`).once('value', snap => {
-                const clienteData = snap.val();
-                if (!clienteData) return;
-
-                const registros = Object.values(clienteData.registros || {});
-                let totalRegistrosBs = 0;
-                let itemsTotales = [];
-
-                registros.forEach(reg => {
-                    if (reg.items && Array.isArray(reg.items)) {
-                        reg.items.forEach(i => {
-                            itemsTotales.push(i);
-                            totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1);
-                        });
-                    } else {
-                        totalRegistrosBs += parsearMonto(reg.totalBs) || 0;
-                    }
-                });
-
-                const totalDeudaBs = clienteData.totalManual !== undefined ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
-
-                if (confirm(`¿Estás seguro de que ${cliente} pagó su deuda total de ${formatearNumero(totalDeudaBs)} Bs.?`)) {
-                    const registrarEnCaja = confirm(`¿Deseas registrar este cobro de ${formatearNumero(totalDeudaBs)} Bs. como una venta cobrada en la Caja del Día?`);
-                    
-                    let updates = {};
-                    updates[`abasto/cuaderno/${cliente}`] = null;
-
-                    if (registrarEnCaja) {
-                        const fechaObj = new Date();
-                        const idVenta = Date.now();
-                        updates[`abasto/ventas/${idVenta}`] = {
-                            id: idVenta,
-                            fechaIso: getFechaLocalISO(fechaObj),
-                            fechaFormato: fechaObj.toLocaleDateString(),
-                            hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-                            totalBs: totalDeudaBs,
-                            gananciaBs: 0,
-                            items: itemsTotales.length > 0 ? itemsTotales : [{ nombre: `Pago de deuda - ${cliente}`, cantidad: 1, precioBs: totalDeudaBs }]
-                        };
-                    }
-
-                    db.ref().update(updates, error => {
-                        if (!error) alert('✅ Deuda saldada correctamente.');
-                        else alert('Error: ' + error.message);
-                    });
-                }
+        function recalcularTotalCliente(cliente) {
+            db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove().then(() => {
+                alert(`✅ Monto acumulado actualizado y calculado desde los productos.`);
             });
         }
 
@@ -1305,11 +1581,11 @@
         document.getElementById('input-search-cuaderno').addEventListener('input', () => renderCuaderno());
 
         document.addEventListener('click', e => {
-            const header = e.target.closest('.categoria-header');
-            if (header && !e.target.closest('.btn-cyan') && !e.target.closest('.btn-guardar')) {
-                if(!header.hasAttribute('onclick')) {
-                    const wrapper = header.nextElementSibling;
-                    const icon = header.querySelector('.flecha-icon');
+            const TheHeader = e.target.closest('.categoria-header');
+            if (TheHeader && !e.target.closest('.btn-cyan') && !e.target.closest('.btn-guardar')) {
+                if(!TheHeader.hasAttribute('onclick')) {
+                    const wrapper = TheHeader.nextElementSibling;
+                    const icon = TheHeader.querySelector('.flecha-icon');
                     if (wrapper) wrapper.classList.toggle('colapsado');
                     if (icon) icon.classList.toggle('rotado');
                 }
