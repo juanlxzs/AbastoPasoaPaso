@@ -6,6 +6,11 @@
     <title>Abasto Paso a Paso - Punto de Venta & Inventario</title>
     <meta name="theme-color" content="#e91e63">
 
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -46,7 +51,7 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
         }
 
@@ -188,18 +193,16 @@
         .btn-orange { background-color: #ff9800; color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 10px; margin-top: 14px; cursor: pointer; }
         .btn-cyan { background-color: var(--secondary); color: #000; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; }
 
-        .caja-card { background-color: var(--bg-card); border-radius: 16px; padding: 16px; border: 1px solid var(--border-color); }
-        .caja-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-top: 12px; text-align: center; }
-        .caja-item { background-color: var(--bg-box); padding: 10px 6px; border-radius: 10px; border: 1px solid var(--border-color); }
-        .navegador-dias { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-box); padding: 10px 12px; border-radius: 10px; margin-top: 14px; border: 1px solid var(--border-light); gap: 8px; }
-        .btn-dia { background: var(--bg-card); border: 1px solid var(--border-light); color: var(--text-main); padding: 8px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.75rem; }
-        .factura-dia-box { background-color: var(--bg-main); border: 1px dashed var(--border-light); border-radius: 10px; padding: 14px; margin-top: 12px; font-family: 'Courier New', Courier, monospace; max-height: 260px; overflow-y: auto; }
+        .caja-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-top: 12px; text-align: center; }
+        .caja-item { background-color: var(--bg-box); padding: 12px 8px; border-radius: 10px; border: 1px solid var(--border-color); }
+        .navegador-dias { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-box); padding: 12px 14px; border-radius: 10px; margin-top: 14px; border: 1px solid var(--border-light); gap: 8px; }
+        .btn-dia { background: var(--bg-card); border: 1px solid var(--border-light); color: var(--text-main); padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
 
         /* MODALES */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 12px; }
         .modal-recibo-card, .modal-editar-card { background-color: var(--bg-card); border-radius: 16px; padding: 18px; width: 100%; max-width: 460px; border: 1px solid var(--secondary); display: flex; flex-direction: column; gap: 14px; }
 
-        /* CUADERNO VIRTUAL UI (ESTILO CARPETAS DELGADAS A-Z) */
+        /* CUADERNO VIRTUAL UI */
         .cuaderno-cliente-slim { 
             background-color: var(--bg-box); 
             border: 1px solid var(--border-light); 
@@ -214,7 +217,7 @@
         .cuaderno-item-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; background: var(--bg-card); padding: 6px; border-radius: 6px; border: 1px solid var(--border-light); }
         .cuaderno-input-nom { flex: 2; min-width: 60px; padding: 6px; font-size: 0.82rem; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; width: 100%; }
         .cuaderno-input-qty { width: 50px; padding: 6px 4px; font-size: 0.82rem; text-align: center; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
-        .cuaderno-input-precio { width: 85px; padding: 6px; font-size: 0.82rem; text-align: right; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .cuaderno-input-precio { width: 95px; padding: 6px; font-size: 0.82rem; text-align: right; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
         .btn-cuaderno-action { background: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 5px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
 
         /* AUTOCOMPLETE DROPDOWN */
@@ -266,13 +269,16 @@
         th { text-align: left; padding: 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
         td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         
-        .input-inline { width: 75px; padding: 8px !important; text-align: right; }
+        .input-inline { width: 85px; padding: 8px !important; text-align: right; }
         .input-admin-nom { min-width: 150px; width: 100%; padding: 8px !important; }
         .btn-guardar { background-color: var(--secondary); color: black; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
         .btn-eliminar { background-color: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
         .btn-cat-action { background-color: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 4px; }
         .acciones-fila { display: flex; gap: 4px; }
         .oculto { display: none !important; }
+
+        /* AYUDA CONVERSIÓN RÁPIDA */
+        .ayuda-moneda { font-size: 10px; color: var(--secondary); margin-top: 3px; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -287,6 +293,7 @@
         </div>
         <button class="btn-nav activo" id="nav-cat" onclick="cambiarVista('catalogo')">📖 Catálogo</button>
         <button class="btn-nav" id="nav-pos" onclick="cambiarVista('pos')">🛒 Caja / Venta</button>
+        <button class="btn-nav" id="nav-facturas" onclick="cambiarVista('facturas')">🧾 Facturas y Cierre</button>
         <button class="btn-nav" id="nav-cuaderno" onclick="cambiarVista('cuaderno')">📓 Cuaderno Virtual</button>
         <button class="btn-nav" id="nav-admin" onclick="cambiarVista('admin')">⚙️ Inventario</button>
     </div>
@@ -309,7 +316,7 @@
         <div class="pos-container">
             <div class="pos-box">
                 <div class="pos-titulo">
-                    <span>🧾 Ticket de Compra</span>
+                    <span>🛒 Ticket de Compra Actual</span>
                     <button style="background: transparent; color: var(--primary); border: none; font-size: 12px; cursor: pointer; font-weight: bold;" onclick="vaciarTicket()">Vaciar Ticket</button>
                 </div>
 
@@ -343,11 +350,12 @@
                 </div>
 
                 <div class="calculadora-vuelto">
-                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Calculadora de Vuelto</div>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Calculadora de Vuelto (Conversión Rápida $)</div>
                     <div class="row-pago">
                         <div>
                             <label style="margin-top: 4px;">Paga con USD ($):</label>
-                            <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-usd" placeholder="0,00" oninput="calcularVuelto()">
+                            <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="pos-pago-usd" placeholder="0,00 o $30" oninput="calcularVuelto()">
+                            <div class="ayuda-moneda" id="ayuda-pos-pago-usd">Pon $30 y se pasa a Bs</div>
                         </div>
                         <div>
                             <label style="margin-top: 4px;">Paga con Bs:</label>
@@ -364,51 +372,69 @@
                 <button class="btn-fiado" onclick="anotarAlCuaderno()">📝 Anotar a Cuaderno (Fiado)</button>
                 <button class="btn-orange" onclick="guardarBorradorManual()">💾 Guardar Borrador de Factura</button>
             </div>
+        </div>
+    </div>
 
-            <div class="caja-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                    <span style="font-weight: 800; font-size: 15px; color: var(--success);">📊 Cierre de Caja del Día</span>
-                    <button style="background: var(--bg-box); color: var(--danger); border: 1px solid var(--border-light); padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 700;" onclick="reiniciarCaja()">Reiniciar Caja</button>
+    <!-- NUEVA VISTA APARTE: FACTURAS AMPLIADAS Y GESTIÓN DE CAJA -->
+    <div id="vista-facturas" class="oculto">
+        <h1 class="titulo-admin" style="color: var(--secondary);">🧾 Historial y Gestión de Facturas</h1>
+        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Visualiza, navega y consulta las facturas organizadas por fecha y hora de manera limpia, cómoda y amplia.</p>
+        
+        <div class="pos-container">
+            <!-- Selector y Navegador de Días / Facturas Pasadas -->
+            <div class="pos-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+                    <span style="font-weight: 800; font-size: 1rem; color: var(--warning);">📅 Navegador de Facturas Pasadas</span>
+                    <button style="background: var(--bg-box); color: var(--danger); border: 1px solid var(--border-light); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 700;" onclick="reiniciarCaja()">Reiniciar Caja de esta Fecha</button>
                 </div>
-                
-                <div class="caja-grid">
+
+                <div class="navegador-dias" style="margin-top: 0;">
+                    <button class="btn-dia" onclick="cambiarDiaOffset(-1)">◀ Día Ant.</button>
+                    <div style="text-align: center;">
+                        <div class="label-dia-actual" id="label-dia-seleccionado" style="font-size: 14px; font-weight:bold;">Hoy</div>
+                        <button style="background:transparent; border:none; color:var(--primary); font-size:11px; cursor:pointer; font-weight:bold; margin-top:2px;" onclick="irAlDiaHoy()">Ir a Hoy</button>
+                    </div>
+                    <button class="btn-dia" onclick="cambiarDiaOffset(1)">Día Sig. ▶</button>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 12px; align-items: center; flex-wrap: wrap;">
+                    <label style="margin:0; font-size:12px;">Seleccionar fecha exacta:</label>
+                    <input type="date" id="input-filtro-fecha" style="flex:1; min-width: 150px; padding: 8px; border-radius: 8px; background: var(--bg-input); border: 1px solid var(--border-light); color: var(--text-main);" onchange="seleccionarFechaEspecifica(this.value)">
+                </div>
+
+                <!-- Resumen Financiero del Día Seleccionado -->
+                <div class="caja-grid" style="margin-top: 14px;">
                     <div class="caja-item">
-                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Vendido</div>
-                        <div style="font-weight: 800; color: var(--warning); font-size: 13px;" id="caja-total-bs">0,00 Bs.</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Total Vendido</div>
+                        <div style="font-weight: 800; color: var(--warning); font-size: 14px;" id="caja-total-bs">0,00 Bs.</div>
                         <div style="font-size: 10px; color: var(--text-muted);" id="caja-total-usd">$0,00</div>
                     </div>
                     <div class="caja-item">
-                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Ganancia</div>
-                        <div style="font-weight: 800; color: var(--success); font-size: 13px;" id="caja-ganancia-bs">0,00 Bs.</div>
+                        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Ganancia Neta</div>
+                        <div style="font-weight: 800; color: var(--success); font-size: 14px;" id="caja-ganancia-bs">0,00 Bs.</div>
                         <div style="font-size: 10px; color: var(--text-muted);" id="caja-ganancia-usd">$0,00</div>
                     </div>
                     <div class="caja-item">
                         <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Ventas / Unds</div>
-                        <div style="font-weight: 800; color: var(--secondary); font-size: 13px;" id="caja-num-ventas">0 / 0 und</div>
+                        <div style="font-weight: 800; color: var(--secondary); font-size: 14px;" id="caja-num-ventas">0 / 0 und</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="navegador-dias">
-                    <button class="btn-dia" onclick="cambiarDiaOffset(-1)">◀ Ant.</button>
-                    <div style="text-align: center;">
-                        <div class="label-dia-actual" id="label-dia-seleccionado" style="font-size: 13px; font-weight:bold;">Hoy</div>
-                        <button style="background:transparent; border:none; color:var(--primary); font-size:10px; cursor:pointer; font-weight:bold; margin-top:2px;" onclick="irAlDiaHoy()">Ir a Hoy</button>
-                    </div>
-                    <button class="btn-dia" onclick="cambiarDiaOffset(1)">Sig. ▶</button>
+            <!-- Listado Amplio y Limpio de Facturas del Día (Ordenadas por Hora) -->
+            <div class="pos-box">
+                <div class="factura-dia-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
+                    <div style="font-size: 1.05rem; font-weight: 800; color: var(--warning);">🧾 Facturas Registradas (Ordenadas por Hora)</div>
+                    <div style="font-size: 0.9rem; font-weight: 700; color: var(--secondary);" id="factura-dia-fecha">--/--/----</div>
                 </div>
 
-                <div class="factura-dia-box">
-                    <div class="factura-dia-header">
-                        <div style="font-size: 13px; font-weight: 800; color: var(--warning);" id="titulo-facturas-fecha">🧾 FACTURAS DEL DÍA</div>
-                        <div style="font-size: 11px; color: var(--text-muted);" id="factura-dia-fecha">--/--/----</div>
-                    </div>
-                    <div id="factura-dia-desglose">
-                        <div style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 6px;">Sin transacciones en esta fecha.</div>
-                    </div>
-                    <div style="border-top: 1px dashed var(--border-light); margin-top: 8px; padding-top: 8px;">
-                        <div class="factura-linea" style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight: 700; font-size:12px;">TOTAL UNIDADES DÍA:</span><strong style="color: var(--secondary);" id="factura-dia-unds">0 unds</strong></div>
-                        <div class="factura-linea" style="display:flex; justify-content:space-between;"><span style="font-weight: 700; font-size:12px;">TOTAL VENDIDO DÍA:</span><strong style="color: var(--warning);" id="factura-dia-total">0,00 Bs.</strong></div>
-                    </div>
+                <div id="factura-dia-desglose" style="display: flex; flex-direction: column; gap: 10px; max-height: 520px; overflow-y: auto; padding-right: 4px;">
+                    <div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px;">Sin transacciones en esta fecha.</div>
+                </div>
+
+                <div style="border-top: 1px dashed var(--border-light); margin-top: 14px; padding-top: 12px; background: var(--bg-box); padding: 12px; border-radius: 10px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight: 700; font-size:13px;">TOTAL UNIDADES DÍA:</span><strong style="color: var(--secondary); font-size: 13px;" id="factura-dia-unds">0 unds</strong></div>
+                    <div style="display:flex; justify-content:space-between;"><span style="font-weight: 700; font-size:13px;">TOTAL VENDIDO DÍA:</span><strong style="color: var(--warning); font-size: 15px;" id="factura-dia-total">0,00 Bs.</strong></div>
                 </div>
             </div>
         </div>
@@ -456,7 +482,7 @@
             </div>
 
             <div class="panel">
-                <div class="panel-titulo">2. Agregar Producto</div>
+                <div class="panel-titulo">2. Agregar Producto (Conversión Rápida $)</div>
                 <label>Nombre del Producto:</label>
                 <input type="text" id="p-nombre" placeholder="Nombre del producto">
 
@@ -465,11 +491,12 @@
                 <datalist id="lista-categorias-sugeridas"></datalist>
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <div style="flex:1; min-width: 120px;">
-                        <label>Costo (Bs):</label>
-                        <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo" placeholder="0,00">
+                    <div style="flex:1; min-width: 130px;">
+                        <label>Costo (Bs) o pon $30:</label>
+                        <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="p-costo" placeholder="0,00 o $30" oninput="procesarEntradaDolar(this)">
+                        <div class="ayuda-moneda">Escribe ej. $30 para convertir</div>
                     </div>
-                    <div style="flex:1; min-width: 100px;">
+                    <div style="flex:1; min-width: 90px;">
                         <label>Ganancia (%):</label>
                         <input type="number" step="0.1" id="p-ganancia" placeholder="0">
                     </div>
@@ -568,6 +595,8 @@
             if (typeof str === 'number') return isNaN(str) ? 0 : str;
             if (!str) return 0;
             let s = String(str).trim();
+            // Si incluye el símbolo $, limpiarlo antes de parsear
+            s = s.replace('$', '').trim();
             if (s.includes('.') && s.includes(',')) {
                 if (s.indexOf('.') < s.indexOf(',')) s = s.replace(/\./g, '').replace(',', '.');
                 else s = s.replace(/,/g, '');
@@ -578,6 +607,27 @@
             }
             let val = parseFloat(s);
             return isNaN(val) ? 0 : val;
+        }
+
+        // FUNCIÓN CLAVE PARA CONVERSIÓN RÁPIDA DE DÓLARES A BOLÍVARES
+        // Si el usuario escribe "$" o "USD" o presiona para poner dólares (ej. "$30"), lo convierte automáticamente a Bs en el input
+        function procesarEntradaDolar(input) {
+            let val = input.value;
+            if (!val) return;
+            
+            // Comprobar si el usuario escribió un signo de dólar o indicador de USD
+            if (val.includes('$') || val.toLowerCase().includes('usd')) {
+                let numeroLimpio = val.replace(/[^0-9,.]/g, '');
+                let montoUsd = parsearMonto(numeroLimpio);
+                let tasaNum = parsearMonto(config.tasaDolar) || 1;
+                
+                if (montoUsd > 0 && tasaNum > 0) {
+                    let resultadoBs = montoUsd * tasaNum;
+                    input.value = formatearNumero(resultadoBs);
+                }
+            } else {
+                formatearInputEnVivo(input);
+            }
         }
 
         function formatearInputEnVivo(input) {
@@ -598,7 +648,11 @@
                 input.value = val.includes(',') ? (entero || '0') + ',' : entero;
             }
         }
-        document.addEventListener('input', function(e) { if (e.target && e.target.classList.contains('input-formato-monto')) formatearInputEnVivo(e.target); });
+        document.addEventListener('input', function(e) { 
+            if (e.target && e.target.classList.contains('input-formato-monto') && !e.target.classList.contains('input-conv-usd')) { 
+                formatearInputEnVivo(e.target); 
+            } 
+        });
 
         // FIREBASE LISTENERS
         db.ref('abasto/config').on('value', function(snapshot) {
@@ -632,18 +686,24 @@
         function cambiarVista(vista) {
             document.getElementById('vista-catalogo').classList.add('oculto');
             document.getElementById('vista-pos').classList.add('oculto');
+            document.getElementById('vista-facturas').classList.add('oculto');
             document.getElementById('vista-admin').classList.add('oculto');
             document.getElementById('vista-cuaderno').classList.add('oculto');
 
             document.getElementById('nav-cat').classList.remove('activo');
             document.getElementById('nav-pos').classList.remove('activo');
+            document.getElementById('nav-facturas').classList.remove('activo');
             document.getElementById('nav-admin').classList.remove('activo');
             document.getElementById('nav-cuaderno').classList.remove('activo');
 
             if (vista === 'pos') {
                 document.getElementById('vista-pos').classList.remove('oculto');
                 document.getElementById('nav-pos').classList.add('activo');
-                cargarPosCatalogo(); renderTicket(); renderCierreCaja();
+                cargarPosCatalogo(); renderTicket();
+            } else if (vista === 'facturas') {
+                document.getElementById('vista-facturas').classList.remove('oculto');
+                document.getElementById('nav-facturas').classList.add('activo');
+                renderCierreCaja();
             } else if (vista === 'admin') {
                 document.getElementById('vista-admin').classList.remove('oculto');
                 document.getElementById('nav-admin').classList.add('activo');
@@ -670,7 +730,8 @@
             actualizarSugerenciasCategorias();
 
             if (!document.getElementById('vista-catalogo').classList.contains('oculto')) cargarCatalogo();
-            else if (!document.getElementById('vista-pos').classList.contains('oculto')) { cargarPosCatalogo(); renderTicket(); renderCierreCaja(); }
+            else if (!document.getElementById('vista-pos').classList.contains('oculto')) { cargarPosCatalogo(); renderTicket(); }
+            else if (!document.getElementById('vista-facturas').classList.contains('oculto')) renderCierreCaja();
             else if (!document.getElementById('vista-admin').classList.contains('oculto')) cargarAdmin();
             else if (!document.getElementById('vista-cuaderno').classList.contains('oculto')) renderCuaderno();
         }
@@ -753,17 +814,12 @@
                 return;
             }
             const stockDisponible = prod.stock !== undefined ? parseInt(prod.stock) : 0;
-            if (stockDisponible <= 0) {
-                alert('⚠️ El producto "' + prod.nombre + '" no está disponible porque el stock está agotado (en cero).');
-                return;
-            }
 
             let item = ticketActual.find(i => String(i.id) === String(id));
             const cantidadActual = item ? item.cantidad : 0;
 
-            if (cantidadActual + 1 > stockDisponible) {
-                alert('⚠️ No puedes superar el stock disponible de ' + prod.nombre + '.\nStock disponible: ' + stockDisponible);
-                return;
+            if (stockDisponible > 0 && cantidadActual + 1 > stockDisponible) {
+                alert('⚠️ Estás superando el stock disponible actual de ' + prod.nombre + ' (' + stockDisponible + ' unds).');
             }
 
             const precioBs = (parsearMonto(prod.costoBs) || 0) * (1 + (parseFloat(prod.ganancia) || 0) / 100);
@@ -775,13 +831,6 @@
         function cambiarCantidadTicket(id, delta) {
             let item = ticketActual.find(i => String(i.id) === String(id));
             if (!item) return;
-            const prod = productos.find(p => String(p.id) === String(id));
-            const stockDisponible = prod ? (prod.stock !== undefined ? parseInt(prod.stock) : 0) : 0;
-
-            if (delta > 0 && (stockDisponible <= 0 || item.cantidad + delta > stockDisponible)) {
-                alert('⚠️ El producto no está disponible o supera el stock máximo (' + stockDisponible + ').');
-                return;
-            }
             item.cantidad += delta;
             if (item.cantidad <= 0) eliminarItemTicket(id);
             else renderTicket();
@@ -820,9 +869,18 @@
         }
 
         function calcularVuelto() {
+            // Soportar conversión rápida $ en el input de pago USD
+            const inputUsd = document.getElementById('pos-pago-usd');
+            if (inputUsd.value.includes('$') || inputUsd.value.toLowerCase().includes('usd')) {
+                let numLimpio = inputUsd.value.replace(/[^0-9,.]/g, '');
+                let mUsd = parsearMonto(numLimpio);
+                let t = parsearMonto(config.tasaDolar) || 1;
+                if (mUsd > 0) inputUsd.value = formatearNumero(mUsd * t);
+            }
+
             const tasa = parsearMonto(config.tasaDolar) || 1;
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
-            const totalPagadoBs = ((parsearMonto(document.getElementById('pos-pago-usd').value) || 0) * tasa) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
+            const totalPagadoBs = ((parsearMonto(inputUsd.value) || 0) * 1) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
             const vueltoBs = totalPagadoBs - totalBs;
             const elVuelto = document.getElementById('pos-vuelto');
 
@@ -833,28 +891,10 @@
         function procesarVenta() {
             if (ticketActual.length === 0) return alert('El ticket de compra está vacío.');
 
-            for (let item of ticketActual) {
-                const prod = productos.find(p => String(p.id) === String(item.id));
-                
-                if (!prod) {
-                    alert(`⚠️ El producto "${item.nombre}" no está registrado en el catálogo.`);
-                    return;
-                }
-                const stockDisponible = prod.stock !== undefined ? parseInt(prod.stock) : 0;
-                if (stockDisponible <= 0) {
-                    alert(`⚠️ El producto "${item.nombre}" no está disponible porque se agotó (stock en cero).`);
-                    return;
-                }
-                if (item.cantidad > stockDisponible) {
-                    alert(`⚠️ No hay suficiente stock para "${item.nombre}". Stock disponible: ${stockDisponible}, solicitado: ${item.cantidad}.`);
-                    return;
-                }
-            }
-
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
             const gananciaBs = totalBs - ticketActual.reduce((acc, item) => acc + (item.costoBs * item.cantidad), 0);
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const totalPagadoBs = ((parsearMonto(document.getElementById('pos-pago-usd').value) || 0) * tasa) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
+            const totalPagadoBs = ((parsearMonto(document.getElementById('pos-pago-usd').value) || 0) * 1) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
             const vueltoBs = Math.max(0, totalPagadoBs - totalBs);
 
             const fechaObj = new Date();
@@ -863,7 +903,8 @@
 
             ticketActual.forEach(item => {
                 const prod = productos.find(p => String(p.id) === String(item.id));
-                if (prod) actualizaciones['abasto/productos/' + item.id + '/stock'] = Math.max(0, (prod.stock || 0) - item.cantidad);
+                const stockActual = prod && prod.stock !== undefined ? parseInt(prod.stock) : 0;
+                actualizaciones['abasto/productos/' + item.id + '/stock'] = Math.max(0, stockActual - item.cantidad);
             });
 
             actualizaciones['abasto/ventas/' + idVenta] = {
@@ -909,7 +950,7 @@
             });
         }
 
-        /* CUADERNO VIRTUAL LOGIC (ESTRUCTURA A-Z Y CARPETAS DELGADAS) */
+        /* CUADERNO VIRTUAL LOGIC */
         function toggleCarpetaCuaderno(clienteStr) {
             estadoCarpetasCuaderno[clienteStr] = !estadoCarpetasCuaderno[clienteStr];
             renderCuaderno();
@@ -985,13 +1026,13 @@
                                             <div class="autocomplete-suggestions oculto"></div>
                                         </div>
                                         <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
-                                        <input type="text" inputmode="decimal" class="input-formato-monto cuaderno-input-precio" value="${formatearNumero(precioItem)}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'precioBs', this.value)" title="Precio Bs">
-                                        <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:2px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar producto">✕</button>
+                                        <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd cuaderno-input-precio" value="${formatearNumero(precioItem)}" oninput="procesarEntradaDolarCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" title="Precio Bs (Pon $30 para convertir)">
+                                        <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:2px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar">✕</button>
                                     </div>`;
                             });
                         }
 
-                        const badgeRegistrado = reg.registradoEnInventario ? `<span style="font-size:10px; color:var(--success); font-weight:bold; background:var(--bg-box); padding:2px 6px; border-radius:4px; border:1px solid var(--success);">✅ Anotado en Inventario</span>` : '';
+                        const badgeRegistrado = reg.registradoEnInventario ? `<span style="font-size:10px; color:var(--success); font-weight:bold; background:var(--bg-box); padding:2px 6px; border-radius:4px; border:1px solid var(--success);">✅ En Inventario</span>` : '';
 
                         htmlRegistros += `
                             <div class="cuaderno-registro-card">
@@ -1003,12 +1044,12 @@
                                         ${badgeRegistrado}
                                     </div>
                                     <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                                        <button class="btn-cuaderno-action" style="background:var(--success); color:white; border-color:var(--success);" onclick="registrarAnotadoRecord('${escapeAttr(cliente)}', ${regId})">📝 Registrar Anotado</button>
+                                        <button class="btn-cuaderno-action" style="background:var(--success); color:white; border-color:var(--success);" onclick="registrarAnotadoRecord('${escapeAttr(cliente)}', ${regId})">📝 Registrar</button>
                                         <button class="btn-cuaderno-action" style="color:var(--secondary);" onclick="cargarNotaATicket('${escapeAttr(cliente)}', ${regId})">🛒 Cargar</button>
                                         <button class="btn-cuaderno-action" style="color:var(--danger); border-color:var(--danger);" onclick="eliminarRegistroCuaderno('${escapeAttr(cliente)}', ${regId})">🗑️</button>
                                     </div>
                                 </div>
-                                <div style="font-size:10px; font-weight:700; color:var(--secondary); margin-bottom:4px; text-transform:uppercase;">Artículos:</div>
+                                <div style="font-size:10px; font-weight:700; color:var(--secondary); margin-bottom:4px; text-transform:uppercase;">Artículos (Escribe ej. $30 para convertir a Bs):</div>
                                 ${itemsHtml}
                                 <button style="background:transparent; border:1px dashed var(--secondary); color:var(--secondary); font-size:11px; font-weight:bold; padding:6px; width:100%; border-radius:6px; cursor:pointer; margin-top:8px;" onclick="agregarItemACuaderno('${escapeAttr(cliente)}', ${regId})">＋ Añadir Producto</button>
                             </div>`;
@@ -1038,7 +1079,7 @@
                                     <div style="background:var(--bg-main); border:1px solid var(--border-light); padding:10px; border-radius:8px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
                                         <span style="font-size:11px; font-weight:800; color:var(--warning);">Total Deuda:</span>
                                         <div style="display:flex; gap:6px; align-items:center;">
-                                            <input type="text" inputmode="decimal" class="input-formato-monto cuaderno-input-precio" style="width:100px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}">
+                                            <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd cuaderno-input-precio" style="width:105px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}" oninput="procesarEntradaDolarDeudaTotal(this, '${escapeAttr(cliente)}')">
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="guardarTotalManualCliente('${escapeAttr(cliente)}')">Fijar</button>
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem; background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main);" onclick="recalcularTotalCliente('${escapeAttr(cliente)}')">🔄 Actualizar</button>
                                         </div>
@@ -1071,12 +1112,36 @@
             });
         }
 
+        // Conversión rápida de dólares en inputs de precios del cuaderno virtual
+        function procesarEntradaDolarCuaderno(inputEl, cliente, regId, itemIdx) {
+            let val = inputEl.value;
+            if (val.includes('$') || val.toLowerCase().includes('usd')) {
+                let limpio = val.replace(/[^0-9,.]/g, '');
+                let mUsd = parsearMonto(limpio);
+                let tasa = parsearMonto(config.tasaDolar) || 1;
+                if (mUsd > 0) {
+                    inputEl.value = formatearNumero(mUsd * tasa);
+                }
+            }
+            editarItemCuaderno(cliente, regId, itemIdx, 'precioBs', inputEl.value);
+        }
+
+        function procesarEntradaDolarDeudaTotal(inputEl, cliente) {
+            let val = inputEl.value;
+            if (val.includes('$') || val.toLowerCase().includes('usd')) {
+                let limpio = val.replace(/[^0-9,.]/g, '');
+                let mUsd = parsearMonto(limpio);
+                let tasa = parsearMonto(config.tasaDolar) || 1;
+                if (mUsd > 0) {
+                    inputEl.value = formatearNumero(mUsd * tasa);
+                }
+            }
+        }
+
         function registrarAnotadoRecord(cliente, regId) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).once('value', snap => {
                 const reg = snap.val();
-                if (!reg || !reg.items || reg.items.length === 0) {
-                    return alert('Esta nota no tiene productos para registrar.');
-                }
+                if (!reg || !reg.items || reg.items.length === 0) return alert('Esta nota no tiene productos.');
 
                 let errores = [];
                 let itemsValidos = [];
@@ -1084,24 +1149,19 @@
                 reg.items.forEach(item => {
                     if (!item.nombre || item.nombre.trim() === '') return;
                     const prod = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === item.nombre.toLowerCase());
-                    
                     if (!prod) {
-                        errores.push(`• El producto "${item.nombre}" NO existe en el inventario.`);
+                        errores.push(`• "${item.nombre}" no existe en inventario.`);
                     } else {
                         const stockDisp = prod.stock !== undefined ? parseInt(prod.stock) : 0;
                         const cantReq = parseInt(item.cantidad) || 1;
-                        if (stockDisp <= 0) {
-                            errores.push(`• El producto "${prod.nombre}" está agotado (stock en 0).`);
-                        } else if (cantReq > stockDisp) {
-                            errores.push(`• Stock insuficiente para "${prod.nombre}" (Disponible: ${stockDisp}, requerido: ${cantReq}).`);
-                        } else {
-                            itemsValidos.push({ prod: prod, cantidad: cantReq });
-                        }
+                        if (stockDisp <= 0) errores.push(`• "${prod.nombre}" agotado.`);
+                        else if (cantReq > stockDisp) errores.push(`• Stock insuficiente para "${prod.nombre}".`);
+                        else itemsValidos.push({ prod: prod, cantidad: cantReq });
                     }
                 });
 
                 if (errores.length > 0) {
-                    alert("❌ No se puede registrar ni anotar el producto en el inventario:\n\n" + errores.join('\n') + "\n\nLos productos no existen o se encuentran agotados/sin stock.");
+                    alert("❌ No se pudo registrar:\n\n" + errores.join('\n'));
                     return;
                 }
 
@@ -1110,15 +1170,11 @@
                     const stockActual = iv.prod.stock !== undefined ? parseInt(iv.prod.stock) : 0;
                     updates[`abasto/productos/${iv.prod.id}/stock`] = Math.max(0, stockActual - iv.cantidad);
                 });
-
                 updates[`abasto/cuaderno/${cliente}/registros/${regId}/registradoEnInventario`] = true;
 
                 db.ref().update(updates, error => {
-                    if (!error) {
-                        alert('✅ ¡Anotado registrado en inventario y stock actualizado exitosamente!');
-                    } else {
-                        alert('Error al actualizar inventario: ' + error.message);
-                    }
+                    if (!error) alert('✅ ¡Anotado registrado en inventario y stock descontado!');
+                    else alert('Error: ' + error.message);
                 });
             });
         }
@@ -1130,24 +1186,26 @@
 
                 const registros = Object.values(clienteData.registros || {});
                 let totalRegistrosBs = 0;
-                let itemsTotales = [];
-
                 registros.forEach(reg => {
                     if (reg.items && Array.isArray(reg.items)) {
-                        reg.items.forEach(i => {
-                            itemsTotales.push(i);
-                            totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1);
-                        });
+                        reg.items.forEach(i => totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
                     } else {
                         totalRegistrosBs += parsearMonto(reg.totalBs) || 0;
                     }
                 });
 
                 const totalDeudaBs = clienteData.totalManual !== undefined && clienteData.totalManual !== null ? parsearMonto(clienteData.totalManual) : totalRegistrosBs;
-
-                const inputPago = prompt(`Deuda total de ${cliente}: ${formatearNumero(totalDeudaBs)} Bs.\nIngrese el monto que paga o abona el cliente:`, totalDeudaBs);
+                const inputPago = prompt(`Deuda total de ${cliente}: ${formatearNumero(totalDeudaBs)} Bs.\nIngrese monto abonado (puede poner ej. $30):`, totalDeudaBs);
                 if (!inputPago) return;
-                const montoPago = parsearMonto(inputPago);
+                
+                let montoPago = 0;
+                if (inputPago.includes('$') || inputPago.toLowerCase().includes('usd')) {
+                    let limpio = inputPago.replace(/[^0-9,.]/g, '');
+                    montoPago = parsearMonto(limpio) * (parsearMonto(config.tasaDolar) || 1);
+                } else {
+                    montoPago = parsearMonto(inputPago);
+                }
+
                 if (montoPago <= 0) return alert('Monto inválido.');
 
                 const fechaObj = new Date();
@@ -1155,32 +1213,15 @@
                 let updates = {};
 
                 updates[`abasto/ventas/${idVenta}`] = {
-                    id: idVenta,
-                    fechaIso: getFechaLocalISO(fechaObj),
-                    fechaFormato: fechaObj.toLocaleDateString(),
-                    hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-                    totalBs: montoPago,
-                    gananciaBs: 0,
-                    items: [{ nombre: `Pago / Abono de deuda - ${cliente}`, cantidad: 1, precioBs: montoPago }]
+                    id: idVenta, fechaIso: getFechaLocalISO(fechaObj), fechaFormato: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), totalBs: montoPago, gananciaBs: 0, items: [{ nombre: `Abono/Pago deuda - ${cliente}`, cantidad: 1, precioBs: montoPago }]
                 };
 
-                if (montoPago >= totalDeudaBs) {
-                    updates[`abasto/cuaderno/${cliente}`] = null;
-                } else {
-                    const deudaRestante = totalDeudaBs - montoPago;
-                    updates[`abasto/cuaderno/${cliente}/totalManual`] = deudaRestante;
-                }
+                if (montoPago >= totalDeudaBs) updates[`abasto/cuaderno/${cliente}`] = null;
+                else updates[`abasto/cuaderno/${cliente}/totalManual`] = totalDeudaBs - montoPago;
 
                 db.ref().update(updates, error => {
-                    if (!error) {
-                        if (montoPago >= totalDeudaBs) {
-                            alert(`✅ Pago registrado en caja y deuda saldada por completo. ${cliente} fue limpiado y retirado del cuaderno.`);
-                        } else {
-                            alert(`✅ Abono de ${formatearNumero(montoPago)} Bs. registrado en la factura/caja.\nDeuda restante de ${cliente}: ${formatearNumero(totalDeudaBs - montoPago)} Bs.`);
-                        }
-                    } else {
-                        alert('Error: ' + error.message);
-                    }
+                    if (!error) alert(`✅ Pago registrado exitosamente.`);
+                    else alert('Error: ' + error.message);
                 });
             });
         }
@@ -1189,80 +1230,41 @@
             const query = inputEl.value.toLowerCase().trim();
             const wrapper = inputEl.parentElement;
             const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
-            
-            if (query === '') {
-                suggestionsBox.classList.add('oculto');
-                suggestionsBox.innerHTML = '';
-                return;
-            }
+            if (query === '') { suggestionsBox.classList.add('oculto'); suggestionsBox.innerHTML = ''; return; }
 
             let matches = productos.filter(p => p && p.nombre && p.nombre.toLowerCase().includes(query));
-            matches.sort((a, b) => {
-                const aName = a.nombre.toLowerCase();
-                const bName = b.nombre.toLowerCase();
-                const aStarts = aName.startsWith(query);
-                const bStarts = bName.startsWith(query);
-                if (aStarts && !bStarts) return -1;
-                if (!aStarts && bStarts) return 1;
-                return aName.localeCompare(bName);
-            });
-
-            if (matches.length === 0) {
-                suggestionsBox.classList.add('oculto');
-                suggestionsBox.innerHTML = '';
-                return;
-            }
+            if (matches.length === 0) { suggestionsBox.classList.add('oculto'); suggestionsBox.innerHTML = ''; return; }
 
             let html = '';
             matches.slice(0, 10).forEach(p => {
                 const stockNum = p.stock !== undefined ? p.stock : 0;
                 const precioBs = (parsearMonto(p.costoBs) || 0) * (1 + (parseFloat(p.ganancia) || 0) / 100);
-                html += `<div class="autocomplete-suggestion-item" onmousedown="seleccionarProductoCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, '${escapeAttr(p.nombre)}')">
-                    <span>${p.nombre}</span>
-                    <span style="font-size: 0.75rem; color: var(--warning); font-weight: bold;">${formatearNumero(precioBs)} Bs. (${stockNum} und)</span>
-                </div>`;
+                html += `<div class="autocomplete-suggestion-item" onmousedown="seleccionarProductoCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, '${escapeAttr(p.nombre)}')"><span>${p.nombre}</span><span style="font-size:0.75rem; color:var(--warning); font-weight:bold;">${formatearNumero(precioBs)} Bs. (${stockNum} und)</span></div>`;
             });
-
             suggestionsBox.innerHTML = html;
             suggestionsBox.classList.remove('oculto');
         }
 
         function seleccionarPrimerSugerido(inputEl, cliente, regId, idx) {
             const wrapper = inputEl.parentElement;
-            const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
-            const firstItem = suggestionsBox.querySelector('.autocomplete-suggestion-item');
-            if (firstItem) {
-                firstItem.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-            } else {
-                inputEl.blur();
-            }
+            const firstItem = wrapper.querySelector('.autocomplete-suggestion-item');
+            if (firstItem) firstItem.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+            else inputEl.blur();
         }
 
         function seleccionarProductoCuaderno(itemEl, cliente, regId, idx, nombreProducto) {
             const wrapper = itemEl.closest('.autocomplete-wrapper');
             const inputEl = wrapper.querySelector('.cuaderno-input-nom');
-            if (inputEl) {
-                inputEl.value = nombreProducto;
-                editarItemCuaderno(cliente, regId, idx, 'nombre', nombreProducto);
-            }
-            const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
-            if (suggestionsBox) {
-                suggestionsBox.classList.add('oculto');
-            }
+            if (inputEl) { inputEl.value = nombreProducto; editarItemCuaderno(cliente, regId, idx, 'nombre', nombreProducto); }
+            wrapper.querySelector('.autocomplete-suggestions').classList.add('oculto');
         }
 
         function ocultarSugerenciasConRetraso(inputEl) {
-            setTimeout(() => {
-                const wrapper = inputEl.parentElement;
-                const suggestionsBox = wrapper.querySelector('.autocomplete-suggestions');
-                if (suggestionsBox) {
-                    suggestionsBox.classList.add('oculto');
-                }
-            }, 200);
+            setTimeout(() => { const s = inputEl.parentElement.querySelector('.autocomplete-suggestions'); if(s) s.classList.add('oculto'); }, 200);
         }
 
         function agregarNuevoClienteFiado() {
-            const nombre = prompt('Nombre del nuevo cliente para el cuaderno:');
+            const nombre = prompt('Nombre del nuevo cliente:');
             if (!nombre || nombre.trim() === '') return;
             const nombreCliente = nombre.trim();
             const fechaObj = new Date();
@@ -1270,10 +1272,7 @@
             const primeraLetra = nombreCliente.charAt(0).toUpperCase();
 
             db.ref(`abasto/cuaderno/${nombreCliente}/registros/${regId}`).set({
-                id: regId,
-                fecha: fechaObj.toLocaleDateString(),
-                hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: [{ nombre: "", cantidad: 1, precioBs: 0 }]
+                id: regId, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), items: [{ nombre: "", cantidad: 1, precioBs: 0 }]
             }).then(() => {
                 estadoCarpetasCuaderno[nombreCliente] = true;
                 estadoCarpetasCuaderno['letra_' + (/[A-ZÁÉÍÓÚÑ]/.test(primeraLetra) ? primeraLetra : '#')] = true;
@@ -1296,7 +1295,7 @@
                 db.ref().update(updates).then(() => {
                     estadoCarpetasCuaderno[nuevoNombre] = true;
                     estadoCarpetasCuaderno[clienteViejo] = false;
-                    alert('Nombre de cliente actualizado con éxito.');
+                    alert('Nombre actualizado.');
                 });
             });
         }
@@ -1308,61 +1307,30 @@
 
                 if (campo === 'nombre') {
                     const nombreVal = String(valor).trim();
-                    if (nombreVal === "") {
-                        items[itemIdx].nombre = "";
-                        items[itemIdx].precioBs = 0;
-                        db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
-                        db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
-                        return;
-                    }
-
-                    let prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase());
-                    if (!prodEncontrado) {
-                        prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase().startsWith(nombreVal.toLowerCase()));
-                    }
-                    if (!prodEncontrado) {
-                        prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase().includes(nombreVal.toLowerCase()));
-                    }
-                    
-                    if (!prodEncontrado) {
-                        alert(`❌ El producto "${nombreVal}" no se encontró en el inventario.`);
-                        renderCuaderno();
-                        return;
-                    }
-
+                    if (nombreVal === "") { items[itemIdx].nombre = ""; items[itemIdx].precioBs = 0; db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items); return; }
+                    let prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase()) || productos.find(p => p && p.nombre && p.nombre.toLowerCase().includes(nombreVal.toLowerCase()));
+                    if (!prodEncontrado) { alert(`❌ Producto no encontrado.`); renderCuaderno(); return; }
                     items[itemIdx].nombre = prodEncontrado.nombre;
-                    const precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
-                    items[itemIdx].precioBs = precioBs;
-
-                } else if (campo === 'cantidad') {
-                    items[itemIdx].cantidad = parseInt(valor) || 1;
-                } else if (campo === 'precioBs') {
-                    items[itemIdx].precioBs = parsearMonto(valor);
-                }
+                    items[itemIdx].precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
+                } else if (campo === 'cantidad') { items[itemIdx].cantidad = parseInt(valor) || 1; }
+                else if (campo === 'precioBs') { items[itemIdx].precioBs = parsearMonto(valor); }
 
                 let totalReg = 0;
                 items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
-
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
                 db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
             });
         }
 
-        function editarRegistroCuaderno(cliente, regId, campo, valor) {
-            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/${campo}`).set(valor);
-        }
+        function editarRegistroCuaderno(cliente, regId, campo, valor) { db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/${campo}`).set(valor); }
 
         function eliminarItemCuaderno(cliente, regId, itemIdx) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).once('value', snap => {
                 let items = snap.val() || [];
-                if (items.length <= 1) {
-                    if (confirm('¿Es el último producto? ¿Deseas eliminar todo el registro/nota?')) eliminarRegistroCuaderno(cliente, regId);
-                    return;
-                }
+                if (items.length <= 1) { if (confirm('¿Eliminar registro?')) eliminarRegistroCuaderno(cliente, regId); return; }
                 items.splice(itemIdx, 1);
-                let totalReg = 0;
-                items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                let totalReg = 0; items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
                 db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
@@ -1371,75 +1339,41 @@
 
         function agregarItemACuaderno(cliente, regId) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).once('value', snap => {
-                let items = snap.val() || [];
-                items.push({ nombre: "", cantidad: 1, precioBs: 0 });
-                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items).then(() => {
-                    db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
-                });
+                let items = snap.val() || []; items.push({ nombre: "", cantidad: 1, precioBs: 0 });
+                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
             });
         }
 
         function crearNuevoRegistroCuaderno(cliente) {
-            const fechaObj = new Date();
-            const regId = Date.now();
-            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).set({
-                id: regId,
-                fecha: fechaObj.toLocaleDateString(),
-                hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: [{ nombre: "", cantidad: 1, precioBs: 0 }],
-                totalBs: 0
-            }).then(() => {
-                db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
-            });
+            const fechaObj = new Date(); const regId = Date.now();
+            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).set({ id: regId, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), items: [{ nombre: "", cantidad: 1, precioBs: 0 }], totalBs: 0 });
         }
 
         function eliminarRegistroCuaderno(cliente, regId) {
-            if (confirm('¿Eliminar esta nota de pedido?')) {
-                db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).remove().then(() => {
-                    db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
-                });
-            }
+            if (confirm('¿Eliminar esta nota?')) db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).remove();
         }
 
         function cargarNotaATicket(cliente, regId) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).once('value', snap => {
-                const reg = snap.val();
-                if (!reg || !reg.items) return alert('No hay productos en esta nota.');
-                
+                const reg = snap.val(); if (!reg || !reg.items) return alert('Vacío.');
                 reg.items.forEach(item => {
-                    if (!item.nombre || item.nombre.trim() === '') return;
-                    const prodExacto = productos.find(p => p.nombre.toLowerCase() === item.nombre.toLowerCase());
-                    if (prodExacto) {
-                        ticketActual.push({
-                            id: prodExacto.id,
-                            nombre: item.nombre,
-                            precioBs: parsearMonto(item.precioBs) || 0,
-                            costoBs: parsearMonto(prodExacto.costoBs) || 0,
-                            cantidad: parseInt(item.cantidad) || 1
-                        });
-                    }
+                    if (!item.nombre) return;
+                    const p = productos.find(prod => prod.nombre.toLowerCase() === item.nombre.toLowerCase());
+                    if (p) ticketActual.push({ id: p.id, nombre: item.nombre, precioBs: parsearMonto(item.precioBs) || 0, costoBs: parsearMonto(p.costoBs) || 0, cantidad: parseInt(item.cantidad) || 1 });
                 });
-                cambiarVista('pos');
-                alert(`🛒 Productos de la nota cargados al Ticket de Venta.`);
+                cambiarVista('pos'); alert(`🛒 Cargado al Ticket.`);
             });
         }
 
         function guardarTotalManualCliente(cliente) {
-            const inputTotal = document.getElementById(`input-total-cli-${cliente}`);
-            if (!inputTotal) return;
-            const nuevoTotal = parsearMonto(inputTotal.value);
-            db.ref(`abasto/cuaderno/${cliente}/totalManual`).set(nuevoTotal).then(() => {
-                alert(`✅ Monto acumulado de ${cliente} fijado manualmente a ${formatearNumero(nuevoTotal)} Bs.`);
-            });
+            const inputVal = document.getElementById(`input-total-cli-${cliente}`).value;
+            let valFinal = parsearMonto(inputVal);
+            db.ref(`abasto/cuaderno/${cliente}/totalManual`).set(valFinal).then(() => alert(`✅ Deuda fijada.`));
         }
 
-        function recalcularTotalCliente(cliente) {
-            db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove().then(() => {
-                alert(`✅ Monto acumulado actualizado y calculado desde los productos.`);
-            });
-        }
+        function recalcularTotalCliente(cliente) { db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove(); }
 
-        // CIERRE DE CAJA Y MODALES
+        // MODALES Y GESTIÓN DE FACTURAS (VISTA APARTE ORDENADA POR HORA Y FECHA)
         function mostrarModalRecibo(totalBs, vueltoBs) {
             const desglose = document.getElementById('recibo-desglose');
             let html = '';
@@ -1452,28 +1386,53 @@
         }
 
         function cerrarModalRecibo() { document.getElementById('modal-recibo').classList.add('oculto'); }
-        function cambiarDiaOffset(delta) { diasOffsetSeleccionado += delta; renderCierreCaja(); }
-        function irAlDiaHoy() { diasOffsetSeleccionado = 0; renderCierreCaja(); }
+        
+        function cambiarDiaOffset(delta) { 
+            diasOffsetSeleccionado += delta; 
+            document.getElementById('input-filtro-fecha').value = '';
+            renderCierreCaja(); 
+        }
+        
+        function irAlDiaHoy() { 
+            diasOffsetSeleccionado = 0; 
+            document.getElementById('input-filtro-fecha').value = '';
+            renderCierreCaja(); 
+        }
+
+        function seleccionarFechaEspecifica(valorFecha) {
+            if (!valorFecha) return;
+            const hoy = new Date();
+            hoy.setHours(0,0,0,0);
+            const target = new Date(valorFecha + 'T00:00:00');
+            const diffTime = target.getTime() - hoy.getTime();
+            const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
+            diasOffsetSeleccionado = diffDays;
+            renderCierreCaja();
+        }
 
         function renderCierreCaja() {
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const dObj = new Date(); dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
+            const dObj = new Date(); 
+            dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
             const fechaObjetivoIso = getFechaLocalISO(dObj);
             const fechaObjetivoLocal = dObj.toLocaleDateString();
 
             let labelDiaTexto = "Hoy (" + fechaObjetivoLocal + ")";
             if (diasOffsetSeleccionado === -1) labelDiaTexto = "Ayer (" + fechaObjetivoLocal + ")";
             else if (diasOffsetSeleccionado < -1) labelDiaTexto = fechaObjetivoLocal;
-            else if (diasOffsetSeleccionado > 0) labelDiaTexto = "Futuro / " + fechaObjetivoLocal;
+            else if (diasOffsetSeleccionado > 0) labelDiaTexto = "Fecha Futura / " + fechaObjetivoLocal;
             
             document.getElementById('label-dia-seleccionado').textContent = labelDiaTexto;
             document.getElementById('factura-dia-fecha').textContent = fechaObjetivoLocal;
 
+            // Filtrar ventas por fecha y ordenar estrictamente por hora / ID cronológicamente
             let ventasFiltradas = ventas.filter(v => v.fechaIso ? v.fechaIso === fechaObjetivoIso : true).sort((a, b) => (a.id || 0) - (b.id || 0));
+            
             let totalVendidoBs = 0; let gananciaNetaBs = 0; let totalUnidadesVendidas = 0;
 
             ventasFiltradas.forEach(v => {
-                totalVendidoBs += (v.totalBs || 0); gananciaNetaBs += (v.gananciaBs || 0);
+                totalVendidoBs += (v.totalBs || 0); 
+                gananciaNetaBs += (v.gananciaBs || 0);
                 if (v.items && Array.isArray(v.items)) v.items.forEach(item => totalUnidadesVendidas += (parseInt(item.cantidad) || 0));
             });
 
@@ -1486,19 +1445,48 @@
             document.getElementById('factura-dia-total').textContent = formatearNumero(totalVendidoBs) + ' Bs.';
 
             const contenedorFactura = document.getElementById('factura-dia-desglose');
-            if (ventasFiltradas.length === 0) contenedorFactura.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 10px;">Sin facturas registradas en esta fecha.</div>';
-            else {
+            if (ventasFiltradas.length === 0) {
+                contenedorFactura.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 30px;">Sin facturas registradas en esta fecha. Usa los botones superiores o el selector de fecha para ver facturas pasadas.</div>';
+            } else {
                 let htmlFactura = '';
                 ventasFiltradas.forEach((v, index) => {
-                    htmlFactura += `<div style="margin-bottom:10px;"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;"><span style="font-size: 11px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1} — Hora: ${v.hora || 'Sin hora'}</span></div>`;
-                    if (v.items && Array.isArray(v.items)) v.items.forEach(item => { htmlFactura += `<div style="display:flex; justify-content:space-between; font-size:11px; padding-left: 8px;"><span>• ${item.cantidad}x ${item.nombre}</span><strong>${formatearNumero((parseFloat(item.precioBs) || 0) * (parseInt(item.cantidad) || 0))} Bs.</strong></div>`; });
-                    htmlFactura += `<div style="display:flex; justify-content:space-between; font-size:11px; border-top: 1px dotted var(--border-light); margin-top: 4px; padding-top: 3px;"><span style="font-weight:bold; color:var(--warning);">Total Factura:</span><strong style="color: var(--warning);">${formatearNumero(v.totalBs || 0)} Bs.</strong></div></div>`;
+                    htmlFactura += `
+                        <div style="background-color: var(--bg-box); border: 1px solid var(--border-light); border-radius: 10px; padding: 12px 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                                <span style="font-size: 13px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1}</span>
+                                <span style="font-size: 12px; font-weight: 700; color: var(--warning);">🕒 Hora: ${v.hora || 'Sin hora'}</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">`;
+                    
+                    if (v.items && Array.isArray(v.items)) {
+                        v.items.forEach(item => {
+                            htmlFactura += `<div style="display:flex; justify-content:space-between; font-size:12px;"><span>• ${item.cantidad}x ${item.nombre}</span><strong style="color:var(--text-main);">${formatearNumero((parseFloat(item.precioBs) || 0) * (parseInt(item.cantidad) || 0))} Bs.</strong></div>`;
+                        });
+                    }
+
+                    htmlFactura += `
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:12px; border-top: 1px dashed var(--border-light); padding-top: 6px;">
+                                <span style="font-weight:bold; color:var(--warning);">Total Factura:</span>
+                                <strong style="color: var(--warning); font-size: 13px;">${formatearNumero(v.totalBs || 0)} Bs. ($${formatearNumero((v.totalBs || 0) / tasa)})</strong>
+                            </div>
+                        </div>`;
                 });
                 contenedorFactura.innerHTML = htmlFactura;
             }
         }
 
-        function reiniciarCaja() { if (confirm('¿Deseas reiniciar el Cierre de Caja del día?')) db.ref('abasto/ventas').remove(); }
+        function reiniciarCaja() { 
+            if (confirm('¿Deseas reiniciar y borrar el registro de ventas/facturas de esta fecha seleccionada?')) {
+                const dObj = new Date(); dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
+                const fechaIso = getFechaLocalISO(dObj);
+                let updates = {};
+                ventas.forEach(v => {
+                    if (v.fechaIso === fechaIso) updates['abasto/ventas/' + v.id] = null;
+                });
+                db.ref().update(updates);
+            }
+        }
 
         // ADMIN / INVENTARIO
         function cargarAdmin() {
@@ -1517,7 +1505,7 @@
                 config.ultimaModificacion = ahora.toLocaleDateString() + ' ' + ahora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 db.ref('abasto/config').set(config);
                 document.getElementById('input-tasa').value = '';
-                alert('Tasa actualizada en la nube a ' + formatearNumero(nuevaTasa) + ' Bs.');
+                alert('Tasa actualizada a ' + formatearNumero(nuevaTasa) + ' Bs.');
             } else alert('Ingresa una tasa válida.');
         }
 
@@ -1528,11 +1516,11 @@
             const ganancia = parseFloat(document.getElementById('p-ganancia').value) || 0;
             const stock = parseInt(document.getElementById('p-stock').value) || 0;
 
-            if (!nombre || costo <= 0) return alert('Escribe un nombre y un costo válido.');
+            if (!nombre || costo <= 0) return alert('Escribe nombre y costo válido.');
             const id = Date.now();
             db.ref('abasto/productos/' + id).set({ id: id, nombre: nombre, categoria: categoria, costoBs: costo, ganancia: ganancia, stock: stock });
             document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
-            alert('Producto guardado en la nube.');
+            alert('Producto guardado.');
         }
 
         function renderTablasAdmin(filtro = '') {
@@ -1552,13 +1540,23 @@
 
             Object.keys(categorias).sort().forEach(cat => {
                 const catEscapada = escapeAttr(cat);
-                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs)</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
+                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs) o $30</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
                 categorias[cat].sort((a, b) => String(a.nombre).localeCompare(String(b.nombre))).forEach(p => {
                     const stock = p.stock !== undefined ? p.stock : 0;
-                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-${p.id}" value="${formatearNumero(parsearMonto(p.costoBs) || 0)}"></td><td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><input type="number" class="input-inline" style="${stock <= 3 ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
+                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto input-conv-usd" id="cost-${p.id}" value="${formatearNumero(parsearMonto(p.costoBs) || 0)}" oninput="procesarEntradaDolarFilaAdmin(this)"></td><td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><input type="number" class="input-inline" style="${stock <= 3 ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
                 });
                 contenedor.innerHTML += html + '</tbody></table></div></div>';
             });
+        }
+
+        function procesarEntradaDolarFilaAdmin(inputEl) {
+            let val = inputEl.value;
+            if (val.includes('$') || val.toLowerCase().includes('usd')) {
+                let limpio = val.replace(/[^0-9,.]/g, '');
+                let mUsd = parsearMonto(limpio);
+                let tasa = parsearMonto(config.tasaDolar) || 1;
+                if (mUsd > 0) inputEl.value = formatearNumero(mUsd * tasa);
+            }
         }
 
         function toggleAdminCat(el) {
@@ -1570,7 +1568,7 @@
         }
 
         function renombrarCategoria(nombreViejo) {
-            const nuevoNombre = prompt('Nuevo nombre para la categoría:', nombreViejo);
+            const nuevoNombre = prompt('Nuevo nombre:', nombreViejo);
             if (!nuevoNombre || nuevoNombre.trim() === '' || nuevoNombre.trim() === nombreViejo) return;
             let actualizaciones = {};
             productos.forEach(p => { if ((p.categoria ? String(p.categoria).trim() : "Viveres") === nombreViejo) actualizaciones['abasto/productos/' + p.id + '/categoria'] = nuevoNombre.trim(); });
@@ -1578,7 +1576,7 @@
         }
 
         function eliminarCategoria(nombreCat) {
-            if (confirm('¿Eliminar la categoría "' + nombreCat + '" y TODOS sus productos?')) {
+            if (confirm('¿Eliminar categoría "' + nombreCat + '" y sus productos?')) {
                 let actualizaciones = {};
                 productos.forEach(p => { if ((p.categoria ? String(p.categoria).trim() : "Viveres") === nombreCat) actualizaciones['abasto/productos/' + p.id] = null; });
                 if (Object.keys(actualizaciones).length > 0) db.ref().update(actualizaciones);
@@ -1590,10 +1588,10 @@
             db.ref('abasto/productos/' + id).set({
                 id: id, nombre: document.getElementById('nom-' + id).value, costoBs: parsearMonto(document.getElementById('cost-' + id).value), ganancia: parseFloat(document.getElementById('gan-' + id).value) || 0, stock: parseInt(document.getElementById('stk-' + id).value) || 0, categoria: prodExistente ? prodExistente.categoria : "Viveres"
             });
-            alert('Producto actualizado.');
+            alert('Actualizado.');
         }
 
-        function eliminarFila(id) { if (confirm('¿Eliminar producto?')) db.ref('abasto/productos/' + id).remove(); }
+        function eliminarFila(id) { if (confirm('¿Eliminar?')) db.ref('abasto/productos/' + id).remove(); }
 
         document.getElementById('input-search').addEventListener('input', e => cargarCatalogo(e.target.value));
         document.getElementById('input-search-pos').addEventListener('input', e => cargarPosCatalogo(e.target.value));
